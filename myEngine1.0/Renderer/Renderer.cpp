@@ -68,8 +68,16 @@ bool Renderer::Init(HWND _HwnD){
 		float fViewPortHeight = static_cast<float>(kViewport.Height);
 		
 		D3DXMATRIX projectionMatrix;
-		D3DXMatrixOrthoLH(&projectionMatrix,fViewPortWidth,fViewPortHeight, -1.0f, 1.0f);
+		D3DXMatrixPerspectiveFovLH(&projectionMatrix, D3DXToRadian(90), fViewPortWidth / fViewPortHeight, 1, 5000);
+
+		//D3DXMatrixOrthoLH(&projectionMatrix,fViewPortWidth,fViewPortHeight, -1.0f, 1.0f);
 		d3d_dev->SetTransform(D3DTS_PROJECTION, &projectionMatrix);
+
+		D3DXVECTOR3 kPos(0.0f, 0.0f, -1000.0f);
+        D3DXVECTOR3 kLook(0.0f, 0.0f, 1.0f);
+        D3DXVECTOR3 kUp(0.0f, 1.0f, 0.0f);
+
+		SetCamera(kPos, kLook, kUp);
 
 		p_vb = new DoMaRe::VertexBuffer(d3d_dev, sizeof(DoMaRe::ColorVertex), DoMaRe::ColorVertexType);
 		p_vbT = new DoMaRe::VertexBuffer(d3d_dev, sizeof(DoMaRe::TexCoordVertex), DoMaRe::TexCoordVertexType);
@@ -81,6 +89,13 @@ bool Renderer::Init(HWND _HwnD){
 void Renderer::BeginFrame(){
 	d3d_dev->Clear(0, NULL, D3DCLEAR_TARGET, D3DCOLOR_XRGB(0,0,255), 1.0f, 0);
 	d3d_dev->BeginScene();
+}
+
+void Renderer::SetCamera(D3DXVECTOR3 kViewerPos, D3DXVECTOR3 kLookPos, D3DXVECTOR3 kViewerUp){
+		D3DXMATRIX kMatrix;
+
+        D3DXMatrixLookAtLH(&kMatrix, &kViewerPos, &kLookPos, &kViewerUp);
+        d3d_dev->SetTransform(D3DTS_VIEW, &kMatrix);
 }
 
 void Renderer::EndFrame(){

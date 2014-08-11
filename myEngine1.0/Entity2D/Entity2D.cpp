@@ -10,6 +10,7 @@ using namespace DoMaRe;
 Entity2D::Entity2D() :
 _PosX(0.0f),
 _PosY(0.0f),
+_PosZ(0.0f),
 _Rot(0.0f),
 _ScaleX(1.0f),
 _ScaleY(1.0f),
@@ -25,6 +26,18 @@ Entity2D::~Entity2D(){
 }
 
 
+void Entity2D::setPos(float fPosX, float fPosY, float fPosZ){
+	_PreviousPosX = _PosX;
+	_PreviousPosY = _PosY;
+	_PreviousPosZ = _PosZ;
+
+	_PosX = fPosX;
+	_PosY = fPosY;
+	_PosZ = fPosZ;
+
+	updateLocalTransformation();
+}
+
 void Entity2D::setPos(float fPosX, float fPosY){
 	_PreviousPosX = _PosX;
 	_PreviousPosY = _PosY;
@@ -34,6 +47,7 @@ void Entity2D::setPos(float fPosX, float fPosY){
 
 	updateLocalTransformation();
 }
+
 
 float Entity2D::getGravity() const{
 	return _Gravity;
@@ -64,7 +78,7 @@ void Entity2D::UseGravity(bool _T){
 
 void Entity2D::updateLocalTransformation(){
  D3DXMATRIX translateMatrix;
- D3DXMatrixTranslation(&translateMatrix, _PosX, _PosY, 0);
+ D3DXMatrixTranslation(&translateMatrix, _PosX, _PosY, _PosZ);
 
  D3DXMATRIX rotationMatrix;
  D3DXMatrixRotationZ(&rotationMatrix, _Rot);
@@ -90,12 +104,20 @@ float Entity2D::posY() const{
 	return _PosY;
 }
 
+float Entity2D::posZ() const{
+	return _PosZ;
+}
+
 float Entity2D::previousPosX() const{
 	return _PreviousPosX;
 }
 
 float Entity2D::previousPosY() const{
 	return _PreviousPosY;
+}
+
+float Entity2D::previousPosZ() const{
+	return _PreviousPosZ;
 }
 
 void Entity2D::setName(std::string _name){
