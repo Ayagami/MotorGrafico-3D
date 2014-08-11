@@ -1,0 +1,179 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Archivos de código fuente">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Archivos de encabezado">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Archivos de recursos">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Archivos de código fuente\src">
+      <UniqueIdentifier>{8acf03bd-6a25-4f05-b9d2-fe3ab0234cf7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Archivos de encabezado\include">
+      <UniqueIdentifier>{2aa99083-5c6b-42ea-bf48-3bd29c05797b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Archivos de encabezado\include\input">
+      <UniqueIdentifier>{46ab0fea-87a2-4db6-8f29-910022e43d08}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Archivos de código fuente\src\input">
+      <UniqueIdentifier>{efeebf7f-6a54-426c-ab6d-c521e46d0306}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Archivos de encabezado\include\timer">
+      <UniqueIdentifier>{37c51b3c-5aef-4366-a112-3b0ca6009e4d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Archivos de código fuente\src\timer">
+      <UniqueIdentifier>{1bfb9367-60a8-4ac8-8661-f156dd959ce4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Archivos de encabezado\include\VertexBuffer">
+      <UniqueIdentifier>{058e9e21-91bd-435c-9f36-503d4bbfd903}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Archivos de código fuente\src\VertexBuffer">
+      <UniqueIdentifier>{7160c577-0318-46eb-a28d-ad2f61e86cac}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Archivos de código fuente\src\Renderer">
+      <UniqueIdentifier>{ad096da3-439c-414c-a245-acd3aee77fad}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Archivos de encabezado\include\Renderer">
+      <UniqueIdentifier>{be642fdc-b7ac-4822-b934-2209fd29bbd4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Archivos de encabezado\include\Entity2D">
+      <UniqueIdentifier>{e07f3fcf-234b-4c86-809c-f9e202bf879e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Archivos de código fuente\src\Entity2D">
+      <UniqueIdentifier>{a4026524-80a7-4f73-8c16-d071e76b085e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Archivos de código fuente\src\Scene">
+      <UniqueIdentifier>{0e152e99-042d-4a09-9ae4-12aafca6d992}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Archivos de encabezado\include\Scene">
+      <UniqueIdentifier>{9ed1b735-bdce-4050-8f39-a722e5d63efb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Archivos de código fuente\src\Utils">
+      <UniqueIdentifier>{ec2c94a7-566e-4304-957e-f7539e17e1da}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Archivos de encabezado\include\Utils">
+      <UniqueIdentifier>{19beb7a6-9f5e-426f-b8e2-2daa886242d0}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="myEngine_API.h">
+      <Filter>Archivos de encabezado\include</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine.h">
+      <Filter>Archivos de encabezado\include</Filter>
+    </ClInclude>
+    <ClInclude Include="Game.h">
+      <Filter>Archivos de encabezado\include</Filter>
+    </ClInclude>
+    <ClInclude Include="input\pg1_directinput.h">
+      <Filter>Archivos de encabezado\include\input</Filter>
+    </ClInclude>
+    <ClInclude Include="input\pg1_input.h">
+      <Filter>Archivos de encabezado\include\input</Filter>
+    </ClInclude>
+    <ClInclude Include="timer\pg1_timer.h">
+      <Filter>Archivos de encabezado\include\timer</Filter>
+    </ClInclude>
+    <ClInclude Include="VertexBuffer\VertexBuffer.h">
+      <Filter>Archivos de encabezado\include\VertexBuffer</Filter>
+    </ClInclude>
+    <ClInclude Include="Renderer\Renderer.h">
+      <Filter>Archivos de encabezado\include\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="Entity2D\Entity2D.h">
+      <Filter>Archivos de encabezado\include\Entity2D</Filter>
+    </ClInclude>
+    <ClInclude Include="Entity2D\Quad.h">
+      <Filter>Archivos de encabezado\include\Entity2D</Filter>
+    </ClInclude>
+    <ClInclude Include="Entity2D\Sprite.h">
+      <Filter>Archivos de encabezado\include\Entity2D</Filter>
+    </ClInclude>
+    <ClInclude Include="Entity2D\animation.h">
+      <Filter>Archivos de encabezado\include\Entity2D</Filter>
+    </ClInclude>
+    <ClInclude Include="Renderer\RenderTypes.h">
+      <Filter>Archivos de encabezado\include\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="Renderer\Window.h">
+      <Filter>Archivos de encabezado\include\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="Renderer\EMath.h">
+      <Filter>Archivos de encabezado\include\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene\Scene.h">
+      <Filter>Archivos de encabezado\include\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene\Import.h">
+      <Filter>Archivos de encabezado\include\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="TinyXML\tinyxml2.h">
+      <Filter>Archivos de encabezado\include\Utils</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Engine.cpp">
+      <Filter>Archivos de código fuente\src</Filter>
+    </ClCompile>
+    <ClCompile Include="Game.cpp">
+      <Filter>Archivos de código fuente\src</Filter>
+    </ClCompile>
+    <ClCompile Include="input\pg1_directinput.cpp">
+      <Filter>Archivos de código fuente\src\input</Filter>
+    </ClCompile>
+    <ClCompile Include="input\pg1_input.cpp">
+      <Filter>Archivos de código fuente\src\input</Filter>
+    </ClCompile>
+    <ClCompile Include="timer\pg1_timer.cpp">
+      <Filter>Archivos de código fuente\src\timer</Filter>
+    </ClCompile>
+    <ClCompile Include="VertexBuffer\VertexBuffer.cpp">
+      <Filter>Archivos de código fuente\src\VertexBuffer</Filter>
+    </ClCompile>
+    <ClCompile Include="Renderer\Renderer.cpp">
+      <Filter>Archivos de código fuente\src\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="Entity2D\Entity2D.cpp">
+      <Filter>Archivos de código fuente\src\Entity2D</Filter>
+    </ClCompile>
+    <ClCompile Include="Entity2D\Quad.cpp">
+      <Filter>Archivos de código fuente\src\Entity2D</Filter>
+    </ClCompile>
+    <ClCompile Include="Entity2D\Sprite.cpp">
+      <Filter>Archivos de código fuente\src\Entity2D</Filter>
+    </ClCompile>
+    <ClCompile Include="Entity2D\animation.cpp">
+      <Filter>Archivos de código fuente\src\Entity2D</Filter>
+    </ClCompile>
+    <ClCompile Include="Renderer\RenderTypes.cpp">
+      <Filter>Archivos de código fuente\src\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="Renderer\Window.cpp">
+      <Filter>Archivos de código fuente\src\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="Scene\Scene.cpp">
+      <Filter>Archivos de código fuente\src\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Scene\Import.cpp">
+      <Filter>Archivos de código fuente\src\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="TinyXML\tinyxml2.cpp">
+      <Filter>Archivos de código fuente\src\Utils</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="input\pg1_input.inl">
+      <Filter>Archivos de encabezado\include\input</Filter>
+    </None>
+    <None Include="timer\pg1_timer.inl">
+      <Filter>Archivos de encabezado\include\timer</Filter>
+    </None>
+  </ItemGroup>
+</Project>
