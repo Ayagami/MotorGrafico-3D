@@ -57,12 +57,13 @@ void Import::importSprite(Scene &scene,tinyxml2::XMLElement* root)
 				std::string name = instance->Attribute("name");
 				float posX = instance->FloatAttribute("posX");
 				float posY = instance->FloatAttribute("posY");
+				float posZ = instance->FloatAttribute("posZ");
 				float rotation = instance->FloatAttribute("rotation");
 				float scaleX = instance->FloatAttribute("scaleX");
 				float scaleY = instance->FloatAttribute("scaleY");
 				
 				//GRABAMOS SPRITE			
-				ent_sprite->setPos(posX,posY);
+				ent_sprite->setPos(posX,posY,posZ);
 				ent_sprite->setName(name);
 				ent_sprite->setRotation(rotation);
 				ent_sprite->setScale(scaleX,scaleY);
@@ -94,6 +95,7 @@ void Import::importQuad(Scene &scene,tinyxml2::XMLElement* root)
 		std::string name = quad->Attribute("name");
 		float posX = quad->FloatAttribute("posX");
 		float posY = quad->FloatAttribute("posY");
+		float posZ = quad->FloatAttribute("posZ");
 		float rotation = quad->FloatAttribute("rotation");
 		float scaleX = quad->FloatAttribute("scaleX");
 		float scaleY = quad->FloatAttribute("scaleY");
@@ -102,7 +104,7 @@ void Import::importQuad(Scene &scene,tinyxml2::XMLElement* root)
 		int b = quad->IntAttribute("b");
 
 		ent_quad->setName(name);
-		ent_quad->setPos(posX,posY);
+		ent_quad->setPos(posX,posY,posZ);
 		ent_quad->setRotation(rotation);
 		ent_quad->setScale(scaleX,scaleY);
 		ent_quad->setColor(DoMaRe_COLOR_RGB(r,g,b));

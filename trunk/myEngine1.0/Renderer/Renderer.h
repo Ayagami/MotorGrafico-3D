@@ -18,6 +18,7 @@ class MYENGINE_API Renderer{
 		bool Init(HWND _HwnD);
 		void BeginFrame();
 		void EndFrame();
+		void SetCamera(D3DXVECTOR3 kViewerPos, D3DXVECTOR3 kLookPos, D3DXVECTOR3 kViewerUp);
 		void setMatrix(MatrixType, const Matrix&);
 		void Draw(ColorVertex*, DoMaRe::Primitive, size_t);
 		void Draw(TexCoordVertex*, DoMaRe::Primitive, size_t);

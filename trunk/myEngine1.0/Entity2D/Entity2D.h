@@ -12,6 +12,7 @@ namespace DoMaRe{
 		virtual ~Entity2D();
 	public:
 		void setPos(float fPosX,float fPosY);
+		void setPos(float fPosX,float fPosY, float fPosZ);
 		void setRotation(float fRotation);
 		void setScale(float fScaleX, float fScaleY);
 		void setName(std::string _name);
@@ -22,12 +23,15 @@ namespace DoMaRe{
 		void SetGravity(float _G);
 		float posX() const;
 		float posY() const;
+		float posZ() const;
 		float rotation() const;
 		float scale() const;
 		float scaleX() const;
 		float scaleY() const;
 		float previousPosX() const;
 		float previousPosY() const;
+		float previousPosZ() const;
+
 		float getGravity() const;
 		bool isUsingGravity() const;
 
@@ -45,10 +49,10 @@ namespace DoMaRe{
 		void returnToPos(float fPosX, float fPosY);
 		const Matrix transformationMatrix();
 	private:
-		float _PosX, _PosY;
+		float _PosX, _PosY, _PosZ;
 		float _Rot;
 		float _ScaleX,_ScaleY;
-		float _PreviousPosX, _PreviousPosY;
+		float _PreviousPosX, _PreviousPosY, _PreviousPosZ;
 		float _Gravity;
 		bool _UseGravity;
 		std::string _Name;
