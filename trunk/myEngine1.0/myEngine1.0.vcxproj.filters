@@ -117,6 +117,9 @@
     <ClInclude Include="TinyXML\tinyxml2.h">
       <Filter>Archivos de encabezado\include\Utils</Filter>
     </ClInclude>
+    <ClInclude Include="Scene\Camera.h">
+      <Filter>Archivos de encabezado\include\Scene</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine.cpp">
@@ -166,6 +169,9 @@
     </ClCompile>
     <ClCompile Include="TinyXML\tinyxml2.cpp">
       <Filter>Archivos de código fuente\src\Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="Scene\Camera.cpp">
+      <Filter>Archivos de código fuente\src\Scene</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

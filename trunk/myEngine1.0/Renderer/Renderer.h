@@ -7,6 +7,7 @@
 #include "RenderTypes.h"
 #include "EMath.h"
 #include <d3d9.h>
+#include <d3dx9.h>
 namespace DoMaRe{/*
 class VertexBuffer;
 struct ColorVertex;
@@ -19,6 +20,9 @@ class MYENGINE_API Renderer{
 		void BeginFrame();
 		void EndFrame();
 		void SetCamera(D3DXVECTOR3 kViewerPos, D3DXVECTOR3 kLookPos, D3DXVECTOR3 kViewerUp);
+		void SetCamera(D3DXMATRIX * matrix);
+		void loadIdentity();
+		void setTransformMatrix(D3DXMATRIX * matrix);
 		void setMatrix(MatrixType, const Matrix&);
 		void Draw(ColorVertex*, DoMaRe::Primitive, size_t);
 		void Draw(TexCoordVertex*, DoMaRe::Primitive, size_t);

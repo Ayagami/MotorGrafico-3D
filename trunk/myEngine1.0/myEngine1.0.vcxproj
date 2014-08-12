@@ -89,6 +89,7 @@
     <ClInclude Include="Renderer\Renderer.h" />
     <ClInclude Include="Renderer\RenderTypes.h" />
     <ClInclude Include="Renderer\Window.h" />
+    <ClInclude Include="Scene\Camera.h" />
     <ClInclude Include="Scene\Import.h" />
     <ClInclude Include="Scene\Scene.h" />
     <ClInclude Include="timer\pg1_timer.h" />
@@ -107,6 +108,7 @@
     <ClCompile Include="Renderer\Renderer.cpp" />
     <ClCompile Include="Renderer\RenderTypes.cpp" />
     <ClCompile Include="Renderer\Window.cpp" />
+    <ClCompile Include="Scene\Camera.cpp" />
     <ClCompile Include="Scene\Import.cpp" />
     <ClCompile Include="Scene\Scene.cpp" />
     <ClCompile Include="timer\pg1_timer.cpp" />

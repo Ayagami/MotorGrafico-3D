@@ -12,11 +12,12 @@ namespace DoMaRe{
 	class Import;
 	class DirectInput;
 	class Game;
+	class Camera;
 	class MYENGINE_API Scene{
 		public:
 			std::string Name;
 			virtual bool Init();
-			virtual bool Frame(DoMaRe::Renderer&, DoMaRe::DirectInput&, DoMaRe::Timer&, DoMaRe::Import&, DoMaRe::Game&);
+			virtual bool Frame(DoMaRe::Renderer&, DoMaRe::DirectInput&, DoMaRe::Timer&, DoMaRe::Import&, DoMaRe::Game&, DoMaRe::Camera&);
 			bool deinit();
 			bool draw(DoMaRe::Renderer&, DoMaRe::DirectInput&, DoMaRe::Timer&, DoMaRe::Import&);
 			bool getEntity(Sprite**, std::string);

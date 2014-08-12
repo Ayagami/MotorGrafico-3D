@@ -2,6 +2,7 @@
 #include "..\Entity2D\Entity2D.h"
 #include "..\Entity2D\Sprite.h"
 #include "..\Entity2D\Quad.h"
+#include "Camera.h"
 #include "..\Game.h"
 #include "..\Entity2D\animation.h"
 #include "Import.h"
@@ -17,7 +18,7 @@ bool Scene::Init(){
 	// Aca van cosas del importer.
 }
 
-bool Scene::Frame(DoMaRe::Renderer& r, DoMaRe::DirectInput& directInput,Timer& timer, Import& Importer, Game& game){
+bool Scene::Frame(DoMaRe::Renderer& r, DoMaRe::DirectInput& directInput,Timer& timer, Import& Importer, Game& game, Camera& camera){
 	return true;
 }
 

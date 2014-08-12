@@ -100,6 +100,38 @@ void Renderer::SetCamera(D3DXVECTOR3 kViewerPos, D3DXVECTOR3 kLookPos, D3DXVECTO
 
 }
 
+void Renderer::SetCamera(D3DXMATRIX * matrix){
+
+	d3d_dev->SetTransform(D3DTS_VIEW,matrix);
+
+}
+
+void Renderer::setTransformMatrix(D3DXMATRIX* kMatrix){
+	    // set the matrix
+        d3d_dev->MultiplyTransform(D3DTS_VIEW, kMatrix);
+}
+
+
+void Renderer::loadIdentity(){
+	D3DXMATRIX kTempMatrix;
+
+        // set identity matrix
+    D3DXMatrixIdentity(&kTempMatrix);
+
+        // if it is a view matrix, use default values
+
+                
+    D3DXVECTOR3 kEyePos(0,0,-1);
+    D3DXVECTOR3 kLookPos(0,0,0);
+    D3DXVECTOR3 kUpVector(0,1,0);
+                
+                // generate the view matrix
+    D3DXMatrixLookAtLH(&kTempMatrix, &kEyePos, &kLookPos, &kUpVector);
+        
+        // set the matrix
+    d3d_dev->SetTransform(D3DTS_VIEW, &kTempMatrix);
+}
+
 void Renderer::EndFrame(){
 	p_vb->flush();
 	d3d_dev->EndScene();

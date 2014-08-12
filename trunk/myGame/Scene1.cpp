@@ -8,13 +8,24 @@ bool Scene1::Init(){
 	return true;
 }
 
-bool Scene1::Frame(DoMaRe::Renderer& renderer, DoMaRe::DirectInput& dInput, DoMaRe::Timer& timer, DoMaRe::Import& import, DoMaRe::Game& game){
+bool Scene1::Frame(DoMaRe::Renderer& renderer, DoMaRe::DirectInput& dInput, DoMaRe::Timer& timer, DoMaRe::Import& import, DoMaRe::Game& game, DoMaRe::Camera& camara){
 	if(dInput.keyDown(DoMaRe::Input::KEY_P)){
 		game.setScene("main2",import,"Archivo.xml");
 		return true;
 	}
 
+	if(dInput.keyDown(DoMaRe::Input::KEY_T)){
+		camara.MoveForward(1.0f);
+	}
 
+	if(dInput.keyDown(DoMaRe::Input::KEY_G)){
+		camara.Roll(0.01f);
+	}
+
+	if(dInput.keyDown(DoMaRe::Input::KEY_L)){
+		camara.RotateDown(0.01f);
+	}
+	/*
 	static float fSp = 3.0f;
 	static float initGravity = _Sprite2->getGravity();
 	static float jumpSpeed = 7;
@@ -24,7 +35,7 @@ bool Scene1::Frame(DoMaRe::Renderer& renderer, DoMaRe::DirectInput& dInput, DoMa
 		isJumping = true;
 
 		_Sprite2->UseGravity(true);
-		_Sprite2->SetGravity( _Sprite2->getGravity()  +  fSp / 10 /*  / t.fps() / 100*/  );				
+		_Sprite2->SetGravity( _Sprite2->getGravity()  +  fSp / 10 );				
 		_Sprite2->returnToPos( _Sprite2->previousPosX(), _Sprite2->posY() );
 	}else if(_Sprite2->checkCollision(*_Cubo1) == DoMaRe::Entity2D::CollisionVertical){
 		isJumping = false;
@@ -35,15 +46,15 @@ bool Scene1::Frame(DoMaRe::Renderer& renderer, DoMaRe::DirectInput& dInput, DoMa
 		isJumping = true;
 
 		_Sprite2->UseGravity(true);
-		_Sprite2->SetGravity( _Sprite2->getGravity()  +  fSp / 10 /*  / t.fps() / 100*/ );
+		_Sprite2->SetGravity( _Sprite2->getGravity()  +  fSp / 10  );
 	}
 	if(dInput.keyDown(DoMaRe::Input::KEY_SUBTRACT)){
 		_Cubo1->setPos(_Cubo1->posX(), _Cubo1->posY(), _Cubo1->posZ() - 10.0f);
-		//OutputDebugString(_Cubo1->posZ());
+		
 	}
 	if(dInput.keyDown(DoMaRe::Input::KEY_ADD)){
 		_Cubo1->setPos(_Cubo1->posX(), _Cubo1->posY(), _Cubo1->posZ() + 10.0f);
-		//OutputDebugString(_Cubo1->posZ());
+		
 	}
 	if(dInput.keyDown(DoMaRe::Input::KEY_LEFT)){
 
@@ -80,12 +91,11 @@ bool Scene1::Frame(DoMaRe::Renderer& renderer, DoMaRe::DirectInput& dInput, DoMa
 		_Sprite2->UseGravity(true);
 	}else{
 		if(!isJumping)_Sprite2->setAnimation("Idle");
-		//if(!isJumping)_Sprite2->setAnimation("Jump");
 		if(ds)
 		_Sprite2->setScale(60.0f, 160.0f);
 		else
 		_Sprite2->setScale(-60.0f, 160.0f);
 	}
-
+	*/
 	return true;
 }
