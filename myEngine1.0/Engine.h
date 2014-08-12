@@ -6,6 +6,7 @@ namespace DoMaRe{
 class Window;
 class Renderer;
 class Game;
+class Camera;
 class DirectInput;
 class Timer;
 class Import;
@@ -19,7 +20,7 @@ class Import;
 			Game* G;
 			Import* Importer;
 		private:
-			
+			Camera * camera;
 			Renderer* Rendr;
 			HINSTANCE hInstance;
 			Window* WndC;

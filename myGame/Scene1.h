@@ -3,6 +3,7 @@
 #include "Entity2D\Quad.h"
 #include "Entity2D\Sprite.h"
 #include "Renderer\RenderTypes.h"
+#include "Scene\Camera.h"
 #include "Renderer\Renderer.h"
 #include "Entity2D\animation.h"
 #include "timer\pg1_timer.h"
@@ -15,7 +16,7 @@ namespace MiJuego{
 
 	public:
 		bool Init();
-		bool Frame(DoMaRe::Renderer&, DoMaRe::DirectInput&, DoMaRe::Timer&, DoMaRe::Import&, DoMaRe::Game&);
+		bool Frame(DoMaRe::Renderer&, DoMaRe::DirectInput&, DoMaRe::Timer&, DoMaRe::Import&, DoMaRe::Game&, DoMaRe::Camera&);
 	private:
 
 		DoMaRe::Quad * _Cubo1;
