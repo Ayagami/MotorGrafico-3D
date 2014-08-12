@@ -17,7 +17,7 @@ bool Import::Init(Renderer* pkRenderer){
 bool Import::importScene(Scene &scene, std::string fileName)
 {
 	tinyxml2::XMLDocument xmlDoc;
-	xmlDoc.LoadFile("archivo.xml");
+	xmlDoc.LoadFile(fileName.c_str());
 	if(xmlDoc.Error())
 		return false;
 	tinyxml2::XMLElement *root = xmlDoc.FirstChildElement("SCENE");

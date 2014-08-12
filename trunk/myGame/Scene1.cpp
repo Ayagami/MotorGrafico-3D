@@ -37,8 +37,12 @@ bool Scene1::Frame(DoMaRe::Renderer& renderer, DoMaRe::DirectInput& dInput, DoMa
 		_Sprite2->UseGravity(true);
 		_Sprite2->SetGravity( _Sprite2->getGravity()  +  fSp / 10 /*  / t.fps() / 100*/ );
 	}
-	if(dInput.keyDown(DoMaRe::Input::KEY_DOWN)){
+	if(dInput.keyDown(DoMaRe::Input::KEY_SUBTRACT)){
 		_Cubo1->setPos(_Cubo1->posX(), _Cubo1->posY(), _Cubo1->posZ() - 10.0f);
+		//OutputDebugString(_Cubo1->posZ());
+	}
+	if(dInput.keyDown(DoMaRe::Input::KEY_ADD)){
+		_Cubo1->setPos(_Cubo1->posX(), _Cubo1->posY(), _Cubo1->posZ() + 10.0f);
 		//OutputDebugString(_Cubo1->posZ());
 	}
 	if(dInput.keyDown(DoMaRe::Input::KEY_LEFT)){
