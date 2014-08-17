@@ -20,7 +20,6 @@ class Import;
 			Game* G;
 			Import* Importer;
 		private:
-			Camera * camera;
 			Renderer* Rendr;
 			HINSTANCE hInstance;
 			Window* WndC;
