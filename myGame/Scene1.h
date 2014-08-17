@@ -10,13 +10,15 @@
 #include "input\pg1_directinput.h"
 #include "Game.h"
 #include "Scene\Import.h"
+#include "Scene\Camera.h"
 #include <string>
 namespace MiJuego{
+	class Camera;
 	class Scene1 : public DoMaRe::Scene{
 
 	public:
-		bool Init();
-		bool Frame(DoMaRe::Renderer&, DoMaRe::DirectInput&, DoMaRe::Timer&, DoMaRe::Import&, DoMaRe::Game&, DoMaRe::Camera&);
+		bool Init(DoMaRe::Import&);
+		bool Frame(DoMaRe::Renderer&, DoMaRe::DirectInput&, DoMaRe::Timer&, DoMaRe::Import&, DoMaRe::Game&);
 	private:
 
 		DoMaRe::Quad * _Cubo1;

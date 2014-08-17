@@ -4,7 +4,7 @@
 #include <iostream>
 
 int APIENTRY WinMain(HINSTANCE hInst, HINSTANCE hPrevInstance, LPTSTR lpCmdLine, int nCmdShow){
-	DoMaRe::Engine myEngine(hInst, nCmdShow, "Damian's Quest: Heroes Reborn", 1280, 800);
+	DoMaRe::Engine myEngine(hInst, nCmdShow, "Damian's Quest: Heroes Reborn", 800, 600);
 	myEngine.init();
 	myEngine.G = new MiJuego::Game();
 

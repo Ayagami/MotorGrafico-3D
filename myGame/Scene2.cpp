@@ -1,13 +1,15 @@
 #include "Scene2.h"
 using namespace MiJuego;
 
-bool Scene2::Init(){
+bool Scene2::Init(DoMaRe::Import& Importer){
 	getEntity(&_Cubo1,"floor");
 	getEntity(&_Sprite2,"player1");
+	mainCamera = new DoMaRe::Camera();
+	mainCamera->Init(Importer.GetRenderer());
 	return true;
 }
 
-bool Scene2::Frame(DoMaRe::Renderer& renderer, DoMaRe::DirectInput& dInput, DoMaRe::Timer& timer, DoMaRe::Import& import, DoMaRe::Game& game, DoMaRe::Camera& camara){
+bool Scene2::Frame(DoMaRe::Renderer& renderer, DoMaRe::DirectInput& dInput, DoMaRe::Timer& timer, DoMaRe::Import& import, DoMaRe::Game& game){
 	if(dInput.keyDown(DoMaRe::Input::KEY_P)){
 		game.setScene("main",import,"Archivo.xml");
 		return true;
