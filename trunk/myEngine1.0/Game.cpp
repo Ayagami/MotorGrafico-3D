@@ -27,10 +27,11 @@ void Game::setScene(std::string name, DoMaRe::Import& importer, std::string file
 	for(iter = scenesList.begin(); iter != scenesList.end(); iter++){
 		if( (*iter._Ptr)->Name == name){
 			_currentScene->deinit();
+			if(_currentScene->mainCamera) delete _currentScene->mainCamera;
 			_currentScene = *iter._Ptr;
 			importer.GetRenderer()->Clear();
 			importer.importScene(*_currentScene, fileName);
-			_currentScene->Init();
+			_currentScene->Init(importer);
 			return;
 		}
 	}

@@ -13,12 +13,12 @@ using namespace DoMaRe;
 
 
 
-bool Scene::Init(){
+bool Scene::Init(DoMaRe::Import&){
 	return true;
 	// Aca van cosas del importer.
 }
 
-bool Scene::Frame(DoMaRe::Renderer& r, DoMaRe::DirectInput& directInput,Timer& timer, Import& Importer, Game& game, Camera& camera){
+bool Scene::Frame(DoMaRe::Renderer& r, DoMaRe::DirectInput& directInput,Timer& timer, Import& Importer, Game& game){
 	return true;
 }
 
