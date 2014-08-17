@@ -15,7 +15,7 @@ bool Scene1::Frame(DoMaRe::Renderer& renderer, DoMaRe::DirectInput& dInput, DoMa
 	}
 
 	if(dInput.keyDown(DoMaRe::Input::KEY_T)){
-		camara.MoveForward(1.0f);
+		camara.RotateRight(0.01f);
 	}
 
 	if(dInput.keyDown(DoMaRe::Input::KEY_G)){
