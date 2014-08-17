@@ -2,28 +2,30 @@
 using namespace MiJuego;
 bool ds = true;
 
-bool Scene1::Init(){
+bool Scene1::Init(DoMaRe::Import& Importer){
 	getEntity(&_Cubo1,"floor");
 	getEntity(&_Sprite2,"player1");
+	mainCamera = new DoMaRe::Camera();
+	mainCamera->Init(Importer.GetRenderer());
 	return true;
 }
 
-bool Scene1::Frame(DoMaRe::Renderer& renderer, DoMaRe::DirectInput& dInput, DoMaRe::Timer& timer, DoMaRe::Import& import, DoMaRe::Game& game, DoMaRe::Camera& camara){
+bool Scene1::Frame(DoMaRe::Renderer& renderer, DoMaRe::DirectInput& dInput, DoMaRe::Timer& timer, DoMaRe::Import& import, DoMaRe::Game& game){
 	if(dInput.keyDown(DoMaRe::Input::KEY_P)){
 		game.setScene("main2",import,"Archivo.xml");
 		return true;
 	}
 
 	if(dInput.keyDown(DoMaRe::Input::KEY_T)){
-		camara.RotateRight(0.01f);
+		mainCamera->RotateRight(0.01f);
 	}
 
 	if(dInput.keyDown(DoMaRe::Input::KEY_G)){
-		camara.Roll(0.01f);
+		mainCamera->Roll(0.01f);
 	}
 
 	if(dInput.keyDown(DoMaRe::Input::KEY_L)){
-		camara.RotateDown(0.01f);
+		mainCamera->RotateDown(0.01f);
 	}
 	/*
 	static float fSp = 3.0f;
