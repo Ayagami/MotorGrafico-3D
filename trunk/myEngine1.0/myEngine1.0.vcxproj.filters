@@ -61,6 +61,18 @@
     <Filter Include="Archivos de encabezado\include\Utils">
       <UniqueIdentifier>{19beb7a6-9f5e-426f-b8e2-2daa886242d0}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Archivos de código fuente\src\Entity3D">
+      <UniqueIdentifier>{51bbd11c-888b-4c5b-95e2-5ba88cef4016}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Archivos de encabezado\include\Entity3D">
+      <UniqueIdentifier>{cc91b8dc-14d1-483b-997e-2515aec0124b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Archivos de encabezado\3DBuffer">
+      <UniqueIdentifier>{5ac3fc90-9574-4339-bc38-8b52424fae87}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Archivos de código fuente\src\3DBuffer">
+      <UniqueIdentifier>{4eecf477-dddf-485b-a7bb-bcc48aeebf90}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="myEngine_API.h">
@@ -120,6 +132,18 @@
     <ClInclude Include="Scene\Camera.h">
       <Filter>Archivos de encabezado\include\Scene</Filter>
     </ClInclude>
+    <ClInclude Include="Entity3D\Entity3D.h">
+      <Filter>Archivos de encabezado\include\Entity3D</Filter>
+    </ClInclude>
+    <ClInclude Include="3DBuffers\pg2_indexbuffer.h">
+      <Filter>Archivos de encabezado\3DBuffer</Filter>
+    </ClInclude>
+    <ClInclude Include="3DBuffers\pg2_vertexbuffer.h">
+      <Filter>Archivos de encabezado\3DBuffer</Filter>
+    </ClInclude>
+    <ClInclude Include="Entity3D\Mesh.h">
+      <Filter>Archivos de encabezado\include\Entity3D</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine.cpp">
@@ -173,6 +197,18 @@
     <ClCompile Include="Scene\Camera.cpp">
       <Filter>Archivos de código fuente\src\Scene</Filter>
     </ClCompile>
+    <ClCompile Include="Entity3D\Entity3D.cpp">
+      <Filter>Archivos de código fuente\src\Entity3D</Filter>
+    </ClCompile>
+    <ClCompile Include="3DBuffers\pg2_vertexbuffer.cpp">
+      <Filter>Archivos de código fuente\src\3DBuffer</Filter>
+    </ClCompile>
+    <ClCompile Include="3DBuffers\pg2_indexbuffer.cpp">
+      <Filter>Archivos de código fuente\src\3DBuffer</Filter>
+    </ClCompile>
+    <ClCompile Include="Entity3D\Mesh.cpp">
+      <Filter>Archivos de código fuente\src\Entity3D</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="input\pg1_input.inl">
@@ -180,6 +216,12 @@
     </None>
     <None Include="timer\pg1_timer.inl">
       <Filter>Archivos de encabezado\include\timer</Filter>
+    </None>
+    <None Include="3DBuffers\pg2_vertexbuffer.inl">
+      <Filter>Archivos de código fuente\src\3DBuffer</Filter>
+    </None>
+    <None Include="3DBuffers\pg2_indexbuffer.inl">
+      <Filter>Archivos de código fuente\src\3DBuffer</Filter>
     </None>
   </ItemGroup>
 </Project>
