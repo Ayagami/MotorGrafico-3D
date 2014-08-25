@@ -188,6 +188,9 @@ void Renderer::Draw(TexCoordVertex* v, DoMaRe::Primitive p, size_t vC){
 	p_vbT->draw(v,primitiveMap[p], vC);
 }
 
+void Renderer::Draw(DoMaRe::Primitive p, UINT numVertexs){
+	d3d_dev->DrawIndexedPrimitive(primitiveMap[p], 0, 0, p_vb3D->vertexCount(), 0, numVertexs);
+}
 void Renderer::setCurrentTexture(const Texture& r_Texture){
 	d3d_dev->SetTexture(0,r_Texture);
 }
@@ -200,10 +203,10 @@ void Renderer::setCurrentIndexBuffer(IndexBuffer * c_ib){
 	p_ib = c_ib;
 }
 
-void Renderer::createVB(VertexBuffer3D* p_vertex, size_t vSize, unsigned int FVF){
-	p_vertex = new VertexBuffer3D(*this,d3d_dev,vSize,FVF);
+VertexBuffer3D* Renderer::createVB(size_t vSize, unsigned int FVF){
+	return new VertexBuffer3D(*this,d3d_dev,vSize,FVF);
 }
 
-void Renderer::createIB(IndexBuffer* p_indexbuffer){
-	p_indexbuffer = new IndexBuffer(*this,d3d_dev);
+IndexBuffer* Renderer::createIB(){
+	return new IndexBuffer(*this,d3d_dev);
 }

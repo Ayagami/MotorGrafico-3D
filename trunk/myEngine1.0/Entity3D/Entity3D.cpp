@@ -27,14 +27,12 @@ Entity3D::~Entity3D(){
 }
 
 
-void Entity3D::setPos(float fPosX, float fPosY, float fPosZ){
+void Entity3D::setPos(float fPosX, float fPosY){
 	_PreviousPosX = _PosX;
 	_PreviousPosY = _PosY;
-	_PreviousPosZ = _PosZ;
 
 	_PosX = fPosX;
 	_PosY = fPosY;
-	_PosZ = fPosZ;
 
 	updateLocalTransformation();
 }

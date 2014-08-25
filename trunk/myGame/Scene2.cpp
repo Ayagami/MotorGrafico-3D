@@ -2,7 +2,7 @@
 using namespace MiJuego;
 
 bool Scene2::Init(DoMaRe::Import& Importer){
-	getEntity(&_Cubo1,"floor");
+	//getEntity(&_Cubo1,"floor");
 	getEntity(&_Sprite2,"player1");
 	mainCamera = new DoMaRe::Camera();
 	mainCamera->Init(Importer.GetRenderer());
@@ -14,8 +14,8 @@ bool Scene2::Frame(DoMaRe::Renderer& renderer, DoMaRe::DirectInput& dInput, DoMa
 		game.setScene("main",import,"Archivo.xml");
 		return true;
 	}
-	if(dInput.keyDown(DoMaRe::Input::KEY_DOWN)){
+	/*if(dInput.keyDown(DoMaRe::Input::KEY_DOWN)){
 		_Cubo1->setPos(_Cubo1->posX(),_Cubo1->posY() - 1);
-	}
+	}*/
 	return true;
 }
