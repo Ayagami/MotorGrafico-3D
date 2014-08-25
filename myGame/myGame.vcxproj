@@ -85,6 +85,9 @@
     <ClInclude Include="Scene1.h" />
     <ClInclude Include="Scene2.h" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="archivo.xml" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

@@ -37,7 +37,7 @@ void Engine::run(){
 		m_pkTimer->measure();
 		static std::stringstream Title;
 		Title.str("");
-		Title << WndC->getWindowName()<< " (" << m_pkTimer->fps() << " FPS)";
+		Title << WndC->getWindowName()<< " (" << m_pkTimer->fps() << " FPS) Scene: " << G->currentScene()->Name;
 
 		WndC->setWindowName(Title.str());
 

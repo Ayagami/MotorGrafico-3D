@@ -10,6 +10,8 @@
 #include "Scene\Import.h"
 #include "Scene1.h"
 #include "Scene2.h"
+
+#include "Entity3D\Mesh.h"
 namespace MiJuego{
 	class Game : public DoMaRe::Game{
 	public:
@@ -19,5 +21,6 @@ namespace MiJuego{
 	private:
 		Scene1* Escena1;
 		Scene2* Escena2;
+		DoMaRe::Mesh * daMesh;
 	};
 }

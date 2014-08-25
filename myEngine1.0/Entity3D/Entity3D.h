@@ -11,13 +11,12 @@ namespace DoMaRe{
 		Entity3D();
 		virtual ~Entity3D();
 	public:
+		void setPos(float fPosX, float fPosY);
 		void setPos(float fPosX,float fPosY, float fPosZ);
 		void setRotation(float fRotation);
 		void setScale(float fScaleX, float fScaleY, float fScaleZ);
 		void setName(std::string _name);
 		std::string getName() const;
-		virtual void draw(Renderer& r) const = 0;
-		virtual void Update(Timer& t) = 0;
 		void UseGravity(bool _T);
 		void SetGravity(float _G);
 		float posX() const;

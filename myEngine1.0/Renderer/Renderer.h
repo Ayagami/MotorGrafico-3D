@@ -32,11 +32,12 @@ class MYENGINE_API Renderer{
 		void setMatrix(MatrixType, const Matrix&);
 		void Draw(ColorVertex*, DoMaRe::Primitive, size_t);
 		void Draw(TexCoordVertex*, DoMaRe::Primitive, size_t);
+		void Draw(DoMaRe::Primitive, UINT);
 		void Clear();
 		const Texture loadTexture (const std::string& Fname, int KeyCode);
 		void setCurrentTexture (const Texture& r_Texture);
-		void createVB(VertexBuffer3D* p_vertex, size_t vSize, unsigned int FVF);
-		void createIB(IndexBuffer* p_indexbuffer);
+		VertexBuffer3D* createVB(size_t vSize, unsigned int FVF);
+		IndexBuffer* createIB();
 	private:
 		IDirect3D9  * d3d;
 		IDirect3DDevice9  * d3d_dev;

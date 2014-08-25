@@ -14,6 +14,7 @@
 #include <string>
 namespace MiJuego{
 	class Camera;
+	class Mesh;
 	class Scene1 : public DoMaRe::Scene{
 
 	public:

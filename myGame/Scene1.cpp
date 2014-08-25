@@ -7,6 +7,7 @@ bool Scene1::Init(DoMaRe::Import& Importer){
 	getEntity(&_Sprite2,"player1");
 	mainCamera = new DoMaRe::Camera();
 	mainCamera->Init(Importer.GetRenderer());
+	
 	return true;
 }
 
@@ -18,6 +19,10 @@ bool Scene1::Frame(DoMaRe::Renderer& renderer, DoMaRe::DirectInput& dInput, DoMa
 
 	if(dInput.keyDown(DoMaRe::Input::KEY_T)){
 		mainCamera->RotateRight(0.01f);
+	}
+
+	if(dInput.keyDown(DoMaRe::Input::KEY_UP)){
+		mainCamera->MoveForward(1.0f);
 	}
 
 	if(dInput.keyDown(DoMaRe::Input::KEY_G)){
