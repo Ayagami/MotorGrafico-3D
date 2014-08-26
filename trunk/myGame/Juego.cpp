@@ -2,33 +2,23 @@
 #include "Renderer\RenderTypes.h"
 
 DoMaRe::ColorVertex g_8Vertices[] = {
-{-1.0f, 1.0f, -1.0f, D3DCOLOR_XRGB( 255, 0, 0 )}, // 0 
-{1.0f, 1.0f, -1.0f, D3DCOLOR_XRGB( 0, 255, 0 )}, // 1 
-{ 1.0f, 1.0f, 1.0f, D3DCOLOR_XRGB( 0, 0, 255 )}, // 2 
-{ -1.0f, 1.0f, 1.0f, D3DCOLOR_XRGB( 255, 0, 0 )}, // 3
-{ -1.0f, -1.0f, -1.0f, D3DCOLOR_XRGB( 0, 255, 0 )}, // 4
-{ 1.0f, 1.0f, -1.0f, D3DCOLOR_XRGB( 0, 0, 255 )}, // 5
-{ 1.0f, -1.0f, 1.0f, D3DCOLOR_XRGB( 255, 0, 0 )}, // 6
-{ -1.0f, -1.0f, 1.0f, D3DCOLOR_XRGB( 0, 255, 0 )} // 7
+{-0.5f, 0.5f, -0.5f, D3DCOLOR_XRGB( 255, 0, 0 )}, // 0 
+{0.5f, 0.5f, -0.5f, D3DCOLOR_XRGB( 0, 255, 0 )}, // 1 
+{ 0.5f, 0.5f, 0.5f, D3DCOLOR_XRGB( 40, 0, 120 )}, // 2 
+{ -0.5f, 0.5f, 0.5f, D3DCOLOR_XRGB( 255, 0, 0 )}, // 3
+
+{ -0.5f, -0.5f, 0.5f, D3DCOLOR_XRGB( 0, 255, 0 )}, // 4
+{  0.5f, -0.5f, 0.5f, D3DCOLOR_XRGB( 40, 0, 120 )}, // 5
+{  0.5f, -0.5f,-0.5f, D3DCOLOR_XRGB( 255, 0, 0 )}, // 6
+{ -0.5f, -0.5f,-0.5f, D3DCOLOR_XRGB( 0, 255, 0 )} // 7
 };
-
-DoMaRe::ColorVertex g_4Vertices[] = 
-{
-
-{-1.0f, -1.0f, 5.0f, D3DCOLOR_XRGB( 255, 0, 0 )}, // 0 
-{-1.0f, 1.0f, 5.0f, D3DCOLOR_XRGB( 255, 255, 0 )}, // 1 
-{ 1.0f, -1.0f, 5.0f, D3DCOLOR_XRGB( 0, 255, 0 )}, // 2 
-{ 1.0f, 1.0f, 5.0f, D3DCOLOR_XRGB( 0, 0, 255 )} // 3
-};
-
-USHORT g_indices2[] = { 0, 1, 2, 1, 3, 2 };
 
 USHORT g_indices[] = { 0, 1, 2, 0, 2, 3,
-					   0, 1, 5, 0, 5, 4,
-					   1, 2, 6, 1, 6, 5,
-					   2, 6, 7, 2, 7, 3,
-					   3, 7, 4, 3, 4, 0,
-					   5, 4, 7, 5, 7, 6};
+					   4, 5, 6, 4, 6, 7,
+					   3, 2, 5, 3, 5, 4,
+					   2, 1, 6, 2, 6, 5,
+					   1, 7, 6, 1, 0, 7,
+					   0, 3, 4, 0, 4, 7};
 
 //bool d = true;
 using namespace MiJuego;
@@ -37,7 +27,7 @@ bool Game::Init(DoMaRe::Renderer& r, DoMaRe::Import& Importer){
 	Escena1 = new Scene1();
 	Escena1->Name = "main";
 	addScene(Escena1);
-	Importer.importScene(*Escena1, "Archivo.xml");
+	//Importer.importScene(*Escena1, "Archivo.xml");
 
 	Escena2 = new Scene2();
 	Escena2->Name = "main2";
@@ -46,12 +36,15 @@ bool Game::Init(DoMaRe::Renderer& r, DoMaRe::Import& Importer){
 	_currentScene = Escena1;
 	
 	daMesh = new DoMaRe::Mesh(r);
-	daMesh->setData(g_4Vertices, 4, DoMaRe::Primitive::TriangleList, g_indices2, 6);
-	daMesh->setPos(100,0,300);
+	daMesh->setData(g_8Vertices, 8, DoMaRe::Primitive::TriangleList, g_indices, 36);
+	daMesh->setPos(0,0,100);
 	daMesh->setScale(10,10,10);
 	return true;
 }
 void Game::Frame(DoMaRe::Renderer& r, DoMaRe::DirectInput& eInput, DoMaRe::Timer& t, DoMaRe::Import& Importer){
+	static float rot = 0.1f;
+	daMesh->setRotation(rot, rot, rot);
+	rot+= 0.01f;
 	daMesh->Draw(r);
 }
 void Game::DeInit(){

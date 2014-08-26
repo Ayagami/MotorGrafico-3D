@@ -1,10 +1,11 @@
 #include "Scene1.h"
 using namespace MiJuego;
 bool ds = true;
+float mSpeed = 1.0f;
 
 bool Scene1::Init(DoMaRe::Import& Importer){
-	getEntity(&_Cubo1,"floor");
-	getEntity(&_Sprite2,"player1");
+//	getEntity(&_Cubo1,"floor");
+//	getEntity(&_Sprite2,"player1");
 	mainCamera = new DoMaRe::Camera();
 	mainCamera->Init(Importer.GetRenderer());
 	
@@ -13,25 +14,51 @@ bool Scene1::Init(DoMaRe::Import& Importer){
 
 bool Scene1::Frame(DoMaRe::Renderer& renderer, DoMaRe::DirectInput& dInput, DoMaRe::Timer& timer, DoMaRe::Import& import, DoMaRe::Game& game){
 	if(dInput.keyDown(DoMaRe::Input::KEY_P)){
-		game.setScene("main2",import,"Archivo.xml");
+		//game.setScene("main2",import,"Archivo.xml");
 		return true;
 	}
 
-	if(dInput.keyDown(DoMaRe::Input::KEY_T)){
-		mainCamera->RotateRight(0.01f);
-	}
-
 	if(dInput.keyDown(DoMaRe::Input::KEY_UP)){
-		mainCamera->MoveForward(1.0f);
+		mainCamera->MoveForward(mSpeed);
 	}
 
-	if(dInput.keyDown(DoMaRe::Input::KEY_G)){
-		mainCamera->Roll(0.01f);
+	if(dInput.keyDown(DoMaRe::Input::KEY_DOWN)){
+		mainCamera->MoveForward(-mSpeed);
 	}
 
-	if(dInput.keyDown(DoMaRe::Input::KEY_L)){
-		mainCamera->RotateDown(0.01f);
+	if(dInput.keyDown(DoMaRe::Input::KEY_LEFT)){
+		mainCamera->MoveRight(-mSpeed);
 	}
+
+	if(dInput.keyDown(DoMaRe::Input::KEY_RIGHT)){
+		mainCamera->MoveRight(mSpeed);
+	}
+
+
+	if(dInput.keyDown(DoMaRe::Input::KEY_D)){
+		mainCamera->RotateRight(mSpeed / 100);
+	}
+
+	if(dInput.keyDown(DoMaRe::Input::KEY_A)){
+		mainCamera->RotateRight(-mSpeed  / 100);
+	}
+
+	if(dInput.keyDown(DoMaRe::Input::KEY_W)){
+		mainCamera->RotateDown(-mSpeed  / 100);
+	}
+
+	if(dInput.keyDown(DoMaRe::Input::KEY_S)){
+		mainCamera->RotateDown(mSpeed  / 100);
+	}
+
+	if(dInput.keyDown(DoMaRe::Input::KEY_Q)){
+		mainCamera->MoveUp(-mSpeed);
+	}
+
+	if(dInput.keyDown(DoMaRe::Input::KEY_E)){
+		mainCamera->MoveUp(mSpeed);
+	}
+
 	/*
 	static float fSp = 3.0f;
 	static float initGravity = _Sprite2->getGravity();

@@ -54,7 +54,7 @@ bool Renderer::Init(HWND _HwnD){
 	d3dpp.hDeviceWindow = _HwnD;
 	if(d3d->CreateDevice( D3DADAPTER_DEFAULT, D3DDEVTYPE_HAL, _HwnD, D3DCREATE_SOFTWARE_VERTEXPROCESSING, &d3dpp, &d3d_dev) == D3D_OK){
 		d3d_dev->SetRenderState(D3DRS_LIGHTING,FALSE);
-		d3d_dev->SetRenderState(D3DRS_CULLMODE,D3DCULL_NONE);
+		d3d_dev->SetRenderState(D3DRS_CULLMODE,D3DCULL_CW);
 		
 		d3d_dev->SetRenderState(D3DRS_ALPHABLENDENABLE,TRUE);
 		d3d_dev->SetRenderState(D3DRS_BLENDOP,D3DBLENDOP_ADD);
@@ -79,8 +79,8 @@ bool Renderer::Init(HWND _HwnD){
 
 		SetCamera(kPos, kLook, kUp);
 
-		p_vb = new DoMaRe::VertexBuffer(d3d_dev, sizeof(DoMaRe::ColorVertex), DoMaRe::ColorVertexType);
-		p_vbT = new DoMaRe::VertexBuffer(d3d_dev, sizeof(DoMaRe::TexCoordVertex), DoMaRe::TexCoordVertexType);
+	//	p_vb = new DoMaRe::VertexBuffer(d3d_dev, sizeof(DoMaRe::ColorVertex), DoMaRe::ColorVertexType);
+	//	p_vbT = new DoMaRe::VertexBuffer(d3d_dev, sizeof(DoMaRe::TexCoordVertex), DoMaRe::TexCoordVertexType);
 		return true;
 	}
 	return false;
@@ -133,7 +133,7 @@ void Renderer::loadIdentity(){
 }
 
 void Renderer::EndFrame(){
-	p_vb->flush();
+	//p_vb->flush();
 	d3d_dev->EndScene();
 	d3d_dev->Present(NULL,NULL,NULL,NULL);
 }
