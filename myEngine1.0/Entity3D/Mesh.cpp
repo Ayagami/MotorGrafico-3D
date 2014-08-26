@@ -30,5 +30,5 @@ void Mesh::Draw(Renderer& pkR){
 	mk_IndexBuffer->bind();
 	pkR.setCurrentTexture(NoTexture);
 	pkR.setMatrix(World, _TrMatrix );
-	pkR.Draw(pkPrimitive,2);
+	pkR.Draw(pkPrimitive,mk_IndexBuffer->indexCount() / 3);
 }
