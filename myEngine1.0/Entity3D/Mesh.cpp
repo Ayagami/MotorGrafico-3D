@@ -3,10 +3,9 @@
 #include "../Renderer/RenderTypes.h"
 using namespace DoMaRe;
 
-Mesh::Mesh(Renderer * p_Renderer){
-	pk_Renderer = p_Renderer;
-	mk_VertexBuffer3D = pk_Renderer->createVB(sizeof(DoMaRe::ColorVertex), DoMaRe::ColorVertexType);
-	mk_IndexBuffer = pk_Renderer->createIB();
+Mesh::Mesh(Renderer & p_Renderer): pk_Renderer(p_Renderer){
+	mk_VertexBuffer3D = pk_Renderer.createVB(sizeof(DoMaRe::ColorVertex), DoMaRe::ColorVertexType);
+	mk_IndexBuffer = pk_Renderer.createIB();
 }
 
 Mesh::~Mesh(){
@@ -29,5 +28,7 @@ void Mesh::setData(const ColorVertex* Tex_Vertex, size_t vertexCount, DoMaRe::Pr
 void Mesh::Draw(Renderer& pkR){
 	mk_VertexBuffer3D->bind();
 	mk_IndexBuffer->bind();
-	pkR.Draw(pkPrimitive,mk_IndexBuffer->indexCount());
+	pkR.setCurrentTexture(NoTexture);
+	pkR.setMatrix(World, _TrMatrix );
+	pkR.Draw(pkPrimitive,2);
 }

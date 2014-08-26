@@ -21,8 +21,8 @@ bool Import::importScene(Scene &scene, std::string fileName)
 	if(xmlDoc.Error())
 		return false;
 	tinyxml2::XMLElement *root = xmlDoc.FirstChildElement("SCENE");
-	importSprite(scene,root);
 	importQuad(scene,root);
+	importSprite(scene,root);
 	return true;
 }
 

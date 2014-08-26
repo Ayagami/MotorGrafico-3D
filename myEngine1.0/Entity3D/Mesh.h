@@ -9,7 +9,7 @@ namespace DoMaRe{
 	class Renderer;
 	class MYENGINE_API Mesh : public Entity3D{
 	public:
-		Mesh(Renderer*);
+		Mesh(Renderer&);
 		~Mesh();
 		void setData(const ColorVertex*, size_t vertexCount, DoMaRe::Primitive, const unsigned short*, size_t indexCount);
 		void Draw(Renderer&);
@@ -17,7 +17,7 @@ namespace DoMaRe{
 		IndexBuffer* mk_IndexBuffer;
 		VertexBuffer3D* mk_VertexBuffer3D;
 		Primitive pkPrimitive;
-		Renderer* pk_Renderer;
+		Renderer& pk_Renderer;
 	};
 
 }
