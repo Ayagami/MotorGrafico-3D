@@ -13,7 +13,9 @@ namespace DoMaRe{
 	public:
 		void setPos(float fPosX, float fPosY);
 		void setPos(float fPosX,float fPosY, float fPosZ);
-		void setRotation(float fRotation);
+
+		void setRotation(float fRotationX, float fRotationY, float fRotationZ);
+
 		void setScale(float fScaleX, float fScaleY, float fScaleZ);
 		void setName(std::string _name);
 		std::string getName() const;
@@ -22,7 +24,11 @@ namespace DoMaRe{
 		float posX() const;
 		float posY() const;
 		float posZ() const;
-		float rotation() const;
+
+		float rotationX() const { return _RotX;}
+		float rotationY() const { return _RotY;}
+		float rotationZ() const { return _RotZ;}
+
 		float scale() const;
 		float scaleX() const;
 		float scaleY() const;
@@ -49,7 +55,7 @@ namespace DoMaRe{
 		const Matrix transformationMatrix();
 	private:
 		float _PosX, _PosY, _PosZ;
-		float _Rot;
+		float _RotX, _RotY, _RotZ;
 		float _ScaleX,_ScaleY, _ScaleZ;
 		float _PreviousPosX, _PreviousPosY, _PreviousPosZ;
 		float _Gravity;

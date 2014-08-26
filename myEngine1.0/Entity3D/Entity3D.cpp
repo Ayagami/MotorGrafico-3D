@@ -11,7 +11,9 @@ Entity3D::Entity3D() :
 _PosX(0.0f),
 _PosY(0.0f),
 _PosZ(0.0f),
-_Rot(0.0f),
+_RotX(0.0f),
+_RotY(0.0f),
+_RotZ(0.0f),
 _ScaleX(1.0f),
 _ScaleY(1.0f),
 _ScaleZ(1.0f),
@@ -58,8 +60,10 @@ bool Entity3D::isUsingGravity() const{
 	return _UseGravity;
 }
 
-void Entity3D::setRotation(float fRotation){
-	_Rot = fRotation;
+void Entity3D::setRotation(float fRotationX, float fRotationY, float fRotationZ){
+	_RotX = fRotationX;
+	_RotY = fRotationY;
+	_RotZ = fRotationZ;
 	updateLocalTransformation();
 }
 
@@ -82,15 +86,22 @@ void Entity3D::updateLocalTransformation(){
  D3DXMATRIX translateMatrix;
  D3DXMatrixTranslation(&translateMatrix, _PosX, _PosY, _PosZ);
 
- D3DXMATRIX rotationMatrix;
- D3DXMatrixRotationZ(&rotationMatrix, _Rot);
+ D3DXMATRIX rotationMatrixZ, rotationMatrixX, rotationMatrixY;
+
+ D3DXMatrixRotationZ(&rotationMatrixZ, _RotZ);
+ D3DXMatrixRotationY(&rotationMatrixY, _RotY);
+ D3DXMatrixRotationX(&rotationMatrixX, _RotX);
 
  D3DXMATRIX scaleMatrix;
  D3DXMatrixScaling(&scaleMatrix, _ScaleX, _ScaleY, _ScaleZ);
 
  D3DXMatrixIdentity(_TrMatrix);
  D3DXMatrixMultiply(_TrMatrix,&translateMatrix,_TrMatrix);
- D3DXMatrixMultiply(_TrMatrix,&rotationMatrix,_TrMatrix);
+
+ D3DXMatrixMultiply(_TrMatrix,&rotationMatrixZ,_TrMatrix);
+ D3DXMatrixMultiply(_TrMatrix,&rotationMatrixY,_TrMatrix);
+ D3DXMatrixMultiply(_TrMatrix,&rotationMatrixX,_TrMatrix);
+
  D3DXMatrixMultiply(_TrMatrix,&scaleMatrix,_TrMatrix);
 }
 
