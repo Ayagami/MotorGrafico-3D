@@ -96,6 +96,7 @@
     <ClInclude Include="Scene\Camera.h" />
     <ClInclude Include="Scene\Import.h" />
     <ClInclude Include="Scene\Scene.h" />
+    <ClInclude Include="Sound\Sound.h" />
     <ClInclude Include="timer\pg1_timer.h" />
     <ClInclude Include="TinyXML\tinyxml2.h" />
     <ClInclude Include="VertexBuffer\VertexBuffer.h" />
@@ -119,6 +120,7 @@
     <ClCompile Include="Scene\Camera.cpp" />
     <ClCompile Include="Scene\Import.cpp" />
     <ClCompile Include="Scene\Scene.cpp" />
+    <ClCompile Include="Sound\Sound.cpp" />
     <ClCompile Include="timer\pg1_timer.cpp" />
     <ClCompile Include="TinyXML\tinyxml2.cpp" />
     <ClCompile Include="VertexBuffer\VertexBuffer.cpp" />
