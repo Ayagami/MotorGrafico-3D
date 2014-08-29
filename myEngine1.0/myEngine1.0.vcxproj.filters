@@ -73,6 +73,12 @@
     <Filter Include="Archivos de código fuente\src\3DBuffer">
       <UniqueIdentifier>{4eecf477-dddf-485b-a7bb-bcc48aeebf90}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Archivos de código fuente\src\Sound">
+      <UniqueIdentifier>{81749595-7987-4424-a753-c09cf5118177}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Archivos de encabezado\Sound">
+      <UniqueIdentifier>{f7b1e665-861b-4fa1-b6f7-f86b6f6f6061}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="myEngine_API.h">
@@ -144,6 +150,9 @@
     <ClInclude Include="Entity3D\Mesh.h">
       <Filter>Archivos de encabezado\include\Entity3D</Filter>
     </ClInclude>
+    <ClInclude Include="Sound\Sound.h">
+      <Filter>Archivos de encabezado\Sound</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine.cpp">
@@ -208,6 +217,9 @@
     </ClCompile>
     <ClCompile Include="Entity3D\Mesh.cpp">
       <Filter>Archivos de código fuente\src\Entity3D</Filter>
+    </ClCompile>
+    <ClCompile Include="Sound\Sound.cpp">
+      <Filter>Archivos de código fuente\src\Sound</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
