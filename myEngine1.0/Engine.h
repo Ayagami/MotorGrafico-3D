@@ -10,6 +10,7 @@ class Camera;
 class DirectInput;
 class Timer;
 class Import;
+class Sound;
 	class MYENGINE_API Engine{
 		public:
 			Engine(HINSTANCE hInst ,int nCmdS, std::string t, int w, int h);
@@ -25,6 +26,7 @@ class Import;
 			Window* WndC;
 			DirectInput* dInput;
 			Timer* m_pkTimer;
+			Sound* pk_Sound;
 			int nCmdShow;
 			std::string _t;
 			int _w;

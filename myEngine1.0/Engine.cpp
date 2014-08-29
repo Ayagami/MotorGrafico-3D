@@ -10,15 +10,14 @@
 #include "input\pg1_directinput.h"
 #include "Scene\Import.h"
 #include "Scene\Scene.h"
+#include "Sound\Sound.h"
 using namespace DoMaRe;
 Engine::Engine(HINSTANCE hInst, int nCmdS, std::string t, int w, int h):
-hInstance(hInst),nCmdShow(nCmdS), _t(t), _w(w), _h(h), hWnd(0), WndC(new Window(hInst) ), Rendr(new Renderer), G(NULL), dInput( new DirectInput() ), m_pkTimer( new Timer() ), Importer (new Import()){
+hInstance(hInst),nCmdShow(nCmdS), _t(t), _w(w), _h(h), hWnd(0), WndC(new Window(hInst) ), Rendr(new Renderer), G(NULL), dInput( new DirectInput() ), m_pkTimer( new Timer() ), Importer (new Import()), pk_Sound(new Sound()){
 	// So... Why so Serious?
 }
 bool Engine::init(){
-	if(WndC->CrearVentana(_t,_w,_h) == TRUE && Rendr->Init(WndC->hWnd()) == TRUE && Importer->Init(Rendr) == TRUE && dInput->init(hInstance,WndC->hWnd()) == TRUE){
-		//importer->SetRenderer(Rendr);
-		//Import::SetRenderer(Rendr);
+	if(WndC->CrearVentana(_t,_w,_h) == TRUE && Rendr->Init(WndC->hWnd()) == TRUE && Importer->Init(Rendr) == TRUE && dInput->init(hInstance,WndC->hWnd()) == TRUE && pk_Sound->startSoundEngine()){
 		return true;
 	}
 	return false;
@@ -45,7 +44,7 @@ void Engine::run(){
 		Rendr->BeginFrame();
 		G->currentScene()->getCamera()->Update();
 		G->Frame(*Rendr, *dInput, *m_pkTimer, *Importer);
-		G->currentScene()->Frame(*Rendr,*dInput, *m_pkTimer, *Importer, *G);
+		G->currentScene()->Frame(*Rendr,*dInput, *m_pkTimer, *Importer, *G, *pk_Sound);
 		G->currentScene()->draw(*Rendr,*dInput, *m_pkTimer, *Importer);
 		Rendr->EndFrame();
 		if(PeekMessage(&Mess,NULL,0,0,PM_REMOVE)){
@@ -59,6 +58,11 @@ void Engine::run(){
 	G->DeInit();
 }
 Engine::~Engine(){
+	if(pk_Sound){
+	pk_Sound->startSoundEngine();
+	delete pk_Sound;
+	pk_Sound = NULL;
+	}
 	if(Importer){
 	delete Importer;
 	Importer = NULL;

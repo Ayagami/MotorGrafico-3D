@@ -9,7 +9,7 @@ bool Scene2::Init(DoMaRe::Import& Importer){
 	return true;
 }
 
-bool Scene2::Frame(DoMaRe::Renderer& renderer, DoMaRe::DirectInput& dInput, DoMaRe::Timer& timer, DoMaRe::Import& import, DoMaRe::Game& game){
+bool Scene2::Frame(DoMaRe::Renderer& renderer, DoMaRe::DirectInput& dInput, DoMaRe::Timer& timer, DoMaRe::Import& import, DoMaRe::Game& game, DoMaRe::Sound& pkSound){
 	if(dInput.keyDown(DoMaRe::Input::KEY_P)){
 		game.setScene("main",import,"Archivo.xml");
 		return true;

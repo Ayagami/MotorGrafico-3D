@@ -7,7 +7,7 @@
 #include "..\Entity2D\animation.h"
 #include "Import.h"
 #include "..\timer\pg1_timer.h"
-
+#include "../Sound/Sound.h"
 
 using namespace DoMaRe;
 
@@ -18,7 +18,7 @@ bool Scene::Init(DoMaRe::Import&){
 	// Aca van cosas del importer.
 }
 
-bool Scene::Frame(DoMaRe::Renderer& r, DoMaRe::DirectInput& directInput,Timer& timer, Import& Importer, Game& game){
+bool Scene::Frame(DoMaRe::Renderer& r, DoMaRe::DirectInput& directInput,Timer& timer, Import& Importer, Game& game, Sound& sound){
 	return true;
 }
 

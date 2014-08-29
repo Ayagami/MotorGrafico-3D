@@ -11,15 +11,17 @@
 #include "Game.h"
 #include "Scene\Import.h"
 #include "Scene\Camera.h"
+#include "Sound\Sound.h"
 #include <string>
 namespace MiJuego{
 	class Camera;
 	class Mesh;
+	class Sound;
 	class Scene1 : public DoMaRe::Scene{
 
 	public:
 		bool Init(DoMaRe::Import&);
-		bool Frame(DoMaRe::Renderer&, DoMaRe::DirectInput&, DoMaRe::Timer&, DoMaRe::Import&, DoMaRe::Game&);
+		bool Frame(DoMaRe::Renderer&, DoMaRe::DirectInput&, DoMaRe::Timer&, DoMaRe::Import&, DoMaRe::Game&, DoMaRe::Sound&);
 	private:
 
 		DoMaRe::Quad * _Cubo1;

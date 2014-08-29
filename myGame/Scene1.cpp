@@ -12,7 +12,17 @@ bool Scene1::Init(DoMaRe::Import& Importer){
 	return true;
 }
 
-bool Scene1::Frame(DoMaRe::Renderer& renderer, DoMaRe::DirectInput& dInput, DoMaRe::Timer& timer, DoMaRe::Import& import, DoMaRe::Game& game){
+bool Scene1::Frame(DoMaRe::Renderer& renderer, DoMaRe::DirectInput& dInput, DoMaRe::Timer& timer, DoMaRe::Import& import, DoMaRe::Game& game, DoMaRe::Sound& pkSound){
+	if(ds){
+		pkSound.playSoundFile("sound.mp3",true);
+		ds = false;
+	}
+	if(dInput.keyDown(DoMaRe::Input::KEY_1)){
+		pkSound.setMasterVolume(pkSound.getMasterVolume() - 0.1f);
+	}
+	if(dInput.keyDown(DoMaRe::Input::KEY_2)){
+		pkSound.setMasterVolume(pkSound.getMasterVolume() + 0.1f);
+	}
 	if(dInput.keyDown(DoMaRe::Input::KEY_P)){
 		//game.setScene("main2",import,"Archivo.xml");
 		return true;
