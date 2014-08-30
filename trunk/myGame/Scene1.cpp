@@ -14,7 +14,7 @@ bool Scene1::Init(DoMaRe::Import& Importer){
 
 bool Scene1::Frame(DoMaRe::Renderer& renderer, DoMaRe::DirectInput& dInput, DoMaRe::Timer& timer, DoMaRe::Import& import, DoMaRe::Game& game, DoMaRe::Sound& pkSound){
 	if(ds){
-		pkSound.playSoundFile("sound.mp3",true);
+		pkSound.playSoundFile("sound.mp3",false);
 		ds = false;
 	}
 	if(dInput.keyDown(DoMaRe::Input::KEY_1)){

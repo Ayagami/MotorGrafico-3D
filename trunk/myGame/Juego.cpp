@@ -37,7 +37,7 @@ bool Game::Init(DoMaRe::Renderer& r, DoMaRe::Import& Importer){
 	
 	daMesh = new DoMaRe::Mesh(r);
 	daMesh->setData(g_8Vertices, 8, DoMaRe::Primitive::TriangleList, g_indices, 36);
-	daMesh->setPos(0,0,100);
+	daMesh->setPos(0,0,10);
 	daMesh->setScale(10,10,10);
 	return true;
 }
