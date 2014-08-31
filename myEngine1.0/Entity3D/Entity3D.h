@@ -19,6 +19,7 @@ namespace DoMaRe{
 		void setScale(float fScaleX, float fScaleY, float fScaleZ);
 		void setName(std::string _name);
 		std::string getName() const;
+		virtual void Draw(Renderer& r) const = 0;
 		void UseGravity(bool _T);
 		void SetGravity(float _G);
 		float posX() const;

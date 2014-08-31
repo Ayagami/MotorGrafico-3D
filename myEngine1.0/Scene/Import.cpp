@@ -5,13 +5,15 @@
 #include "../Entity2D/Animation.h"
 #include "../Entity2D/Entity2D.h"
 #include "../Renderer/Renderer.h"
+#include "../Sound/Sound.h"
 using namespace DoMaRe;
 
 Import::Import(){
 	//*pk_renderer = *pkRenderer;
 }
-bool Import::Init(Renderer* pkRenderer){
+bool Import::Init(Renderer* pkRenderer, Sound* pkSound){
 	pk_renderer = pkRenderer;
+	pk_Sound	= pkSound;
 	return true;
 }
 bool Import::importScene(Scene &scene, std::string fileName)

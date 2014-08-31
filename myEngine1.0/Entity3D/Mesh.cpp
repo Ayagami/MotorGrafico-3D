@@ -25,10 +25,10 @@ void Mesh::setData(const ColorVertex* Tex_Vertex, size_t vertexCount, DoMaRe::Pr
 	mk_IndexBuffer->setIndexData(pInt,indexCount);
 }
 
-void Mesh::Draw(Renderer& pkR){
+void Mesh::Draw(Renderer& pkR) const{
 	mk_VertexBuffer3D->bind();
 	mk_IndexBuffer->bind();
-	pkR.setCurrentTexture(NoTexture);
-	pkR.setMatrix(World, _TrMatrix );
-	pkR.Draw(pkPrimitive,mk_IndexBuffer->indexCount() / 3);
+	pk_Renderer.setCurrentTexture(NoTexture);
+	pk_Renderer.setMatrix(World, _TrMatrix );
+	pk_Renderer.Draw(pkPrimitive,mk_IndexBuffer->indexCount() / 3);
 }
