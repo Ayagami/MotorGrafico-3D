@@ -100,3 +100,8 @@ bool Scene1::Frame(DoMaRe::Renderer& renderer, DoMaRe::DirectInput& dInput, DoMa
 
 	return true;
 }
+
+bool Scene1::deInit(){
+	OutputDebugString("Salí Scene1");
+	return true;
+}

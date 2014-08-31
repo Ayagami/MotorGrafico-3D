@@ -19,3 +19,7 @@ bool Scene2::Frame(DoMaRe::Renderer& renderer, DoMaRe::DirectInput& dInput, DoMa
 	}*/
 	return true;
 }
+
+bool Scene2::deInit(){
+	return true;
+}

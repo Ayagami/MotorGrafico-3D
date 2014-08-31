@@ -54,6 +54,7 @@ void Engine::run(){
 		if(Mess.message == WM_QUIT)
 			G->setGame(false);
 	}
+	G->currentScene()->deInit();
 	G->currentScene()->deinit();
 	G->DeInit();
 }

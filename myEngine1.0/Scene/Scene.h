@@ -24,6 +24,7 @@ namespace DoMaRe{
 			std::string Name;
 			virtual bool Init(DoMaRe::Import&);
 			virtual bool Frame(DoMaRe::Renderer&, DoMaRe::DirectInput&, DoMaRe::Timer&, DoMaRe::Import&, DoMaRe::Game&, DoMaRe::Sound&);
+			virtual bool deInit() = 0;
 			bool deinit();
 			bool draw(DoMaRe::Renderer&, DoMaRe::DirectInput&, DoMaRe::Timer&, DoMaRe::Import&);
 			bool getEntity(Sprite**, std::string);
