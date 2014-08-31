@@ -5,7 +5,7 @@ bool Scene2::Init(DoMaRe::Import& Importer){
 	//getEntity(&_Cubo1,"floor");
 	getEntity(&_Sprite2,"player1");
 	mainCamera = new DoMaRe::Camera();
-	mainCamera->Init(Importer.GetRenderer());
+	mainCamera->Init(&Importer.GetRenderer());
 	return true;
 }
 
