@@ -3,7 +3,7 @@
 using namespace MiJuego;
 bool ds = true;
 float mSpeed = 1.0f;
-/*
+
 DoMaRe::ColorVertex g_8Vertices2[] = {
 {-0.5f, 0.5f, -0.5f, D3DCOLOR_XRGB( 255, 0, 0 )}, // 0 
 {0.5f, 0.5f, -0.5f, D3DCOLOR_XRGB( 0, 255, 0 )}, // 1 
@@ -24,23 +24,23 @@ USHORT g_indices2[] = { 0, 1, 2, 0, 2, 3,
 					   0, 3, 4, 0, 4, 7};
 
 					   
-*/
+
 
 bool Scene1::Init(DoMaRe::Import& Importer){
 //	getEntity(&_Cubo1,"floor");
 //	getEntity(&_Sprite2,"player1");
 	mainCamera = new DoMaRe::Camera();
-	mainCamera->Init(Importer.GetRenderer());
+	mainCamera->Init(&Importer.GetRenderer());
 
 	Importer.GetSound()->playSoundFile("sound.mp3",false);
 
-	/*
-	_theMesh = new DoMaRe::Mesh( (DoMaRe::Renderer) *Importer.GetRenderer() );
+	
+	_theMesh = new DoMaRe::Mesh( Importer.GetRenderer() );
 	_theMesh->setData(g_8Vertices2, 8, DoMaRe::Primitive::TriangleList, g_indices2, 36);
 	_theMesh->setPos(0,30,10);
 	_theMesh->setScale(10,10,10);
 	addEntity(_theMesh);
-	*/
+	
 	return true;
 }
 

@@ -30,7 +30,7 @@ void Game::setScene(std::string name, DoMaRe::Import& importer, std::string file
 			_currentScene->deinit();
 			if(_currentScene->mainCamera) delete _currentScene->mainCamera;
 			_currentScene = *iter._Ptr;
-			importer.GetRenderer()->Clear();
+			importer.GetRenderer().Clear();
 			importer.importScene(*_currentScene, fileName);
 			_currentScene->Init(importer);
 			return;

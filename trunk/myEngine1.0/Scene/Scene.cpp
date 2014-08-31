@@ -35,10 +35,11 @@ bool Scene::draw(DoMaRe::Renderer& r, DoMaRe::DirectInput& directInput,Timer& ti
 		(*iter)->UpdateGravityPos();
 		(*iter)->draw(r);
 	}
-	std::vector<Entity3D*>::iterator iter3D;
-	for(iter3D = m_pkEntidades3D.begin(); iter3D != m_pkEntidades3D.end(); iter3D++){
-		(*iter3D)->Draw(r);
+
+	for(int i=0; i < m_pkEntidades3D.size(); i++){
+		m_pkEntidades3D[i]->Draw(r);
 	}
+
 	return true;
 }
 
@@ -53,8 +54,10 @@ bool Scene::deinit(){
 	m_pkEntidades.clear();
 
 	for(int i = 0; i < m_pkEntidades3D.size() ; i++){
-		delete m_pkEntidades3D[i];
-		m_pkEntidades3D[i] = NULL;
+		if(m_pkEntidades3D[i]){
+			delete m_pkEntidades3D[i];
+			m_pkEntidades3D[i] = NULL;
+		}
 	}
 
 	m_pkEntidades3D.clear();
