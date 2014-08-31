@@ -7,6 +7,9 @@
 #include <string>
 namespace DoMaRe{
 	class Entity2D;
+
+	class Entity3D;
+	class Mesh;
 	class Sprite;
 	class Quad;
 	//class Renderer;
@@ -25,11 +28,14 @@ namespace DoMaRe{
 			bool draw(DoMaRe::Renderer&, DoMaRe::DirectInput&, DoMaRe::Timer&, DoMaRe::Import&);
 			bool getEntity(Sprite**, std::string);
 			bool getEntity(Quad**, std::string);
+			bool getEntity(Mesh**, std::string);
 			Camera* getCamera() { return mainCamera; }
 			bool addEntity(Entity2D*);
+			bool addEntity(Entity3D*);
 			Camera* mainCamera;
 		private:
 			std::vector<Entity2D*> m_pkEntidades;
+			std::vector<Entity3D*> m_pkEntidades3D;
 			
 	};
 }

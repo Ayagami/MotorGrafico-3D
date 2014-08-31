@@ -22,5 +22,6 @@ namespace MiJuego{
 		Scene1* Escena1;
 		Scene2* Escena2;
 		DoMaRe::Mesh * daMesh;
+		//DoMaRe::Mesh * daMesh2;
 	};
 }

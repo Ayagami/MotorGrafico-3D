@@ -17,7 +17,7 @@ hInstance(hInst),nCmdShow(nCmdS), _t(t), _w(w), _h(h), hWnd(0), WndC(new Window(
 	// So... Why so Serious?
 }
 bool Engine::init(){
-	if(WndC->CrearVentana(_t,_w,_h) == TRUE && Rendr->Init(WndC->hWnd()) == TRUE && Importer->Init(Rendr) == TRUE && dInput->init(hInstance,WndC->hWnd()) == TRUE && pk_Sound->startSoundEngine()){
+	if(WndC->CrearVentana(_t,_w,_h) == TRUE && Rendr->Init(WndC->hWnd()) == TRUE && Importer->Init(Rendr, pk_Sound) == TRUE && dInput->init(hInstance,WndC->hWnd()) == TRUE && pk_Sound->startSoundEngine() == TRUE){
 		return true;
 	}
 	return false;

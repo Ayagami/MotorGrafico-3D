@@ -5,7 +5,9 @@ Renderer::Renderer():
 d3d(NULL),
 d3d_dev(NULL),
 p_vb(NULL),
-p_vbT(NULL)
+p_vbT(NULL),
+p_vb3D(NULL),
+p_ib(NULL)
 {
 	// Again, Nothing to do.
 }

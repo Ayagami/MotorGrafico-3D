@@ -28,5 +28,6 @@ namespace MiJuego{
 
 		DoMaRe::Sprite * _Sprite2;
 
+		DoMaRe::Mesh * _theMesh;
 	};
 }

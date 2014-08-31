@@ -12,7 +12,7 @@ namespace DoMaRe{
 		Mesh(Renderer&);
 		~Mesh();
 		void setData(const ColorVertex*, size_t vertexCount, DoMaRe::Primitive, const unsigned short*, size_t indexCount);
-		void Draw(Renderer&);
+		void Draw(Renderer& r) const;
 	private:
 		IndexBuffer* mk_IndexBuffer;
 		VertexBuffer3D* mk_VertexBuffer3D;

@@ -67,16 +67,16 @@
     <Filter Include="Archivos de encabezado\include\Entity3D">
       <UniqueIdentifier>{cc91b8dc-14d1-483b-997e-2515aec0124b}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Archivos de encabezado\3DBuffer">
-      <UniqueIdentifier>{5ac3fc90-9574-4339-bc38-8b52424fae87}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Archivos de código fuente\src\3DBuffer">
       <UniqueIdentifier>{4eecf477-dddf-485b-a7bb-bcc48aeebf90}</UniqueIdentifier>
     </Filter>
     <Filter Include="Archivos de código fuente\src\Sound">
       <UniqueIdentifier>{81749595-7987-4424-a753-c09cf5118177}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Archivos de encabezado\Sound">
+    <Filter Include="Archivos de encabezado\include\3DBuffer">
+      <UniqueIdentifier>{5ac3fc90-9574-4339-bc38-8b52424fae87}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Archivos de encabezado\include\Sound">
       <UniqueIdentifier>{f7b1e665-861b-4fa1-b6f7-f86b6f6f6061}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
@@ -142,16 +142,16 @@
       <Filter>Archivos de encabezado\include\Entity3D</Filter>
     </ClInclude>
     <ClInclude Include="3DBuffers\pg2_indexbuffer.h">
-      <Filter>Archivos de encabezado\3DBuffer</Filter>
+      <Filter>Archivos de encabezado\include\3DBuffer</Filter>
     </ClInclude>
     <ClInclude Include="3DBuffers\pg2_vertexbuffer.h">
-      <Filter>Archivos de encabezado\3DBuffer</Filter>
+      <Filter>Archivos de encabezado\include\3DBuffer</Filter>
     </ClInclude>
     <ClInclude Include="Entity3D\Mesh.h">
       <Filter>Archivos de encabezado\include\Entity3D</Filter>
     </ClInclude>
     <ClInclude Include="Sound\Sound.h">
-      <Filter>Archivos de encabezado\Sound</Filter>
+      <Filter>Archivos de encabezado\include\Sound</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
