@@ -26,6 +26,7 @@ void Game::setScene(std::string name, DoMaRe::Import& importer, std::string file
 	std::vector<Scene*>::iterator iter;
 	for(iter = scenesList.begin(); iter != scenesList.end(); iter++){
 		if( (*iter._Ptr)->Name == name){
+			_currentScene->deInit();
 			_currentScene->deinit();
 			if(_currentScene->mainCamera) delete _currentScene->mainCamera;
 			_currentScene = *iter._Ptr;
