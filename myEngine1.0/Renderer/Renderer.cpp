@@ -54,9 +54,14 @@ bool Renderer::Init(HWND _HwnD){
 	d3dpp.Windowed = TRUE;
 	d3dpp.SwapEffect = D3DSWAPEFFECT_DISCARD;
 	d3dpp.hDeviceWindow = _HwnD;
+	d3dpp.EnableAutoDepthStencil = TRUE;
+	d3dpp.AutoDepthStencilFormat = D3DFMT_D16;
 	if(d3d->CreateDevice( D3DADAPTER_DEFAULT, D3DDEVTYPE_HAL, _HwnD, D3DCREATE_SOFTWARE_VERTEXPROCESSING, &d3dpp, &d3d_dev) == D3D_OK){
 		d3d_dev->SetRenderState(D3DRS_LIGHTING,FALSE);
+		d3d_dev->SetRenderState(D3DRS_ZENABLE, TRUE);
+
 		d3d_dev->SetRenderState(D3DRS_CULLMODE,D3DCULL_CW);
+
 		
 		d3d_dev->SetRenderState(D3DRS_ALPHABLENDENABLE,TRUE);
 		d3d_dev->SetRenderState(D3DRS_BLENDOP,D3DBLENDOP_ADD);
@@ -89,7 +94,7 @@ bool Renderer::Init(HWND _HwnD){
 }
 
 void Renderer::BeginFrame(){
-	d3d_dev->Clear(0, NULL, D3DCLEAR_TARGET, D3DCOLOR_XRGB(255,255,255), 1.0f, 0);
+	d3d_dev->Clear(0, NULL, D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER, D3DCOLOR_XRGB(255,255,255), 1.0f, 0);
 	d3d_dev->BeginScene();
 }
 

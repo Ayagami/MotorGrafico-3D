@@ -19,6 +19,7 @@ public:
 	bool stopSoundEngine();
 
 	bool playSoundFile(std::string kFileName, bool bLoop=false);
+	ISound*	GetAndplaySoundFile(std::string kFileName, bool bLoop=false);
 	void stopAllSounds();
 
 	void pauseAllSounds(bool bPause);

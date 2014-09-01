@@ -3,6 +3,8 @@
 #include <string>
 #include "../Renderer/EMath.h"
 #include "../Renderer/RenderTypes.h"
+#include "../../ext/irrKlang/include/irrKlang.h"
+
 namespace DoMaRe{
 	class Renderer;
 	class Timer;
@@ -11,17 +13,20 @@ namespace DoMaRe{
 		Entity3D();
 		virtual ~Entity3D();
 	public:
+
 		void setPos(float fPosX, float fPosY);
 		void setPos(float fPosX,float fPosY, float fPosZ);
-
 		void setRotation(float fRotationX, float fRotationY, float fRotationZ);
-
 		void setScale(float fScaleX, float fScaleY, float fScaleZ);
 		void setName(std::string _name);
+
+		irrklang::ISound&	getSound()const{ return *_theSound; }
+		void				setSound(irrklang::ISound& theSound){	_theSound = &theSound; }
 		std::string getName() const;
 		virtual void Draw(Renderer& r) const = 0;
 		void UseGravity(bool _T);
 		void SetGravity(float _G);
+		
 		float posX() const;
 		float posY() const;
 		float posZ() const;
@@ -34,6 +39,7 @@ namespace DoMaRe{
 		float scaleX() const;
 		float scaleY() const;
 		float scaleZ() const;
+
 		float previousPosX() const;
 		float previousPosY() const;
 		float previousPosZ() const;
@@ -64,5 +70,6 @@ namespace DoMaRe{
 		std::string _Name;
 	protected:
 		Matrix _TrMatrix;
+		irrklang::ISound * _theSound;
 	};
 }
