@@ -19,6 +19,7 @@ _ScaleY(1.0f),
 _ScaleZ(1.0f),
 _UseGravity(false),
 _Gravity(1.5f),
+_theSound(NULL),
 _TrMatrix( new D3DXMATRIX() )
 {
 

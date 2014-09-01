@@ -48,6 +48,19 @@ bool Sound::playSoundFile(std::string kFileName, bool bLoop){
 		return false;
 	}
 }
+ISound*	Sound::GetAndplaySoundFile(std::string kFileName, bool bLoop){
+	if (kFileName=="")
+		return NULL;
+
+	if (m_bIsStarted){
+		ISound* theSound = m_pkSoundEngine->play2D(kFileName.c_str(), bLoop);
+		return theSound;
+	}
+	else{
+		return NULL;
+	}
+}
+
 //---------------------------------------------------------------- 
 void Sound::stopAllSounds(){
 	if (m_bIsStarted)

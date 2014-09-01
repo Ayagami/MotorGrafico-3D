@@ -1,5 +1,6 @@
 #include "Scene1.h"
 #include "Entity3D\Mesh.h"
+//#include "Sound\Sound.h"
 using namespace MiJuego;
 bool ds = true;
 float mSpeed = 1.0f;
@@ -32,7 +33,7 @@ bool Scene1::Init(DoMaRe::Import& Importer){
 	mainCamera = new DoMaRe::Camera();
 	mainCamera->Init(&Importer.GetRenderer());
 
-	Importer.GetSound()->playSoundFile("sound.mp3",false);
+	Importer.GetSound().playSoundFile("sound.mp3",false);
 
 	
 	_theMesh = new DoMaRe::Mesh( Importer.GetRenderer() );
