@@ -32,3 +32,7 @@ void Mesh::Draw(Renderer& pkR) const{
 	pk_Renderer.setMatrix(World, _TrMatrix );
 	pk_Renderer.Draw(pkPrimitive,mk_IndexBuffer->indexCount() / 3);
 }
+
+void Mesh::setTexture(std::string pkTextureFile, DWORD theColor){
+	s_Texture = pk_Renderer.loadTexture(pkTextureFile,theColor);
+}

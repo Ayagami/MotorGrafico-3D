@@ -18,6 +18,14 @@ namespace DoMaRe{
 
 	extern const int TexCoordVertexType;
 
+	struct MYENGINE_API	MeshVertex{
+		float x,y,z;
+		float nx,ny,nz;
+		float u,v;
+	};
+
+	extern const int MeshVertexType;
+
 	typedef IDirect3DTexture9* Texture;
 	static const Texture NoTexture = NULL; 
 
