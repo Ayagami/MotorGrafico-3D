@@ -23,6 +23,7 @@ protected:
         D3DXMATRIX m_MatView;
 public:
         void SetPosition(float fX, float fY, float fZ);
+		D3DXVECTOR3	GetPosition() { return m_Position; }
         void MoveForward(float Dist);
         void MoveRight(float Dist);
         void MoveUp(float Dist);

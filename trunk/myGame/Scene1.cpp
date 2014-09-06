@@ -37,7 +37,7 @@ bool Scene1::Init(DoMaRe::Import& Importer){
 
 	
 	_theMesh = new DoMaRe::Mesh( Importer.GetRenderer() );
-	_theMesh->setData(g_8Vertices2, 8, DoMaRe::Primitive::TriangleList, g_indices2, 36);
+	_theMesh->setData(g_8Vertices2, 8, DoMaRe::Primitive::LineStrip, g_indices2, 36);
 	_theMesh->setPos(0,30,10);
 	_theMesh->setScale(10,10,10);
 	addEntity(_theMesh);
@@ -52,7 +52,6 @@ bool Scene1::Frame(DoMaRe::Renderer& renderer, DoMaRe::DirectInput& dInput, DoMa
 	if(dInput.keyDown(DoMaRe::Input::KEY_2)){
 		pkSound.setMasterVolume(pkSound.getMasterVolume() + 0.1f);
 	}
-	
 	/*if(dInput.keyDown(DoMaRe::Input::KEY_P)){
 		//game.setScene("main2",import,"Archivo.xml");
 		return true;
