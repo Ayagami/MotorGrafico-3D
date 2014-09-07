@@ -7,6 +7,7 @@ d3d_dev(NULL),
 p_vb(NULL),
 p_vbT(NULL),
 p_vb3D(NULL),
+wireFrameMode(false),
 p_ib(NULL)
 {
 	// Again, Nothing to do.
@@ -60,13 +61,15 @@ bool Renderer::Init(HWND _HwnD){
 		d3d_dev->SetRenderState(D3DRS_LIGHTING,FALSE);
 		d3d_dev->SetRenderState(D3DRS_ZENABLE, TRUE);
 
-		d3d_dev->SetRenderState(D3DRS_CULLMODE,D3DCULL_CW);
+		//d3d_dev->SetRenderState(D3DRS_CULLMODE,D3DCULL_CW);
 
 		
 		d3d_dev->SetRenderState(D3DRS_ALPHABLENDENABLE,TRUE);
 		d3d_dev->SetRenderState(D3DRS_BLENDOP,D3DBLENDOP_ADD);
 		d3d_dev->SetRenderState(D3DRS_SRCBLEND,D3DBLEND_SRCALPHA);
 		d3d_dev->SetRenderState(D3DRS_DESTBLEND,D3DBLEND_INVSRCALPHA);
+
+		//d3d_dev->SetRenderState(D3DRS_FILLMODE,D3DFILL_WIREFRAME);
 
 		D3DVIEWPORT9 kViewport;
 		d3d_dev->GetViewport(&kViewport);
@@ -93,6 +96,15 @@ bool Renderer::Init(HWND _HwnD){
 	return false;
 }
 
+void Renderer::setWireFrameMode(bool theMode){
+	if(theMode == true){
+		d3d_dev->SetRenderState(D3DRS_FILLMODE,D3DFILL_WIREFRAME);
+	}else{
+		d3d_dev->SetRenderState(D3DRS_FILLMODE,D3DFILL_SOLID);
+	}
+
+	wireFrameMode = theMode;
+}
 void Renderer::BeginFrame(){
 	d3d_dev->Clear(0, NULL, D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER, D3DCOLOR_XRGB(255,255,255), 1.0f, 0);
 	d3d_dev->BeginScene();

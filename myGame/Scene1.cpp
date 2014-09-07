@@ -33,19 +33,20 @@ bool Scene1::Init(DoMaRe::Import& Importer){
 	mainCamera = new DoMaRe::Camera();
 	mainCamera->Init(&Importer.GetRenderer());
 
-	Importer.GetSound().playSoundFile("sound.mp3",false);
+	
 
 	
 	_theMesh = new DoMaRe::Mesh( Importer.GetRenderer() );
 	/*_theMesh->setData(g_8Vertices2, 8, DoMaRe::Primitive::LineStrip, g_indices2, 36);
 	_theMesh->setPos(0,30,10);
 	_theMesh->setScale(10,10,10);*/
-	Importer.importMesh(*_theMesh,"box.obj");
-	_theMesh->setTexture("assets/text.jpg",DoMaRe_COLOR_RGB(255,255,255));
-	_theMesh->setPos(0,30,10);
-	_theMesh->setScale(10,10,10);
+	Importer.importMesh(*_theMesh,"spider.obj");
+	_theMesh->setTexture("SpiderTex.jpg",DoMaRe_COLOR_RGB(255,255,255));
+	mainCamera->SetPosition(0,30,-10);
+	_theMesh->setPos(0,20,40);
+	_theMesh->setScale(1.0f,1.0f,1.0f);
 	addEntity(_theMesh);
-	
+	Importer.GetSound().playSoundFile("sound.mp3",false);
 	return true;
 }
 
@@ -60,6 +61,10 @@ bool Scene1::Frame(DoMaRe::Renderer& renderer, DoMaRe::DirectInput& dInput, DoMa
 		//game.setScene("main2",import,"Archivo.xml");
 		return true;
 	}*/
+
+	if(dInput.keyDown(DoMaRe::Input::KEY_F1)){
+		renderer.setWireFrameMode(!renderer.getWireFrameMode());	
+	}
 
 	if(dInput.keyDown(DoMaRe::Input::KEY_UP)){
 		mainCamera->MoveForward(mSpeed);
