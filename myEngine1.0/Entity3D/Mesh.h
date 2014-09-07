@@ -12,7 +12,7 @@ namespace DoMaRe{
 	public:
 		Mesh(Renderer&);
 		~Mesh();
-		void setData(const ColorVertex*, size_t vertexCount, DoMaRe::Primitive, const unsigned short*, size_t indexCount);
+		void setData(const MeshVertex*, size_t vertexCount, DoMaRe::Primitive, const unsigned short*, size_t indexCount);
 		void setTexture(std::string, DWORD theColor);
 		void Draw(Renderer& r) const;
 	protected:
