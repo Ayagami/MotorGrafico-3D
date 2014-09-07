@@ -30,6 +30,8 @@ class MYENGINE_API Renderer{
 		void loadIdentity();
 		void setTransformMatrix(D3DXMATRIX * matrix);
 		void setMatrix(MatrixType, const Matrix&);
+		void setWireFrameMode(bool wF);
+		bool getWireFrameMode(){ return wireFrameMode; }
 		void Draw(ColorVertex*, DoMaRe::Primitive, size_t);
 		void Draw(TexCoordVertex*, DoMaRe::Primitive, size_t);
 		void Draw(DoMaRe::Primitive, UINT);
@@ -39,6 +41,7 @@ class MYENGINE_API Renderer{
 		VertexBuffer3D* createVB(size_t vSize, unsigned int FVF);
 		IndexBuffer* createIB();
 	private:
+		bool wireFrameMode;
 		IDirect3D9  * d3d;
 		IDirect3DDevice9  * d3d_dev;
 		DoMaRe::VertexBuffer * p_vb;

@@ -3,7 +3,7 @@
 #include "../Renderer/RenderTypes.h"
 using namespace DoMaRe;
 
-Mesh::Mesh(Renderer & p_Renderer): pk_Renderer(p_Renderer){
+Mesh::Mesh(Renderer & p_Renderer): pk_Renderer(p_Renderer) , s_Texture(NoTexture){
 	mk_VertexBuffer3D = pk_Renderer.createVB(sizeof(DoMaRe::MeshVertex), DoMaRe::MeshVertexType);
 	mk_IndexBuffer = pk_Renderer.createIB();
 }
