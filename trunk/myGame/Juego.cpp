@@ -35,10 +35,10 @@ bool Game::Init(DoMaRe::Renderer& r, DoMaRe::Import& Importer){
 	
 	_currentScene = Escena1;
 	
-	daMesh = new DoMaRe::Mesh(r);
+	/*daMesh = new DoMaRe::Mesh(r);
 	daMesh->setData(g_8Vertices, 8, DoMaRe::Primitive::TriangleList, g_indices, 36);
 	daMesh->setPos(0,0,10);
-	daMesh->setScale(10,10,10);
+	daMesh->setScale(10,10,10);*/
 
 /*
 	daMesh2 = new DoMaRe::Mesh(r);
@@ -48,10 +48,10 @@ bool Game::Init(DoMaRe::Renderer& r, DoMaRe::Import& Importer){
 	return true;
 }
 void Game::Frame(DoMaRe::Renderer& r, DoMaRe::DirectInput& eInput, DoMaRe::Timer& t, DoMaRe::Import& Importer){
-	static float rot = 0.1f;
+	/*static float rot = 0.1f;
 	daMesh->setRotation(rot, rot, rot);
 	rot+= 0.01f;
-	daMesh->Draw(r);
+	daMesh->Draw(r);*/
 	//daMesh2->Draw(r);
 }
 void Game::DeInit(){
@@ -63,10 +63,11 @@ void Game::DeInit(){
 		delete Escena1;
 		Escena1 = NULL;
 	}
-	if(daMesh){
+	/*if(daMesh){
 		delete daMesh;
 		daMesh = NULL;
-	}/*
+	}*/
+	/*
 	if(daMesh2){
 		delete daMesh2;
 		daMesh2 = NULL;

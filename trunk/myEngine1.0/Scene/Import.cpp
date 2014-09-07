@@ -6,6 +6,13 @@
 #include "../Entity2D/Entity2D.h"
 #include "../Renderer/Renderer.h"
 #include "../Sound/Sound.h"
+#include "../Entity3D/Mesh.h"
+//----- Assimp
+#include "../../ext/assimp/include/Importer.hpp"
+#include "../../ext/assimp/include/scene.h"
+#include "../../ext/assimp/include/postprocess.h"
+#include "../Renderer/RenderTypes.h"
+
 using namespace DoMaRe;
 
 Import::Import(){
@@ -153,4 +160,61 @@ void Import::importAnimation(std::vector<Animation> ** list_animations,tinyxml2:
 
 		animations = animations->NextSiblingElement("ANIMATION");
 	}
+}
+
+void Import::importMesh(Mesh& theMesh, std::string FileName){
+	Assimp::Importer importer;
+	const aiScene* scene = importer.ReadFile( FileName, aiProcess_CalcTangentSpace | aiProcess_Triangulate | aiProcess_JoinIdenticalVertices | aiProcess_SortByPType);
+	if(!scene) return;
+	int nIndices;
+	unsigned short *pIndices;
+	
+	if(scene->mMeshes[0]){
+		aiMesh * pAIMesh = scene->mMeshes[0];
+		if(pAIMesh->HasFaces()){ // Genero Faces.
+			aiFace* pAIFaces;
+			pAIFaces = pAIMesh->mFaces;
+			nIndices = pAIMesh->mNumFaces *3;
+			pIndices = new unsigned short[nIndices];
+			for(DWORD i=0; i < pAIMesh->mNumFaces; i++){
+				if(pAIFaces[i].mNumIndices != 3){
+					delete[] pIndices;
+					return;
+				}
+				for(DWORD j=0; j < 3; j ++){
+					pIndices[i * 3 + j ] = pAIFaces[i].mIndices[j];
+				}
+			}
+		}// Termino Faces.
+		if(pAIMesh->HasPositions()){
+			int nVertices;
+			MeshVertex * pVertices;
+			nVertices = pAIMesh->mNumVertices;
+			pVertices = new MeshVertex[nVertices];
+
+			for(DWORD i=0; i < nVertices; i++){
+				pVertices[i].x = pAIMesh->mVertices[i].x;
+				pVertices[i].y = pAIMesh->mVertices[i].y;
+				pVertices[i].z = pAIMesh->mVertices[i].z;
+			}
+
+			if(pAIMesh->HasNormals()){
+				for(DWORD i=0; i < nVertices; i++){
+					pVertices[i].nx = pAIMesh->mNormals[i].x;
+					pVertices[i].ny = pAIMesh->mNormals[i].y;
+					pVertices[i].nz = pAIMesh->mNormals[i].z;
+				}
+			}
+
+			if(pAIMesh->HasTextureCoords(0)){
+				for(DWORD i=0; i < nVertices; i++){
+					pVertices[i].u = pAIMesh->mTextureCoords[0][i].x;
+					pVertices[i].v = pAIMesh->mTextureCoords[0][i].y;
+				}
+			}
+
+			theMesh.setData(pVertices,nVertices,DoMaRe::Primitive::TriangleList,pIndices,nIndices);
+		}
+	}
+	return;
 }

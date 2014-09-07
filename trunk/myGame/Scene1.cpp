@@ -37,7 +37,11 @@ bool Scene1::Init(DoMaRe::Import& Importer){
 
 	
 	_theMesh = new DoMaRe::Mesh( Importer.GetRenderer() );
-	_theMesh->setData(g_8Vertices2, 8, DoMaRe::Primitive::LineStrip, g_indices2, 36);
+	/*_theMesh->setData(g_8Vertices2, 8, DoMaRe::Primitive::LineStrip, g_indices2, 36);
+	_theMesh->setPos(0,30,10);
+	_theMesh->setScale(10,10,10);*/
+	Importer.importMesh(*_theMesh,"box.obj");
+	_theMesh->setTexture("assets/text.jpg",DoMaRe_COLOR_RGB(255,255,255));
 	_theMesh->setPos(0,30,10);
 	_theMesh->setScale(10,10,10);
 	addEntity(_theMesh);
