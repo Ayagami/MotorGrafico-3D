@@ -40,8 +40,10 @@ bool Scene1::Init(DoMaRe::Import& Importer){
 	/*_theMesh->setData(g_8Vertices2, 8, DoMaRe::Primitive::LineStrip, g_indices2, 36);
 	_theMesh->setPos(0,30,10);
 	_theMesh->setScale(10,10,10);*/
-	Importer.importMesh(*_theMesh,"spider.obj");
-	_theMesh->setTexture("SpiderTex.jpg",DoMaRe_COLOR_RGB(255,255,255));
+	Importer.importMesh(*_theMesh,"onichan.obj");
+
+	_theMesh->setTexture("SpiderTex.jpg",DoMaRe_COLOR_RGB(255,0,0));
+
 	mainCamera->SetPosition(0,30,-10);
 	_theMesh->setPos(0,20,40);
 	_theMesh->setScale(1.0f,1.0f,1.0f);
