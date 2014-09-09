@@ -2,6 +2,7 @@
 #include <Windows.h>
 #include <string>
 #include <vector>
+#include <map>
 #include "../VertexBuffer/VertexBuffer.h"
 
 #include "../3DBuffers/pg2_indexbuffer.h"
