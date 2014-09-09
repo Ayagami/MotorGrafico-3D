@@ -18,6 +18,24 @@ using namespace DoMaRe;
 Import::Import(){
 	//*pk_renderer = *pkRenderer;
 }
+Import::~Import(){
+	
+	// Destruyo MAP de Meshes.
+	for( std::map<std::string, MeshVertex*>::iterator it = m_pkMeshesVertexMap.begin(); it != m_pkMeshesVertexMap.end(); ){ // Vertex
+		MeshVertex* pkMesh = it->second;
+		m_pkMeshesVertexMap.erase(it++);
+		delete pkMesh;
+		pkMesh = NULL;
+	}
+
+	for( std::map<std::string, unsigned short*>::iterator it = m_pkMeshesIndexMap.begin(); it != m_pkMeshesIndexMap.end(); ){ // Index
+		unsigned short* pkMesh = it->second;
+		m_pkMeshesIndexMap.erase(it++);
+		delete pkMesh;
+		pkMesh = NULL;
+	}
+	// Fin MAP de Meshes
+}
 bool Import::Init(Renderer* pkRenderer, Sound* pkSound){
 	pk_renderer = pkRenderer;
 	pk_Sound	= pkSound;
@@ -34,7 +52,6 @@ bool Import::importScene(Scene &scene, std::string fileName)
 	importSprite(scene,root);
 	return true;
 }
-
 void Import::importSprite(Scene &scene,tinyxml2::XMLElement* root)
 {
 	tinyxml2::XMLElement *sprite = root->FirstChildElement("SPRITE");
@@ -91,7 +108,6 @@ void Import::importSprite(Scene &scene,tinyxml2::XMLElement* root)
 	}
 
 }
-
 void Import::importQuad(Scene &scene,tinyxml2::XMLElement* root)
 {
 	tinyxml2::XMLElement *quad = root->FirstChildElement("QUAD");
@@ -125,7 +141,6 @@ void Import::importQuad(Scene &scene,tinyxml2::XMLElement* root)
 	}
 
 }
-
 void Import::importAnimation(std::vector<Animation> ** list_animations,tinyxml2::XMLElement* animations)
 {
 	while(animations != NULL)
@@ -161,8 +176,13 @@ void Import::importAnimation(std::vector<Animation> ** list_animations,tinyxml2:
 		animations = animations->NextSiblingElement("ANIMATION");
 	}
 }
-
 void Import::importMesh(Mesh& theMesh, std::string FileName){
+
+	if(m_pkMeshesVertexMap[FileName] != NULL){
+		theMesh.setData(m_pkMeshesVertexMap[FileName],m_pkMeshesNVertexMap[FileName],DoMaRe::Primitive::TriangleList,m_pkMeshesIndexMap[FileName],m_pkMeshesNIndexMap[FileName]);
+		return;
+	}
+
 	Assimp::Importer importer;
 	const aiScene* scene = importer.ReadFile( FileName, aiProcess_CalcTangentSpace | aiProcess_Triangulate | aiProcess_JoinIdenticalVertices | aiProcess_SortByPType);
 	if(!scene) return;
@@ -212,6 +232,11 @@ void Import::importMesh(Mesh& theMesh, std::string FileName){
 					pVertices[i].v = pAIMesh->mTextureCoords[0][i].y;
 				}
 			}
+			
+			m_pkMeshesVertexMap[FileName] = pVertices;
+			m_pkMeshesNVertexMap[FileName] = nVertices;
+			m_pkMeshesIndexMap[FileName] = pIndices;
+			m_pkMeshesNIndexMap[FileName] = nIndices;
 
 			theMesh.setData(pVertices,nVertices,DoMaRe::Primitive::TriangleList,pIndices,nIndices);
 		}
