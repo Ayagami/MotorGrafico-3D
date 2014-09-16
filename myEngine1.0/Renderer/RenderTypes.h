@@ -4,36 +4,34 @@
 #include "../myEngine_API.h"
 
 namespace DoMaRe{
+	//
 	struct MYENGINE_API ColorVertex{
 		float x,y,z;
 		DWORD color;
 	};
 	
 	extern const DWORD ColorVertexType;
+	//
 
+	//
 	struct MYENGINE_API TexCoordVertex{
 		float x,y,z;
 		float u,v;
 	}; 
 
 	extern const int TexCoordVertexType;
+	//
 
+
+	//
 	struct MYENGINE_API	MeshVertex{
 		float x,y,z;
 		float nx,ny,nz;
 		float u,v;
 	};
 
-	struct MYENGINE_API MeshVertexNode{
-			float x;
-			float y;
-			float z;
-
-			float u;
-			float v;
-	};
-
 	extern const int MeshVertexType;
+	//
 
 	typedef IDirect3DTexture9* Texture;
 	static const Texture NoTexture = NULL; 

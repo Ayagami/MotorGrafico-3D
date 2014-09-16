@@ -227,7 +227,28 @@ void Renderer::Draw(TexCoordVertex* v, DoMaRe::Primitive p, size_t vC){
 }
 
 void Renderer::Draw(DoMaRe::Primitive p){
-	d3d_dev->DrawIndexedPrimitive(primitiveMap[p], 0, 0, p_vb3D->vertexCount(), 0, p_ib->indexCount() / 3);
+	int ThePrimitive = 0;
+    D3DPRIMITIVETYPE pTipe = primitiveMap[p];
+
+    if(pTipe == D3DPT_POINTLIST){
+		ThePrimitive = p_ib->indexCount();
+    }
+    else if(pTipe == D3DPT_LINELIST){
+		ThePrimitive = p_ib->indexCount() / 2;
+    }
+    else if(pTipe == D3DPT_LINESTRIP){
+		ThePrimitive = p_ib->indexCount() - 1;
+    }
+    else if(pTipe == D3DPT_TRIANGLELIST){
+		ThePrimitive = p_ib->indexCount() / 3;
+    }
+    else if(pTipe == D3DPT_TRIANGLESTRIP){
+		ThePrimitive = p_ib->indexCount() - 2;
+    }
+    else if(pTipe == D3DPT_TRIANGLEFAN){
+		ThePrimitive = p_ib->indexCount() - 2;
+    }
+	d3d_dev->DrawIndexedPrimitive(primitiveMap[p], 0, 0, p_vb3D->vertexCount(), 0, ThePrimitive);
 }
 void Renderer::setCurrentTexture(const Texture& r_Texture){
 	d3d_dev->SetTexture(0,r_Texture);
