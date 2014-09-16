@@ -1,5 +1,6 @@
 #include "Scene1.h"
 #include "Entity3D\Mesh.h"
+#include "Entity3D\Node.h"
 //#include "Sound\Sound.h"
 using namespace MiJuego;
 bool ds = true;
@@ -32,15 +33,19 @@ bool Scene1::Init(DoMaRe::Import& Importer){
 //	getEntity(&_Sprite2,"player1");
 	mainCamera = new DoMaRe::Camera();
 	mainCamera->Init(&Importer.GetRenderer());
+	mainCamera->SetPosition(0,30,-10);
+	//pkNode = new DoMaRe::Node();
+	//Importer.importScene("onichan.obj", *pkNode );
 
-	
+	_theMesh = new DoMaRe::Mesh(Importer.GetRenderer());
+	Importer.importMesh(*_theMesh, "onichan.obj");
+	_theMesh->setTexture("SpiderTex.jpg", DoMaRe_COLOR_RGB(255,0,0));
+	//pkNode->addChild(_theMesh);
+	//_theMesh->setParent(pkNode);
+	addEntity(_theMesh);
 
-	
+	/*
 	_theMesh = new DoMaRe::Mesh( Importer.GetRenderer() );
-	/*_theMesh->setData(g_8Vertices2, 8, DoMaRe::Primitive::LineStrip, g_indices2, 36);
-	
-	_theMesh->setPos(0,30,10);
-	_theMesh->setScale(10,10,10);*/
 	Importer.importMesh(*_theMesh,"onichan.obj");
 
 	_theMesh->setTexture("SpiderTex.jpg",DoMaRe_COLOR_RGB(255,0,0));
@@ -49,7 +54,9 @@ bool Scene1::Init(DoMaRe::Import& Importer){
 	_theMesh->setPos(0,20,40);
 	_theMesh->setScale(1.0f,1.0f,1.0f);
 
-	addEntity(_theMesh);
+	addEntity(_theMesh);*/
+
+
 	Importer.GetSound().playSoundFile("sound.mp3",false);
 	return true;
 }

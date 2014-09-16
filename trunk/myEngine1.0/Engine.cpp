@@ -60,7 +60,7 @@ void Engine::run(){
 }
 Engine::~Engine(){
 	if(pk_Sound){
-	pk_Sound->startSoundEngine();
+	pk_Sound->stopSoundEngine();
 	delete pk_Sound;
 	pk_Sound = NULL;
 	}

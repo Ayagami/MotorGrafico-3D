@@ -5,6 +5,7 @@
 
 #include "..\Entity3D\Entity3D.h"
 #include "..\Entity3D\Mesh.h"
+#include "..\Entity3D\Node.h"
 
 #include "Camera.h"
 #include "..\Game.h"
@@ -15,8 +16,12 @@
 
 using namespace DoMaRe;
 
+Scene::Scene() : pkNode(NULL){
+}
 
+Scene::~Scene(){
 
+}
 bool Scene::Init(DoMaRe::Import&){
 	return true;
 	// Aca van cosas del importer.
@@ -27,7 +32,7 @@ bool Scene::Frame(DoMaRe::Renderer& r, DoMaRe::DirectInput& directInput,Timer& t
 }
 
 bool Scene::draw(DoMaRe::Renderer& r, DoMaRe::DirectInput& directInput,Timer& timer, Import& Importer){
-	if(m_pkEntidades.empty() && m_pkEntidades3D.empty()) return false;
+	if(m_pkEntidades.empty() && m_pkEntidades3D.empty() && pkNode == NULL) return false;
 
 	std::vector<Entity2D*>::iterator iter;
 	for(iter = m_pkEntidades.begin(); iter != m_pkEntidades.end(); iter++){
@@ -37,7 +42,12 @@ bool Scene::draw(DoMaRe::Renderer& r, DoMaRe::DirectInput& directInput,Timer& ti
 	}
 
 	for(int i=0; i < m_pkEntidades3D.size(); i++){
-		m_pkEntidades3D[i]->Draw(r);
+		m_pkEntidades3D[i]->Draw();
+	}
+
+	if(pkNode != NULL){
+		pkNode->updateTransformation();
+		pkNode->Draw();
 	}
 
 	return true;
@@ -62,7 +72,16 @@ bool Scene::deinit(){
 
 	m_pkEntidades3D.clear();
 
+	if(pkNode != NULL){
+		delete pkNode;
+		pkNode = NULL;
+	}
 
+	return true;
+}
+
+bool Scene::getNode(Node& theNodeDir){
+	theNodeDir = *pkNode;
 	return true;
 }
 

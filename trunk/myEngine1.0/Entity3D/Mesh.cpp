@@ -25,7 +25,7 @@ void Mesh::setData(const MeshVertex* Tex_Vertex, size_t vertexCount, DoMaRe::Pri
 	mk_IndexBuffer->setIndexData(pInt,indexCount);
 }
 
-void Mesh::Draw(Renderer& pkR) const{
+void Mesh::Draw(){
 	mk_VertexBuffer3D->bind();
 	mk_IndexBuffer->bind();
 	pk_Renderer.setCurrentTexture(s_Texture);
@@ -35,4 +35,8 @@ void Mesh::Draw(Renderer& pkR) const{
 
 void Mesh::setTexture(std::string pkTextureFile, DWORD theColor){
 	s_Texture = pk_Renderer.loadTexture(pkTextureFile,theColor);
+}
+
+void Mesh::setTexture(Texture& theTexture){
+	s_Texture = theTexture;
 }

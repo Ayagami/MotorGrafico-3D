@@ -24,6 +24,15 @@ namespace DoMaRe{
 		float u,v;
 	};
 
+	struct MYENGINE_API MeshVertexNode{
+			float x;
+			float y;
+			float z;
+
+			float u;
+			float v;
+	};
+
 	extern const int MeshVertexType;
 
 	typedef IDirect3DTexture9* Texture;
