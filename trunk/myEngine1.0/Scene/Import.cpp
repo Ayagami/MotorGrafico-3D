@@ -269,6 +269,7 @@ bool Import::importNode (const aiNode* pkAiNode, const aiScene* pkAiScene, Node&
 	return true;
 }
 bool Import::importMesh(const aiMesh* pkAiMesh, const aiMaterial* pkAiMaterial, Mesh& orkMesh){
+	/*
 	int nIndices;
 	unsigned short* pIndices;
 
@@ -320,8 +321,9 @@ bool Import::importMesh(const aiMesh* pkAiMesh, const aiMaterial* pkAiMaterial, 
 
 		delete pVertices;	delete pIndices;
 	}
-
-	/*MeshVertex* pakVertices = new MeshVertex[pkAiMesh->mNumVertices];
+	*/
+	
+	MeshVertex* pakVertices = new MeshVertex[pkAiMesh->mNumVertices];
 	for(unsigned int i=0; i<pkAiMesh->mNumVertices; i++){
 		pakVertices[i].x = pkAiMesh->mVertices[i].x;
 		pakVertices[i].y = pkAiMesh->mVertices[i].y;
@@ -345,7 +347,7 @@ bool Import::importMesh(const aiMesh* pkAiMesh, const aiMaterial* pkAiMaterial, 
 		pausIndices[i * 3 + 2] = pkAiMesh->mFaces[i].mIndices[2];
 	}
 	orkMesh.setData(pakVertices, pkAiMesh->mNumVertices, DoMaRe::Primitive::TriangleList, pausIndices, uiIndexCount);
-	*/
+	
 
 	if(pkAiMaterial){
 		// diffuse texture
@@ -363,19 +365,23 @@ bool Import::importMesh(const aiMesh* pkAiMesh, const aiMaterial* pkAiMaterial, 
 		orkMesh.setTexture(TheTexture);
 	}
 	
-	/*delete[] pakVertices;
+	delete[] pakVertices;
 	pakVertices = NULL;
-	*/
+	
 	return true;
 }
 
-void Import::quaternionToEulerAngles (float qX, float qY, float qZ, float qW, float& orfRotX, float& orfRotY, float& orfRotZ){
-	
-	// taken from http://www.euclideanspace.com/maths/geometry/rotations/conversions/quaternionToEuler/
 
+
+
+
+
+
+
+
+void Import::quaternionToEulerAngles (float qX, float qY, float qZ, float qW, float& orfRotX, float& orfRotY, float& orfRotZ){
 	double test = qX * qY + qZ * qW;
-	if(test > 0.499f)
-	{
+	if(test > 0.499f){
 		// singularity at north pole
 		orfRotX = 2.0f * atan2(qX, qW);
 		orfRotY = AI_MATH_PI_F / 2.0f;
@@ -383,8 +389,7 @@ void Import::quaternionToEulerAngles (float qX, float qY, float qZ, float qW, fl
 		return;
 	}
 
-	if (test < -0.499f)
-	{
+	if (test < -0.499f){
 		// singularity at south pole
 		orfRotX = -2.0f * atan2(qX, qW);
 		orfRotY = - AI_MATH_PI_F / 2.0f;

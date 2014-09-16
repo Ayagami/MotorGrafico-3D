@@ -23,7 +23,7 @@ _PreviousPosY(0.0f),
 _PreviousPosZ(0.0f),
 _UseGravity(false),
 _Gravity(1.5f),
-_theSound(NULL),
+//_theSound(NULL),
 _TrMatrix( new D3DXMATRIX() ),
 _TrLocalMatrix (new D3DXMATRIX() ),
 m_pkParent(NULL)
@@ -33,6 +33,9 @@ m_pkParent(NULL)
 Entity3D::~Entity3D(){
 	delete _TrMatrix;
 	_TrMatrix = NULL;
+
+	delete _TrLocalMatrix;
+	_TrLocalMatrix = NULL;
 }
 
 

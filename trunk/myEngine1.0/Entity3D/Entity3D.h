@@ -25,8 +25,8 @@ namespace DoMaRe{
 		void setScale(float fScaleX, float fScaleY, float fScaleZ);
 		void setName(std::string _name);
 
-		irrklang::ISound&	getSound()const{ return *_theSound; }
-		void				setSound(irrklang::ISound& theSound){	_theSound = &theSound; }
+		//irrklang::ISound&	getSound()const{ return *_theSound; }
+		//void				setSound(irrklang::ISound& theSound){	_theSound = &theSound; }
 		std::string getName() const;
 
 
@@ -90,6 +90,6 @@ namespace DoMaRe{
 		Matrix _TrMatrix;
 		Matrix _TrLocalMatrix;
 
-		irrklang::ISound * _theSound;
+	//	irrklang::ISound * _theSound;
 	};
 }

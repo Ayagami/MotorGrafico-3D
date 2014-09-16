@@ -34,16 +34,22 @@ bool Scene1::Init(DoMaRe::Import& Importer){
 	mainCamera = new DoMaRe::Camera();
 	mainCamera->Init(&Importer.GetRenderer());
 	mainCamera->SetPosition(0,30,-10);
+
+	pkNode = new DoMaRe::Node();
+	Importer.importScene("Consola.obj", *pkNode);
+
 	//pkNode = new DoMaRe::Node();
 	//Importer.importScene("onichan.obj", *pkNode );
-
+	/*
 	_theMesh = new DoMaRe::Mesh(Importer.GetRenderer());
-	Importer.importMesh(*_theMesh, "onichan.obj");
+	Importer.importMesh(*_theMesh, "cube.obj");
 	_theMesh->setTexture("SpiderTex.jpg", DoMaRe_COLOR_RGB(255,0,0));
+	_theMesh->setPos(0,30,-10);
+	_theMesh->setScale(1.0,1.0,1.0);
 	//pkNode->addChild(_theMesh);
 	//_theMesh->setParent(pkNode);
 	addEntity(_theMesh);
-
+	*/
 	/*
 	_theMesh = new DoMaRe::Mesh( Importer.GetRenderer() );
 	Importer.importMesh(*_theMesh,"onichan.obj");

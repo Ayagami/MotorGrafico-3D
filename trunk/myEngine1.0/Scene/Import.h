@@ -14,7 +14,7 @@ struct aiMaterial;
 struct aiScene;
 // - Fin Estructuras de Ayuda de Assimp
 
-#pragma comment(lib, "../ext/assimp/lib/assimp.lib") // link with irrKlang.dll
+#pragma comment(lib, "../ext/assimp/lib/assimp.lib") // link with assimp.dll
 namespace DoMaRe{
 	
 	class Scene;
