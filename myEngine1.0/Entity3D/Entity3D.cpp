@@ -104,11 +104,11 @@ void Entity3D::updateLocalTransformation(){
 
  D3DXMatrixIdentity(_TrLocalMatrix);
 
- D3DXMatrixMultiply(_TrLocalMatrix,&translateMatrix,_TrMatrix);
- D3DXMatrixMultiply(_TrLocalMatrix,&rotationMatrixZ,_TrMatrix);
- D3DXMatrixMultiply(_TrLocalMatrix,&rotationMatrixY,_TrMatrix);
- D3DXMatrixMultiply(_TrLocalMatrix,&rotationMatrixX,_TrMatrix);
- D3DXMatrixMultiply(_TrLocalMatrix,&scaleMatrix,_TrMatrix);
+ D3DXMatrixMultiply(_TrLocalMatrix,_TrLocalMatrix,&translateMatrix);
+ D3DXMatrixMultiply(_TrLocalMatrix,_TrLocalMatrix,&rotationMatrixZ);
+ D3DXMatrixMultiply(_TrLocalMatrix,_TrLocalMatrix,&rotationMatrixY);
+ D3DXMatrixMultiply(_TrLocalMatrix,_TrLocalMatrix,&rotationMatrixX);
+ D3DXMatrixMultiply(_TrLocalMatrix,_TrLocalMatrix,&scaleMatrix);
 }
 
 const Matrix& Entity3D::transformationMatrix() const{
