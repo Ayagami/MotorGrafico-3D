@@ -52,7 +52,7 @@ bool Renderer::Init(HWND _HwnD){
 	d3d = Direct3DCreate9(D3D_SDK_VERSION);
 	D3DPRESENT_PARAMETERS d3dpp;
 	ZeroMemory(&d3dpp, sizeof(d3dpp));
-	d3dpp.Windowed = TRUE;
+	d3dpp.Windowed = true;
 	d3dpp.SwapEffect = D3DSWAPEFFECT_DISCARD;
 	d3dpp.hDeviceWindow = _HwnD;
 	d3dpp.EnableAutoDepthStencil = TRUE;
@@ -64,10 +64,10 @@ bool Renderer::Init(HWND _HwnD){
 		//d3d_dev->SetRenderState(D3DRS_CULLMODE,D3DCULL_CW);
 
 		
-		d3d_dev->SetRenderState(D3DRS_ALPHABLENDENABLE,TRUE);
+		/*d3d_dev->SetRenderState(D3DRS_ALPHABLENDENABLE,TRUE);
 		d3d_dev->SetRenderState(D3DRS_BLENDOP,D3DBLENDOP_ADD);
 		d3d_dev->SetRenderState(D3DRS_SRCBLEND,D3DBLEND_SRCALPHA);
-		d3d_dev->SetRenderState(D3DRS_DESTBLEND,D3DBLEND_INVSRCALPHA);
+		d3d_dev->SetRenderState(D3DRS_DESTBLEND,D3DBLEND_INVSRCALPHA);*/
 
 		//d3d_dev->SetRenderState(D3DRS_FILLMODE,D3DFILL_WIREFRAME);
 
@@ -226,8 +226,8 @@ void Renderer::Draw(TexCoordVertex* v, DoMaRe::Primitive p, size_t vC){
 	p_vbT->draw(v,primitiveMap[p], vC);
 }
 
-void Renderer::Draw(DoMaRe::Primitive p, UINT numVertexs){
-	d3d_dev->DrawIndexedPrimitive(primitiveMap[p], 0, 0, p_vb3D->vertexCount(), 0, numVertexs);
+void Renderer::Draw(DoMaRe::Primitive p){
+	d3d_dev->DrawIndexedPrimitive(primitiveMap[p], 0, 0, p_vb3D->vertexCount(), 0, p_ib->indexCount() / 3);
 }
 void Renderer::setCurrentTexture(const Texture& r_Texture){
 	d3d_dev->SetTexture(0,r_Texture);
