@@ -14,7 +14,8 @@ namespace DoMaRe{
 		~Mesh();
 		void setData(const MeshVertex*, size_t vertexCount, DoMaRe::Primitive, const unsigned short*, size_t indexCount);
 		void setTexture(std::string, DWORD theColor);
-		void Draw(Renderer& r) const;
+		void setTexture(Texture& theTexture);
+		void Draw();
 	protected:
 		IndexBuffer* mk_IndexBuffer;
 		Texture s_Texture;

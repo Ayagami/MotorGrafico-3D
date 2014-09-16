@@ -6,7 +6,11 @@
 #include "../Entity2D/Entity2D.h"
 #include "../Renderer/Renderer.h"
 #include "../Sound/Sound.h"
+
 #include "../Entity3D/Mesh.h"
+#include "../Entity3D/Node.h"
+#include "../Entity3D/Entity3D.h"
+
 //----- Assimp
 #include "../../ext/assimp/include/Importer.hpp"
 #include "../../ext/assimp/include/scene.h"
@@ -19,21 +23,6 @@ Import::Import(){
 	//*pk_renderer = *pkRenderer;
 }
 Import::~Import(){
-	
-	// Destruyo MAP de Meshes.
-	for( std::map<std::string, MeshVertex*>::iterator it = m_pkMeshesVertexMap.begin(); it != m_pkMeshesVertexMap.end(); ){ // Vertex
-		MeshVertex* pkMesh = it->second;
-		m_pkMeshesVertexMap.erase(it++);
-		delete pkMesh;
-		pkMesh = NULL;
-	}
-
-	for( std::map<std::string, unsigned short*>::iterator it = m_pkMeshesIndexMap.begin(); it != m_pkMeshesIndexMap.end(); ){ // Index
-		unsigned short* pkMesh = it->second;
-		m_pkMeshesIndexMap.erase(it++);
-		delete pkMesh;
-		pkMesh = NULL;
-	}
 	// Fin MAP de Meshes
 }
 bool Import::Init(Renderer* pkRenderer, Sound* pkSound){
@@ -177,18 +166,11 @@ void Import::importAnimation(std::vector<Animation> ** list_animations,tinyxml2:
 	}
 }
 void Import::importMesh(Mesh& theMesh, std::string FileName){
-
-	if(m_pkMeshesVertexMap[FileName] != NULL){
-		theMesh.setData(m_pkMeshesVertexMap[FileName],m_pkMeshesNVertexMap[FileName],DoMaRe::Primitive::TriangleList,m_pkMeshesIndexMap[FileName],m_pkMeshesNIndexMap[FileName]);
-		return;
-	}
-
 	Assimp::Importer importer;
 	const aiScene* scene = importer.ReadFile( FileName, aiProcess_CalcTangentSpace | aiProcess_Triangulate | aiProcess_JoinIdenticalVertices | aiProcess_SortByPType);
 	if(!scene) return;
 	int nIndices;
 	unsigned short *pIndices;
-	
 	if(scene->mMeshes[0]){
 		aiMesh * pAIMesh = scene->mMeshes[0];
 		if(pAIMesh->HasFaces()){ // Genero Faces.
@@ -233,13 +215,192 @@ void Import::importMesh(Mesh& theMesh, std::string FileName){
 				}
 			}
 			
-			m_pkMeshesVertexMap[FileName] = pVertices;
-			m_pkMeshesNVertexMap[FileName] = nVertices;
-			m_pkMeshesIndexMap[FileName] = pIndices;
-			m_pkMeshesNIndexMap[FileName] = nIndices;
-
 			theMesh.setData(pVertices,nVertices,DoMaRe::Primitive::TriangleList,pIndices,nIndices);
+			delete pVertices;
+			delete pIndices;
 		}
 	}
 	return;
+}
+
+bool Import::importScene (const std::string& rkFilename, Node& orkSceneRoot){
+
+	Assimp::Importer kImporter;
+	const aiScene* pkAiScene = kImporter.ReadFile(rkFilename, aiProcess_Triangulate | aiProcess_SortByPType);
+	importNode(pkAiScene->mRootNode, pkAiScene, orkSceneRoot);
+	
+	return true;
+}
+bool Import::importNode (const aiNode* pkAiNode, const aiScene* pkAiScene, Node& orkNode){
+	// import transformation
+	aiVector3t<float> v3AiScaling;
+	aiQuaterniont<float> qAiRotation;
+	aiVector3t<float> v3AiPosition;
+
+	pkAiNode->mTransformation.Decompose(v3AiScaling, qAiRotation, v3AiPosition);
+
+	orkNode.setPos(v3AiPosition.x, v3AiPosition.y, v3AiPosition.z); // Seteo POS
+	orkNode.setScale(v3AiScaling.x, v3AiScaling.y, v3AiScaling.z); // Seteo Scale
+	float fRotX, fRotY, fRotZ;
+	quaternionToEulerAngles(qAiRotation.x, qAiRotation.y, qAiRotation.z, qAiRotation.w, fRotX, fRotY, fRotZ); // Uso QuaternionToEuler :)
+	
+	orkNode.setRotation(fRotX, fRotY, fRotZ); // Seteo Rotation
+
+	// Importo Child Nodes
+
+	for(unsigned int i=0; i<pkAiNode->mNumChildren; i++){
+		Node* pkNode = new Node();
+		orkNode.addChild(pkNode);
+		importNode(pkAiNode->mChildren[i], pkAiScene, *pkNode);
+	}
+
+	// Importo Child Meshes
+
+	for(unsigned int i=0; i<pkAiNode->mNumMeshes; i++){
+		Mesh* pkMesh = new Mesh(this->GetRenderer());
+		orkNode.addChild(pkMesh);
+
+		aiMesh* pkAiMesh = pkAiScene->mMeshes[ pkAiNode->mMeshes[i] ];
+		aiMaterial* pkAiMaterial = pkAiScene->mMaterials[pkAiMesh->mMaterialIndex];
+		importMesh(pkAiMesh, pkAiMaterial, *pkMesh);
+
+	}
+
+	return true;
+}
+bool Import::importMesh(const aiMesh* pkAiMesh, const aiMaterial* pkAiMaterial, Mesh& orkMesh){
+	int nIndices;
+	unsigned short* pIndices;
+
+	// GENERO FACES
+	if(pkAiMesh->HasFaces()){
+		aiFace* pAIFaces;
+		pAIFaces = pkAiMesh->mFaces;
+		nIndices = pkAiMesh->mNumFaces *3;
+		pIndices = new unsigned short[nIndices];
+		for(DWORD i=0; i < pkAiMesh->mNumFaces; i++){
+			if(pAIFaces[i].mNumIndices != 3){
+				delete[] pIndices;
+				return false;
+			}
+			for(DWORD j=0; j < 3; j ++){
+					pIndices[i * 3 + j ] = pAIFaces[i].mIndices[j];
+			}
+		}
+	} // Termina Faces
+
+	if(pkAiMesh->HasPositions()){
+		int nVertices;
+		MeshVertex* pVertices;
+		nVertices = pkAiMesh->mNumVertices;
+		pVertices = new MeshVertex[nVertices];
+
+		for(DWORD i=0; i < nVertices; i++){
+				pVertices[i].x = pkAiMesh->mVertices[i].x;
+				pVertices[i].y = pkAiMesh->mVertices[i].y;
+				pVertices[i].z = pkAiMesh->mVertices[i].z;
+		}
+
+		if(pkAiMesh->HasNormals()){
+				for(DWORD i=0; i < nVertices; i++){
+					pVertices[i].nx = pkAiMesh->mNormals[i].x;
+					pVertices[i].ny = pkAiMesh->mNormals[i].y;
+					pVertices[i].nz = pkAiMesh->mNormals[i].z;
+				}
+		}
+
+		if(pkAiMesh->HasTextureCoords(0)){
+				for(DWORD i=0; i < nVertices; i++){
+					pVertices[i].u = pkAiMesh->mTextureCoords[0][i].x;
+					pVertices[i].v = pkAiMesh->mTextureCoords[0][i].y;
+				}
+		}
+
+		orkMesh.setData(pVertices,nVertices,DoMaRe::Primitive::TriangleList,pIndices,nIndices);
+
+		delete pVertices;	delete pIndices;
+	}
+
+	/*MeshVertex* pakVertices = new MeshVertex[pkAiMesh->mNumVertices];
+	for(unsigned int i=0; i<pkAiMesh->mNumVertices; i++){
+		pakVertices[i].x = pkAiMesh->mVertices[i].x;
+		pakVertices[i].y = pkAiMesh->mVertices[i].y;
+		pakVertices[i].z = pkAiMesh->mVertices[i].z;
+		if( pkAiMesh->mTextureCoords[0] != NULL ) {
+			pakVertices[i].u = pkAiMesh->mTextureCoords[0][i].x;
+			pakVertices[i].v = pkAiMesh->mTextureCoords[0][i].y;
+		}
+		if(pkAiMesh->HasNormals()){
+			pakVertices[i].nx = pkAiMesh->mNormals[i].x;
+			pakVertices[i].ny = pkAiMesh->mNormals[i].y;
+			pakVertices[i].nz = pkAiMesh->mNormals[i].z;
+		}
+	}
+	size_t uiIndexCount = pkAiMesh->mNumFaces * 3;
+	unsigned short* pausIndices = new unsigned short[uiIndexCount];
+	for(unsigned int i=0; i<pkAiMesh->mNumFaces; i++){
+		assert(pkAiMesh->mFaces[i].mNumIndices == 3);
+		pausIndices[i * 3 + 0] = pkAiMesh->mFaces[i].mIndices[0];
+		pausIndices[i * 3 + 1] = pkAiMesh->mFaces[i].mIndices[1];
+		pausIndices[i * 3 + 2] = pkAiMesh->mFaces[i].mIndices[2];
+	}
+	orkMesh.setData(pakVertices, pkAiMesh->mNumVertices, DoMaRe::Primitive::TriangleList, pausIndices, uiIndexCount);
+	*/
+
+	if(pkAiMaterial){
+		// diffuse texture
+		aiString kAiTexturePath;
+		pkAiMaterial->GetTexture(aiTextureType_DIFFUSE, 0, &kAiTexturePath);
+
+		std::string kTexturePath( kAiTexturePath.C_Str() );
+
+		// append '.' if texture is inside folder
+		if( !kTexturePath.empty() && kTexturePath.at(0) == '/' )
+		{
+			kTexturePath = "." + kTexturePath;
+		}
+		Texture TheTexture = pk_renderer->loadTexture(kTexturePath);
+		orkMesh.setTexture(TheTexture);
+	}
+	
+	/*delete[] pakVertices;
+	pakVertices = NULL;
+	*/
+	return true;
+}
+
+void Import::quaternionToEulerAngles (float qX, float qY, float qZ, float qW, float& orfRotX, float& orfRotY, float& orfRotZ){
+	
+	// taken from http://www.euclideanspace.com/maths/geometry/rotations/conversions/quaternionToEuler/
+
+	double test = qX * qY + qZ * qW;
+	if(test > 0.499f)
+	{
+		// singularity at north pole
+		orfRotX = 2.0f * atan2(qX, qW);
+		orfRotY = AI_MATH_PI_F / 2.0f;
+		orfRotZ = 0.0f;
+		return;
+	}
+
+	if (test < -0.499f)
+	{
+		// singularity at south pole
+		orfRotX = -2.0f * atan2(qX, qW);
+		orfRotY = - AI_MATH_PI_F / 2.0f;
+		orfRotZ = 0.0f;
+		return;
+	}
+
+    float sqx = qX * qX;
+    float sqy = qY * qY;
+    float sqz = qZ * qZ;
+    
+	orfRotX = atan2(2.0f * qY * qW - 2.0f * qX * qZ, 
+					1.0f - 2.0f * sqy - 2.0f * sqz);
+	
+	orfRotY = static_cast<float>( asin(2.0f * test) );
+
+	orfRotZ = atan2(2.0f * qX * qW - 2.0f * qY * qZ, 
+					1.0f - 2.0f * sqx - 2.0f * sqz);
 }

@@ -8,10 +8,15 @@
 namespace DoMaRe{
 	class Renderer;
 	class Timer;
+	class Node;
 	class MYENGINE_API Entity3D{
+
+		friend class Node;
+
 	public:
 		Entity3D();
 		virtual ~Entity3D();
+
 	public:
 
 		void setPos(float fPosX, float fPosY);
@@ -23,7 +28,10 @@ namespace DoMaRe{
 		irrklang::ISound&	getSound()const{ return *_theSound; }
 		void				setSound(irrklang::ISound& theSound){	_theSound = &theSound; }
 		std::string getName() const;
-		virtual void Draw(Renderer& r) const = 0;
+
+
+		virtual void Draw() = 0;
+
 		void UseGravity(bool _T);
 		void SetGravity(float _G);
 		
@@ -57,10 +65,16 @@ namespace DoMaRe{
 		//void drawAABB (Renderer& rkRenderer) const;
 
 		void UpdateGravityPos();
+		
+		virtual void updateTransformation();
+
 		void updateLocalTransformation();
 		void returnToPos(float fPosX, float fPosY, float fPosZ);
-		const Matrix transformationMatrix();
+		const Matrix& transformationMatrix() const;
+
+		void setParent (Node* pkParent);
 	private:
+
 		float _PosX, _PosY, _PosZ;
 		float _RotX, _RotY, _RotZ;
 		float _ScaleX,_ScaleY, _ScaleZ;
@@ -68,8 +82,14 @@ namespace DoMaRe{
 		float _Gravity;
 		bool _UseGravity;
 		std::string _Name;
+
+		Node* m_pkParent;
+
 	protected:
+
 		Matrix _TrMatrix;
+		Matrix _TrLocalMatrix;
+
 		irrklang::ISound * _theSound;
 	};
 }

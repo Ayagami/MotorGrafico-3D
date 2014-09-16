@@ -85,6 +85,7 @@
     <ClInclude Include="Entity2D\Sprite.h" />
     <ClInclude Include="Entity3D\Entity3D.h" />
     <ClInclude Include="Entity3D\Mesh.h" />
+    <ClInclude Include="Entity3D\Node.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="input\pg1_directinput.h" />
     <ClInclude Include="input\pg1_input.h" />
@@ -111,6 +112,7 @@
     <ClCompile Include="Entity2D\Sprite.cpp" />
     <ClCompile Include="Entity3D\Entity3D.cpp" />
     <ClCompile Include="Entity3D\Mesh.cpp" />
+    <ClCompile Include="Entity3D\Node.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="input\pg1_directinput.cpp" />
     <ClCompile Include="input\pg1_input.cpp" />

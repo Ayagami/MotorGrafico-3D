@@ -38,6 +38,7 @@ class MYENGINE_API Renderer{
 		void Draw(DoMaRe::Primitive, UINT);
 		void Clear();
 		const Texture loadTexture (const std::string& Fname, int KeyCode);
+		const Texture loadTexture (const std::string& Fname);
 		void setCurrentTexture (const Texture& r_Texture);
 		VertexBuffer3D* createVB(size_t vSize, unsigned int FVF);
 		IndexBuffer* createIB();

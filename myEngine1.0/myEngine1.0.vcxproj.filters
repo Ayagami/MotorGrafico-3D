@@ -153,6 +153,9 @@
     <ClInclude Include="Sound\Sound.h">
       <Filter>Archivos de encabezado\include\Sound</Filter>
     </ClInclude>
+    <ClInclude Include="Entity3D\Node.h">
+      <Filter>Archivos de encabezado\include\Entity3D</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine.cpp">
@@ -220,6 +223,9 @@
     </ClCompile>
     <ClCompile Include="Sound\Sound.cpp">
       <Filter>Archivos de código fuente\src\Sound</Filter>
+    </ClCompile>
+    <ClCompile Include="Entity3D\Node.cpp">
+      <Filter>Archivos de código fuente\src\Entity3D</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

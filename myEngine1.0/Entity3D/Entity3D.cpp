@@ -4,6 +4,7 @@
 #include <iostream>
 #include "Entity3D.h"
 #include "..\Renderer\Renderer.h"
+#include "Node.h"
 #include <string>
 #include <d3dx9.h>
 using namespace DoMaRe;
@@ -17,12 +18,17 @@ _RotZ(0.0f),
 _ScaleX(1.0f),
 _ScaleY(1.0f),
 _ScaleZ(1.0f),
+_PreviousPosX(0.0f),
+_PreviousPosY(0.0f),
+_PreviousPosZ(0.0f),
 _UseGravity(false),
 _Gravity(1.5f),
 _theSound(NULL),
-_TrMatrix( new D3DXMATRIX() )
+_TrMatrix( new D3DXMATRIX() ),
+_TrLocalMatrix (new D3DXMATRIX() ),
+m_pkParent(NULL)
 {
-
+	updateLocalTransformation();
 }
 Entity3D::~Entity3D(){
 	delete _TrMatrix;
@@ -96,18 +102,17 @@ void Entity3D::updateLocalTransformation(){
  D3DXMATRIX scaleMatrix;
  D3DXMatrixScaling(&scaleMatrix, _ScaleX, _ScaleY, _ScaleZ);
 
- D3DXMatrixIdentity(_TrMatrix);
- D3DXMatrixMultiply(_TrMatrix,&translateMatrix,_TrMatrix);
+ D3DXMatrixIdentity(_TrLocalMatrix);
 
- D3DXMatrixMultiply(_TrMatrix,&rotationMatrixZ,_TrMatrix);
- D3DXMatrixMultiply(_TrMatrix,&rotationMatrixY,_TrMatrix);
- D3DXMatrixMultiply(_TrMatrix,&rotationMatrixX,_TrMatrix);
-
- D3DXMatrixMultiply(_TrMatrix,&scaleMatrix,_TrMatrix);
+ D3DXMatrixMultiply(_TrLocalMatrix,&translateMatrix,_TrMatrix);
+ D3DXMatrixMultiply(_TrLocalMatrix,&rotationMatrixZ,_TrMatrix);
+ D3DXMatrixMultiply(_TrLocalMatrix,&rotationMatrixY,_TrMatrix);
+ D3DXMatrixMultiply(_TrLocalMatrix,&rotationMatrixX,_TrMatrix);
+ D3DXMatrixMultiply(_TrLocalMatrix,&scaleMatrix,_TrMatrix);
 }
 
-const Matrix Entity3D::transformationMatrix(){
-	return (_TrMatrix);
+const Matrix& Entity3D::transformationMatrix() const{
+	return _TrMatrix;
 }
 
 float Entity3D::posX() const{
@@ -206,4 +211,17 @@ void Entity3D::UpdateGravityPos(){
 		setPos(posX(), posY() - getGravity());
 		updateLocalTransformation();
 	}
+}
+
+void Entity3D::updateTransformation(){
+	if(m_pkParent){
+		D3DXMatrixIdentity(_TrMatrix);
+		D3DXMatrixMultiply(_TrMatrix, m_pkParent->_TrMatrix, _TrLocalMatrix);
+	}else{
+		(*_TrMatrix) = (*_TrLocalMatrix);
+	}
+}
+
+void Entity3D::setParent (Node* pkParent){
+	m_pkParent = pkParent;
 }

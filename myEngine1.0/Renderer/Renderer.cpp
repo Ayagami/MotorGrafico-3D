@@ -197,6 +197,25 @@ const Texture Renderer::loadTexture(const std::string& Fname, int KeyCode){
 	}
 }
 
+const Texture Renderer::loadTexture(const std::string& Fname){
+	IDirect3DTexture9* p_Texture = NULL;
+	HRESULT HR = D3DXCreateTextureFromFileEx(d3d_dev,
+											Fname.c_str(),
+											0,0,0,0,
+											D3DFMT_UNKNOWN, D3DPOOL_MANAGED,
+											D3DX_FILTER_NONE, D3DX_FILTER_NONE,
+											0,
+											NULL,
+											NULL,
+											&p_Texture);
+	if(HR != D3D_OK){
+		return NoTexture;
+	}
+	else{
+		r_vTextures.push_back(p_Texture);
+		return p_Texture;
+	}
+}
 void Renderer::Draw(ColorVertex* v, DoMaRe::Primitive p, size_t vC){
 	p_vb->bind();
 	p_vb->draw(v,primitiveMap[p], vC);
