@@ -35,7 +35,7 @@ class MYENGINE_API Renderer{
 		bool getWireFrameMode(){ return wireFrameMode; }
 		void Draw(ColorVertex*, DoMaRe::Primitive, size_t);
 		void Draw(TexCoordVertex*, DoMaRe::Primitive, size_t);
-		void Draw(DoMaRe::Primitive, UINT);
+		void Draw(DoMaRe::Primitive);
 		void Clear();
 		const Texture loadTexture (const std::string& Fname, int KeyCode);
 		const Texture loadTexture (const std::string& Fname);
