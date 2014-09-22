@@ -36,6 +36,7 @@ bool Scene1::Init(DoMaRe::Import& Importer){
 	mainCamera->SetPosition(0,30,-10);
 
 	pkNode = new DoMaRe::Node();
+	
 	Importer.importScene("Consola.obj", *pkNode);
 
 	//pkNode = new DoMaRe::Node();
@@ -122,6 +123,18 @@ bool Scene1::Frame(DoMaRe::Renderer& renderer, DoMaRe::DirectInput& dInput, DoMa
 
 	if(dInput.keyDown(DoMaRe::Input::KEY_E)){
 		mainCamera->MoveUp(mSpeed);
+	}
+
+	if(dInput.keyDown(DoMaRe::Input::KEY_L)){
+		pkNode->childs()[0]->setPos(pkNode->childs()[0]->posX() + mSpeed, pkNode->childs()[0]->posY(), pkNode->childs()[0]->posZ());
+	}
+
+	if(dInput.keyDown(DoMaRe::Input::KEY_K)){
+		pkNode->childs()[0]->setPos(pkNode->childs()[0]->posX() -mSpeed, pkNode->childs()[0]->posY(), pkNode->childs()[0]->posZ());
+	}
+
+	if(dInput.keyDown(DoMaRe::Input::KEY_N)){
+		pkNode->setPos(pkNode->posX() + mSpeed, pkNode->posY(), pkNode->posZ());
 	}
 
 	return true;
