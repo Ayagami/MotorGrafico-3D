@@ -28,6 +28,7 @@ _TrMatrix( new D3DXMATRIX() ),
 _TrLocalMatrix (new D3DXMATRIX() ),
 m_pkParent(NULL)
 {
+	D3DXMatrixIdentity(_TrMatrix);
 	updateLocalTransformation();
 }
 Entity3D::~Entity3D(){

@@ -29,7 +29,7 @@ void Mesh::Draw(){
 	mk_VertexBuffer3D->bind();
 	mk_IndexBuffer->bind();
 	pk_Renderer.setCurrentTexture(s_Texture);
-	pk_Renderer.setMatrix(World, _TrLocalMatrix );
+	pk_Renderer.setMatrix(World, _TrMatrix );
 	pk_Renderer.Draw(pkPrimitive);
 }
 

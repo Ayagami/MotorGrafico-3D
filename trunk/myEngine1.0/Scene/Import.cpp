@@ -251,6 +251,9 @@ bool Import::importNode (const aiNode* pkAiNode, const aiScene* pkAiScene, Node&
 	for(unsigned int i=0; i<pkAiNode->mNumChildren; i++){
 		Node* pkNode = new Node();
 		orkNode.addChild(pkNode);
+
+		pkNode->setParent(&orkNode);
+
 		importNode(pkAiNode->mChildren[i], pkAiScene, *pkNode);
 	}
 
@@ -259,6 +262,8 @@ bool Import::importNode (const aiNode* pkAiNode, const aiScene* pkAiScene, Node&
 	for(unsigned int i=0; i<pkAiNode->mNumMeshes; i++){
 		Mesh* pkMesh = new Mesh(this->GetRenderer());
 		orkNode.addChild(pkMesh);
+
+		pkMesh->setParent(&orkNode);
 
 		aiMesh* pkAiMesh = pkAiScene->mMeshes[ pkAiNode->mMeshes[i] ];
 		aiMaterial* pkAiMaterial = pkAiScene->mMaterials[pkAiMesh->mMaterialIndex];
