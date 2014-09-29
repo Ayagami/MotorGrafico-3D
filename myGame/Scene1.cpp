@@ -38,7 +38,6 @@ bool Scene1::Init(DoMaRe::Import& Importer){
 	pkNode = new DoMaRe::Node();
 	
 	Importer.importScene("Consola.obj", *pkNode);
-
 	//pkNode = new DoMaRe::Node();
 	//Importer.importScene("onichan.obj", *pkNode );
 	/*

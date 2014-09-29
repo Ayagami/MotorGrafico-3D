@@ -90,6 +90,7 @@
     <ClInclude Include="input\pg1_directinput.h" />
     <ClInclude Include="input\pg1_input.h" />
     <ClInclude Include="myEngine_API.h" />
+    <ClInclude Include="Renderer\AABB.h" />
     <ClInclude Include="Renderer\EMath.h" />
     <ClInclude Include="Renderer\Renderer.h" />
     <ClInclude Include="Renderer\RenderTypes.h" />
@@ -116,6 +117,7 @@
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="input\pg1_directinput.cpp" />
     <ClCompile Include="input\pg1_input.cpp" />
+    <ClCompile Include="Renderer\AABB.cpp" />
     <ClCompile Include="Renderer\Renderer.cpp" />
     <ClCompile Include="Renderer\RenderTypes.cpp" />
     <ClCompile Include="Renderer\Window.cpp" />

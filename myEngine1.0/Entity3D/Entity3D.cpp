@@ -229,3 +229,6 @@ void Entity3D::updateTransformation(){
 void Entity3D::setParent (Node* pkParent){
 	m_pkParent = pkParent;
 }
+
+const AABB&	Entity3D::aabb() const{	return m_kAABB; }
+AABB&		Entity3D::aabb()	  {	return m_kAABB;	}
