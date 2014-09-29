@@ -2,6 +2,7 @@
 #include <iostream>
 #include <string>
 #include "../Renderer/EMath.h"
+#include "../Renderer/AABB.h"
 #include "../Renderer/RenderTypes.h"
 #include "../../ext/irrKlang/include/irrKlang.h"
 
@@ -9,6 +10,7 @@ namespace DoMaRe{
 	class Renderer;
 	class Timer;
 	class Node;
+	class AABB;
 	class MYENGINE_API Entity3D{
 
 		friend class Node;
@@ -73,7 +75,13 @@ namespace DoMaRe{
 		const Matrix& transformationMatrix() const;
 
 		void setParent (Node* pkParent);
+
+		const AABB& aabb() const;
+		AABB& aabb();
 	private:
+
+		AABB m_kAABB;
+
 
 		float _PosX, _PosY, _PosZ;
 		float _RotX, _RotY, _RotZ;
