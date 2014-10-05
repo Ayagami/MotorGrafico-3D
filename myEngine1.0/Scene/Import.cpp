@@ -170,7 +170,6 @@ void Import::importAnimation(std::vector<Animation> ** list_animations,tinyxml2:
 		animations = animations->NextSiblingElement("ANIMATION");
 	}
 }
-
 void Import::importMesh(Mesh& theMesh, std::string FileName){
 	Assimp::Importer importer;
 	const aiScene* scene = importer.ReadFile( FileName, aiProcess_CalcTangentSpace | aiProcess_Triangulate | aiProcess_JoinIdenticalVertices | aiProcess_SortByPType);
@@ -381,7 +380,7 @@ bool Import::importMesh(const aiMesh* pkAiMesh, const aiMaterial* pkAiMaterial, 
 		pausIndices[i * 3 + 2] = pkAiMesh->mFaces[i].mIndices[2];
 	}
 	orkMesh.setData(pakVertices, pkAiMesh->mNumVertices, DoMaRe::Primitive::TriangleList, pausIndices, uiIndexCount);
-	
+	orkMesh.setName(pkAiMesh->mName.C_Str());
 
 	if(pkAiMaterial){
 		// diffuse texture
@@ -409,15 +408,6 @@ bool Import::importMesh(const aiMesh* pkAiMesh, const aiMaterial* pkAiMaterial, 
 	
 	return true;
 }
-
-
-
-
-
-
-
-
-
 void Import::quaternionToEulerAngles (float qX, float qY, float qZ, float qW, float& orfRotX, float& orfRotY, float& orfRotZ){
 	double test = qX * qY + qZ * qW;
 	if(test > 0.499f){

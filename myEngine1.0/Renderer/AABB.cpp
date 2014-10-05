@@ -1,4 +1,6 @@
 #include "AABB.h"
+
+
 #include <d3dx9.h>
 using namespace DoMaRe;
 AABB::AABB()	:	m_pkOffset( new D3DXVECTOR3() ){
@@ -6,6 +8,7 @@ AABB::AABB()	:	m_pkOffset( new D3DXVECTOR3() ){
 		m_pkCorners[i]	= new D3DXVECTOR3();
 	}
 }
+
 AABB::~AABB(){
 	for(int i=0; i < 8; i++){
 		delete m_pkCorners[i];
