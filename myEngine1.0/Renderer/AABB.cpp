@@ -22,13 +22,13 @@ void AABB::setData(float fWidth, float fHeight, float fDepth, float fOffsetX, fl
 	m_pkOffset->z = fOffsetZ;
 
 	m_pkCorners[0]->x = +fWidth;	m_pkCorners[0]->y = +fHeight;	m_pkCorners[0]->z = +fDepth;
-	m_pkCorners[0]->x = +fWidth;	m_pkCorners[0]->y = +fHeight;	m_pkCorners[0]->z = -fDepth;
-	m_pkCorners[0]->x = +fWidth;	m_pkCorners[0]->y = -fHeight;	m_pkCorners[0]->z = +fDepth;
-	m_pkCorners[0]->x = +fWidth;	m_pkCorners[0]->y = -fHeight;	m_pkCorners[0]->z = -fDepth;
-	m_pkCorners[0]->x = -fWidth;	m_pkCorners[0]->y = +fHeight;	m_pkCorners[0]->z = +fDepth;
-	m_pkCorners[0]->x = -fWidth;	m_pkCorners[0]->y = +fHeight;	m_pkCorners[0]->z = -fDepth;
-	m_pkCorners[0]->x = -fWidth;	m_pkCorners[0]->y = -fHeight;	m_pkCorners[0]->z = +fDepth;
-	m_pkCorners[0]->x = -fWidth;	m_pkCorners[0]->y = -fHeight;	m_pkCorners[0]->z = -fDepth;
+	m_pkCorners[1]->x = +fWidth;	m_pkCorners[1]->y = +fHeight;	m_pkCorners[1]->z = -fDepth;
+	m_pkCorners[2]->x = +fWidth;	m_pkCorners[2]->y = -fHeight;	m_pkCorners[2]->z = +fDepth;
+	m_pkCorners[3]->x = +fWidth;	m_pkCorners[3]->y = -fHeight;	m_pkCorners[3]->z = -fDepth;
+	m_pkCorners[4]->x = -fWidth;	m_pkCorners[4]->y = +fHeight;	m_pkCorners[4]->z = +fDepth;
+	m_pkCorners[5]->x = -fWidth;	m_pkCorners[5]->y = +fHeight;	m_pkCorners[5]->z = -fDepth;
+	m_pkCorners[6]->x = -fWidth;	m_pkCorners[6]->y = -fHeight;	m_pkCorners[6]->z = +fDepth;
+	m_pkCorners[7]->x = -fWidth;	m_pkCorners[7]->y = -fHeight;	m_pkCorners[7]->z = -fDepth;
 
 	m_fWidth = fWidth;
 	m_fHeight = fHeight;

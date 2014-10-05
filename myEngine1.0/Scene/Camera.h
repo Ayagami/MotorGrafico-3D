@@ -1,10 +1,14 @@
 ﻿#pragma once
+
 #include "..\myEngine_API.h"
+#include "../Renderer/EMath.h"
+
 #include <d3d9.h>
 #include <d3dx9.h>
 #include <Windows.h>
 namespace DoMaRe{
 	class Renderer;
+	class AABB;
 	class MYENGINE_API Camera{
 public:
         Camera();
@@ -20,8 +24,12 @@ protected:
         float m_RotateAroundUp;
         float m_RotateAroundRight;
         float m_RotateAroundLookAt;
-        D3DXMATRIX m_MatView;
+        
+		D3DXMATRIX m_MatView; // View Matrix from Camera.
+		Plane	m_FrustumPlane[6];
+
 public:
+		static enum {OUTSIDE, INTERSECT, INSIDE};
         void SetPosition(float fX, float fY, float fZ);
 		D3DXVECTOR3	GetPosition() { return m_Position; }
         void MoveForward(float Dist);
@@ -31,9 +39,12 @@ public:
         void RotateDown(float Angle);
         void RotateRight(float Angle);
         void Roll(float Angle);
+
+		int AABBinFrustum(AABB& b);
+
 protected:
         void Update();
-
+		void BuildFrustum();
 		friend class Engine;
 	};
 }
