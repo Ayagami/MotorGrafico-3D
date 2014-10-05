@@ -48,10 +48,17 @@ bool Scene::draw(DoMaRe::Renderer& r, DoMaRe::DirectInput& directInput,Timer& ti
 	if(pkNode != NULL){
 		pkNode->updateTransformation();
 
-		int r = mainCamera->AABBinFrustum(pkNode->aabb());
+		//int r = mainCamera->AABBinFrustum(pkNode->aabb());
 
-		if( r == Camera::OUTSIDE ) 
-			int q = 1;
+		/*
+		if( r == Camera::OUTSIDE )
+			OutputDebugString("OUTSIDE");
+		else if(r == Camera::INTERSECT)
+			OutputDebugString("INTERSECT");
+		else if(r == Camera::INSIDE)
+			OutputDebugString("INSIDE");
+		*/
+
 		pkNode->Draw();
 	}
 

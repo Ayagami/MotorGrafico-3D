@@ -7,7 +7,7 @@ namespace DoMaRe{
 	typedef D3DXMATRIX* Matrix;
 	typedef D3DXVECTOR3* Vector3;
 	typedef D3DXPLANE* Plane;
-	
+
 	class AABB{
 	public:
 		AABB();

@@ -98,6 +98,7 @@ void Entity3D::UseGravity(bool _T){
 }
 
 void Entity3D::updateLocalTransformation(){
+
  D3DXMATRIX translateMatrix;
  D3DXMatrixTranslation(&translateMatrix, _PosX, _PosY, _PosZ);
 
@@ -117,6 +118,7 @@ void Entity3D::updateLocalTransformation(){
  D3DXMatrixMultiply(_TrLocalMatrix,_TrLocalMatrix,&rotationMatrixY);
  D3DXMatrixMultiply(_TrLocalMatrix,_TrLocalMatrix,&rotationMatrixX);
  D3DXMatrixMultiply(_TrLocalMatrix,_TrLocalMatrix,&scaleMatrix);
+
 }
 
 const Matrix& Entity3D::transformationMatrix() const{

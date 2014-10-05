@@ -38,6 +38,7 @@ namespace DoMaRe{
 			bool addEntity(Entity2D*);
 			bool addEntity(Entity3D*);
 			Camera* mainCamera;
+
 			Node* pkNode;
 		private:
 			std::vector<Entity2D*> m_pkEntidades;

@@ -58,12 +58,16 @@ bool Renderer::Init(HWND _HwnD){
 	d3d = Direct3DCreate9(D3D_SDK_VERSION);
 	D3DPRESENT_PARAMETERS d3dpp;
 	ZeroMemory(&d3dpp, sizeof(d3dpp));
+
 	d3dpp.Windowed = true;
 	d3dpp.SwapEffect = D3DSWAPEFFECT_DISCARD;
 	d3dpp.hDeviceWindow = _HwnD;
 	d3dpp.EnableAutoDepthStencil = TRUE;
 	d3dpp.AutoDepthStencilFormat = D3DFMT_D16;
-	if(d3d->CreateDevice( D3DADAPTER_DEFAULT, D3DDEVTYPE_HAL, _HwnD, D3DCREATE_SOFTWARE_VERTEXPROCESSING, &d3dpp, &d3d_dev) == D3D_OK){
+	d3dpp.FullScreen_RefreshRateInHz = D3DPRESENT_RATE_DEFAULT;
+	//d3dpp.PresentationInterval = D3DPRESENT_INTERVAL_IMMEDIATE;  // HAGAMOS 800 FRAMES, PORQUE PODEMOS.
+
+	if(d3d->CreateDevice( D3DADAPTER_DEFAULT, D3DDEVTYPE_HAL, _HwnD, D3DCREATE_HARDWARE_VERTEXPROCESSING, &d3dpp, &d3d_dev) == D3D_OK){
 		d3d_dev->SetRenderState(D3DRS_LIGHTING,FALSE);
 		d3d_dev->SetRenderState(D3DRS_ZENABLE, TRUE);
 

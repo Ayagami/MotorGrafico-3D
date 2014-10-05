@@ -124,13 +124,13 @@ void Camera::Update()
                                                         m_Right.y, m_Up.y, m_LookAt.y, 0.0f,
                                                         m_Right.z, m_Up.z, m_LookAt.z, 0.0f,
                                                         fView41, fView42, fView43, 1.0f);
+				BuildFrustum();
         }
         //Set view transform
         m_pkRenderer->loadIdentity();
         m_pkRenderer->setTransformMatrix(&m_MatView);
         //Reset update members
         m_RotateAroundRight = m_RotateAroundUp = m_RotateAroundLookAt = 0.0f;
-		BuildFrustum();
         m_bChanged = false;
 }
 
@@ -200,6 +200,7 @@ int Camera::AABBinFrustum(AABB& b){
 
 		if(d_p_r < -frustumPlane->d){
 			result = OUTSIDE;
+			break;
 		}else if(d_m_r < -frustumPlane->d)
 			result = INTERSECT;
 	}
