@@ -47,6 +47,11 @@ bool Scene::draw(DoMaRe::Renderer& r, DoMaRe::DirectInput& directInput,Timer& ti
 
 	if(pkNode != NULL){
 		pkNode->updateTransformation();
+
+		int r = mainCamera->AABBinFrustum(pkNode->aabb());
+
+		if( r == Camera::OUTSIDE ) 
+			int q = 1;
 		pkNode->Draw();
 	}
 

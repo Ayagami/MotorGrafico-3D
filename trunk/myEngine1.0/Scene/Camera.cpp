@@ -1,5 +1,7 @@
 ﻿#include "Camera.h"
 #include "../Renderer/Renderer.h"
+#include "../Renderer/AABB.h"
+
 using namespace DoMaRe;
 
 Camera::Camera()
@@ -12,16 +14,25 @@ m_RotateAroundUp(0.0f),
 m_RotateAroundRight(0.0f),
 m_RotateAroundLookAt(0.0f)
 {
+		for(unsigned int i=0; i < 6; i++)
+			m_FrustumPlane[i] = new D3DXPLANE();
+
         D3DXMatrixIdentity(&m_MatView);
+		//BuildFrustum();
 }
 //----------------------------------------------------------------
 bool Camera::Init(Renderer* pkRenderer){
 	m_pkRenderer = pkRenderer;
+	BuildFrustum();
 	return true;
 }
 Camera::~Camera()
 {
-        /***/
+        // Delete Frustum Planes...
+		for(unsigned int i=0; i < 6; i++){
+			delete m_FrustumPlane[i];
+			m_FrustumPlane[i] = NULL;
+		}
 }
 //----------------------------------------------------------------
 void Camera::SetPosition(float fX, float fY, float fZ)
@@ -119,5 +130,79 @@ void Camera::Update()
         m_pkRenderer->setTransformMatrix(&m_MatView);
         //Reset update members
         m_RotateAroundRight = m_RotateAroundUp = m_RotateAroundLookAt = 0.0f;
+		BuildFrustum();
         m_bChanged = false;
+}
+
+void Camera::BuildFrustum(){
+	D3DXMATRIX FrustumProjectionMatrix;
+	D3DXMatrixMultiply( &FrustumProjectionMatrix, &m_MatView, m_pkRenderer->projectionMatrix() );
+
+		// left plane
+        m_FrustumPlane[0]->a = FrustumProjectionMatrix._14 + FrustumProjectionMatrix._11;
+        m_FrustumPlane[0]->b = FrustumProjectionMatrix._24 + FrustumProjectionMatrix._21;
+        m_FrustumPlane[0]->c = FrustumProjectionMatrix._34 + FrustumProjectionMatrix._31;
+        m_FrustumPlane[0]->d = FrustumProjectionMatrix._44 + FrustumProjectionMatrix._41;
+ 
+        // right plane
+        m_FrustumPlane[1]->a = FrustumProjectionMatrix._14 - FrustumProjectionMatrix._11;
+        m_FrustumPlane[1]->b = FrustumProjectionMatrix._24 - FrustumProjectionMatrix._21;
+        m_FrustumPlane[1]->c = FrustumProjectionMatrix._34 - FrustumProjectionMatrix._31;
+        m_FrustumPlane[1]->d = FrustumProjectionMatrix._44 - FrustumProjectionMatrix._41;
+                                        
+        // top plane
+        m_FrustumPlane[2]->a = FrustumProjectionMatrix._14 - FrustumProjectionMatrix._12;
+        m_FrustumPlane[2]->b = FrustumProjectionMatrix._24 - FrustumProjectionMatrix._22;
+        m_FrustumPlane[2]->c = FrustumProjectionMatrix._34 - FrustumProjectionMatrix._32;
+        m_FrustumPlane[2]->d = FrustumProjectionMatrix._44 - FrustumProjectionMatrix._42;
+                                        
+        // bottom plane
+        m_FrustumPlane[3]->a = FrustumProjectionMatrix._14 + FrustumProjectionMatrix._12;
+        m_FrustumPlane[3]->b = FrustumProjectionMatrix._24 + FrustumProjectionMatrix._22;
+        m_FrustumPlane[3]->c = FrustumProjectionMatrix._34 + FrustumProjectionMatrix._32;
+        m_FrustumPlane[3]->d = FrustumProjectionMatrix._44 + FrustumProjectionMatrix._42;
+                                         
+        // near plane
+        m_FrustumPlane[4]->a = FrustumProjectionMatrix._13;
+        m_FrustumPlane[4]->b = FrustumProjectionMatrix._23;
+        m_FrustumPlane[4]->c = FrustumProjectionMatrix._33;
+        m_FrustumPlane[4]->d = FrustumProjectionMatrix._43;
+                                        
+        // far plane    
+        m_FrustumPlane[5]->a = FrustumProjectionMatrix._14 - FrustumProjectionMatrix._13;
+        m_FrustumPlane[5]->b = FrustumProjectionMatrix._24 - FrustumProjectionMatrix._23;
+        m_FrustumPlane[5]->c = FrustumProjectionMatrix._34 - FrustumProjectionMatrix._33;
+        m_FrustumPlane[5]->d = FrustumProjectionMatrix._44 - FrustumProjectionMatrix._43;
+ 
+        // normalize planes
+        for (unsigned int i=0; i<6; i++){
+                D3DXPlaneNormalize( m_FrustumPlane[i], m_FrustumPlane[i] );
+        }
+
+}
+int Camera::AABBinFrustum(AABB& b){
+	D3DXVECTOR3 aabbSize = D3DXVECTOR3(b.width(),b.height(),b.depth());
+	D3DXVECTOR3 aabbCenter = D3DXVECTOR3(b.offset()->x,b.offset()->y,b.offset()->z);
+
+	int result = INSIDE;
+	for(int i=0; i < 6; i++){
+		Plane frustumPlane = m_FrustumPlane[i];
+		float d = aabbCenter.x * frustumPlane->a +
+				  aabbCenter.y * frustumPlane->b +
+				  aabbCenter.z * frustumPlane->c;
+
+		float r = aabbSize.x * std::abs(frustumPlane->a) +
+				  aabbSize.y * std::abs(frustumPlane->b) +
+				  aabbSize.z * std::abs(frustumPlane->c);
+
+		float d_p_r = d + r;
+		float d_m_r = d - r;
+
+		if(d_p_r < -frustumPlane->d){
+			result = OUTSIDE;
+		}else if(d_m_r < -frustumPlane->d)
+			result = INTERSECT;
+	}
+
+	return result;
 }

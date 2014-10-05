@@ -8,6 +8,7 @@ p_vb(NULL),
 p_vbT(NULL),
 p_vb3D(NULL),
 wireFrameMode(false),
+m_pkProjectionMatrix( new D3DXMATRIX() ),
 p_ib(NULL)
 {
 	// Again, Nothing to do.
@@ -33,6 +34,11 @@ Renderer::~Renderer(){
 	if(d3d){
 	d3d->Release();
 	d3d = NULL;
+	}
+
+	if(m_pkProjectionMatrix){
+	delete m_pkProjectionMatrix;
+	m_pkProjectionMatrix = NULL;
 	}
 
 	Clear();
@@ -77,11 +83,11 @@ bool Renderer::Init(HWND _HwnD){
 		float fViewPortWidth = static_cast<float>(kViewport.Width);
 		float fViewPortHeight = static_cast<float>(kViewport.Height);
 		
-		D3DXMATRIX projectionMatrix;
-		D3DXMatrixPerspectiveFovLH(&projectionMatrix, D3DXToRadian(90), fViewPortWidth / fViewPortHeight, 1, 3000);
+		//D3DXMATRIX projectionMatrix;
+		D3DXMatrixPerspectiveFovLH(m_pkProjectionMatrix, D3DXToRadian(90), fViewPortWidth / fViewPortHeight, 1, 3000);
 
 		//D3DXMatrixOrthoLH(&projectionMatrix,fViewPortWidth,fViewPortHeight, -1.0f, 1.0f);
-		d3d_dev->SetTransform(D3DTS_PROJECTION, &projectionMatrix);
+		d3d_dev->SetTransform(D3DTS_PROJECTION, m_pkProjectionMatrix);
 
 		D3DXVECTOR3 kPos(0.0f, 0.0f, -1000.0f);
         D3DXVECTOR3 kLook(0.0f, 0.0f, 1.0f);
@@ -268,4 +274,8 @@ VertexBuffer3D* Renderer::createVB(size_t vSize, unsigned int FVF){
 
 IndexBuffer* Renderer::createIB(){
 	return new IndexBuffer(*this,d3d_dev);
+}
+
+const Matrix&	Renderer::projectionMatrix() const{
+	return m_pkProjectionMatrix;
 }

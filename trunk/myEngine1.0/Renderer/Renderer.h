@@ -42,6 +42,7 @@ class MYENGINE_API Renderer{
 		void setCurrentTexture (const Texture& r_Texture);
 		VertexBuffer3D* createVB(size_t vSize, unsigned int FVF);
 		IndexBuffer* createIB();
+		const Matrix&	projectionMatrix	() const;
 	private:
 		bool wireFrameMode;
 		IDirect3D9  * d3d;
@@ -51,6 +52,8 @@ class MYENGINE_API Renderer{
 
 		DoMaRe::VertexBuffer3D * p_vb3D;
 		DoMaRe::IndexBuffer * p_ib;
+
+		Matrix	m_pkProjectionMatrix;
 
 		std::vector<Texture> r_vTextures;
 };
