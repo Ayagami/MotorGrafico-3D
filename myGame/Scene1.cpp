@@ -4,7 +4,7 @@
 //#include "Sound\Sound.h"
 using namespace MiJuego;
 bool ds = true;
-float mSpeed = 1.0f;
+float mSpeed = 0.5f;
 
 DoMaRe::ColorVertex g_8Vertices2[] = {
 {-0.5f, 0.5f, -0.5f, D3DCOLOR_XRGB( 255, 0, 0 )}, // 0 
@@ -84,56 +84,52 @@ bool Scene1::Frame(DoMaRe::Renderer& renderer, DoMaRe::DirectInput& dInput, DoMa
 	}
 
 	if(dInput.keyDown(DoMaRe::Input::KEY_UP)){
-		mainCamera->MoveForward(mSpeed);
+		mainCamera->MoveForward(mSpeed * timer.timeBetweenFrames());
 	}
 
 	if(dInput.keyDown(DoMaRe::Input::KEY_DOWN)){
-		mainCamera->MoveForward(-mSpeed);
+		mainCamera->MoveForward(-mSpeed * timer.timeBetweenFrames());
 	}
 
 	if(dInput.keyDown(DoMaRe::Input::KEY_LEFT)){
-		mainCamera->MoveRight(-mSpeed);
+		mainCamera->MoveRight(-mSpeed * timer.timeBetweenFrames());
 	}
 
 	if(dInput.keyDown(DoMaRe::Input::KEY_RIGHT)){
-		mainCamera->MoveRight(mSpeed);
+		mainCamera->MoveRight(mSpeed * timer.timeBetweenFrames());
 	}
 
 
 	if(dInput.keyDown(DoMaRe::Input::KEY_D)){
-		mainCamera->RotateRight(mSpeed / 100);
+		mainCamera->RotateRight(mSpeed / 100 * timer.timeBetweenFrames());
 	}
 
 	if(dInput.keyDown(DoMaRe::Input::KEY_A)){
-		mainCamera->RotateRight(-mSpeed  / 100);
+		mainCamera->RotateRight(-mSpeed  / 100 * timer.timeBetweenFrames());
 	}
 
 	if(dInput.keyDown(DoMaRe::Input::KEY_W)){
-		mainCamera->RotateDown(-mSpeed  / 100);
+		mainCamera->RotateDown(-mSpeed  / 100 * timer.timeBetweenFrames());
 	}
 
 	if(dInput.keyDown(DoMaRe::Input::KEY_S)){
-		mainCamera->RotateDown(mSpeed  / 100);
+		mainCamera->RotateDown(mSpeed  / 100 * timer.timeBetweenFrames());
 	}
 
 	if(dInput.keyDown(DoMaRe::Input::KEY_Q)){
-		mainCamera->MoveUp(-mSpeed);
+		mainCamera->MoveUp(-mSpeed * timer.timeBetweenFrames());
 	}
 
 	if(dInput.keyDown(DoMaRe::Input::KEY_E)){
-		mainCamera->MoveUp(mSpeed);
+		mainCamera->MoveUp(mSpeed * timer.timeBetweenFrames());
 	}
 
 	if(dInput.keyDown(DoMaRe::Input::KEY_L)){
-		pkNode->childs()[0]->setPos(pkNode->childs()[0]->posX() + mSpeed, pkNode->childs()[0]->posY(), pkNode->childs()[0]->posZ());
+		pkNode->setPos(pkNode->posX() + (mSpeed * timer.timeBetweenFrames()) , pkNode->posY(), pkNode->posZ());
 	}
 
 	if(dInput.keyDown(DoMaRe::Input::KEY_K)){
-		pkNode->childs()[0]->setPos(pkNode->childs()[0]->posX() -mSpeed, pkNode->childs()[0]->posY(), pkNode->childs()[0]->posZ());
-	}
-
-	if(dInput.keyDown(DoMaRe::Input::KEY_N)){
-		pkNode->setPos(pkNode->posX() + mSpeed, pkNode->posY(), pkNode->posZ());
+		pkNode->setPos(pkNode->posX() - (mSpeed * timer.timeBetweenFrames()), pkNode->posY(), pkNode->posZ());
 	}
 
 	return true;
