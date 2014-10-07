@@ -66,6 +66,7 @@ namespace DoMaRe{
 		//CollisionResult checkCollision(Entity2D& rkEntity2D) const;
 		//void drawAABB (Renderer& rkRenderer) const;
 
+		void drawAABB(Renderer& pkRenderer) const;
 		void UpdateGravityPos();
 		
 		virtual void updateTransformation();

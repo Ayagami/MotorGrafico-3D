@@ -4,7 +4,7 @@
 //#include "Sound\Sound.h"
 using namespace MiJuego;
 bool ds = true;
-float mSpeed = 0.5f;
+float mSpeed = 0.3f;
 
 DoMaRe::ColorVertex g_8Vertices2[] = {
 {-0.5f, 0.5f, -0.5f, D3DCOLOR_XRGB( 255, 0, 0 )}, // 0 
@@ -130,6 +130,11 @@ bool Scene1::Frame(DoMaRe::Renderer& renderer, DoMaRe::DirectInput& dInput, DoMa
 
 	if(dInput.keyDown(DoMaRe::Input::KEY_K)){
 		pkNode->setPos(pkNode->posX() - (mSpeed * timer.timeBetweenFrames()), pkNode->posY(), pkNode->posZ());
+	}
+
+
+	if(dInput.keyDown(DoMaRe::Input::KEY_9)){
+		pkNode->childs()[0]->setPos(pkNode->childs()[0]->posX() + (mSpeed*timer.timeBetweenFrames()), pkNode->childs()[0]->posY(), pkNode->childs()[0]->posZ() );
 	}
 
 	return true;
