@@ -58,11 +58,12 @@ bool Scene::draw(DoMaRe::Renderer& r, DoMaRe::DirectInput& directInput,Timer& ti
 		else if(r == Camera::INSIDE)
 			OutputDebugString("INSIDE");
 		*/
-		int R = mainCamera->AABBinFrustum(pkNode->aabb());
-		if(R != Camera::OUTSIDE/* && R != Camera::INTERSECT */){
-			pkNode->Draw();
-		}
+		//int R = mainCamera->AABBinFrustum(pkNode->aabb());
+	//	if(R != Camera::OUTSIDE/* && R != Camera::INTERSECT */){
+		//	pkNode->Draw();
+	//	}
 
+		pkNode->Draw();
 		for(int i=0; i < pkNode->childs().size(); i ++){
 			pkNode->childs()[i]->drawAABB(r);
 		}		
