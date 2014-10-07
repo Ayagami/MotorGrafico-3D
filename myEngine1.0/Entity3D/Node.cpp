@@ -36,7 +36,7 @@ void Node::updateTransformation(){
 	float fMinX = std::numeric_limits<float>::max();
 	float fMinY = std::numeric_limits<float>::max();
 	float fMinZ = std::numeric_limits<float>::max();
-
+	
 	//---
 
 	for(std::vector<Entity3D*>::iterator it = m_pkChilds.begin(); it != m_pkChilds.end(); ++it){
@@ -59,7 +59,6 @@ void Node::updateTransformation(){
 		if(fMinZ > fAabbMinZ) fMinZ = fAabbMinZ;
 		//---
 	}
-
 	aabb().setData( fabs(fMaxX - fMinX), fabs(fMaxY - fMinY), fabs(fMaxZ - fMinZ), (fMinX + fMaxX) / 2 - this->posX(), (fMinY + fMaxY) / 2 - this->posY(), (fMinZ + fMaxZ) / 2 - this->posZ());	
 }
 

@@ -4,6 +4,7 @@
 #include <iostream>
 #include "Entity3D.h"
 #include "..\Renderer\Renderer.h"
+#include "Mesh.h"
 #include "Node.h"
 #include <string>
 #include <d3dx9.h>
@@ -216,6 +217,49 @@ float Entity3D::scaleZ() const{
 	rkRenderer.Draw(s_akAABBVertices, DoMaRe::LineStrip, 5);
 }
 */
+
+void Entity3D::drawAABB(Renderer& pkRenderer) const{
+	static Mesh* s_AKAABBMesh;
+	static bool s_bIsInitialized = false;
+	if(!s_bIsInitialized){
+		s_bIsInitialized = true;
+		s_AKAABBMesh = new Mesh(pkRenderer);
+		DoMaRe::MeshVertex * pakVertices = new DoMaRe::MeshVertex[8];
+		unsigned short* pausIndices = new unsigned short[24];
+
+		pakVertices[0].x = +0.5f;       pakVertices[0].y = +0.5f;       pakVertices[0].z = +0.5f;
+        pakVertices[1].x = +0.5f;       pakVertices[1].y = +0.5f;       pakVertices[1].z = -0.5f;
+        pakVertices[2].x = +0.5f;       pakVertices[2].y = -0.5f;       pakVertices[2].z = +0.5f;
+        pakVertices[3].x = +0.5f;       pakVertices[3].y = -0.5f;       pakVertices[3].z = -0.5f;
+        pakVertices[4].x = -0.5f;       pakVertices[4].y = +0.5f;       pakVertices[4].z = +0.5f;
+        pakVertices[5].x = -0.5f;       pakVertices[5].y = +0.5f;       pakVertices[5].z = -0.5f;
+        pakVertices[6].x = -0.5f;       pakVertices[6].y = -0.5f;       pakVertices[6].z = +0.5f;
+        pakVertices[7].x = -0.5f;       pakVertices[7].y = -0.5f;       pakVertices[7].z = -0.5f;
+
+        pausIndices[0] =	0;			pausIndices[1] =	1;			pausIndices[2] =	1;		pausIndices[3] = 3;
+        pausIndices[4] =	3;			pausIndices[5] =	2;			pausIndices[6] =	2;		pausIndices[7] = 0;
+        pausIndices[8] =	4;			pausIndices[9] =	5;			pausIndices[10] =	5;		pausIndices[11] = 7;
+        pausIndices[12] =	7;			pausIndices[13] =	6;			pausIndices[14] =	6;		pausIndices[15] = 4;
+        pausIndices[16] =	0;			pausIndices[17] =	4;			pausIndices[18] =	1;		pausIndices[19] = 5;
+        pausIndices[20] =	3;			pausIndices[21] =	7;			pausIndices[22] =	2;		pausIndices[23] = 6;
+
+		s_AKAABBMesh->setData(pakVertices,8,DoMaRe::LineStrip,pausIndices,24);
+
+		delete[] pakVertices;
+		delete[] pausIndices;
+	}
+	/*const Entity3D* t = this;
+	const Node* pk = dynamic_cast<const Node*>(t) ;
+	if(pk){
+		s_AKAABBMesh->setParent((Node*) this);
+	}*/
+
+	s_AKAABBMesh->setPos(posX() + aabb().offset()->x / aabb().width(), posY() + aabb().offset()->y / aabb().height() , posZ() + aabb().offset()->z / aabb().depth() );
+	s_AKAABBMesh->setScale(aabb().width() ,aabb().height() ,aabb().depth() );
+	s_AKAABBMesh->updateTransformation();
+	s_AKAABBMesh->Draw();
+
+}
 void Entity3D::UpdateGravityPos(){
 	if(isUsingGravity()){
 		setPos(posX(), posY() - getGravity());

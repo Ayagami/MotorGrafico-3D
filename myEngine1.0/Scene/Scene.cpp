@@ -59,10 +59,15 @@ bool Scene::draw(DoMaRe::Renderer& r, DoMaRe::DirectInput& directInput,Timer& ti
 			OutputDebugString("INSIDE");
 		*/
 		int R = mainCamera->AABBinFrustum(pkNode->aabb());
-		if(R != Camera::OUTSIDE && R != Camera::INTERSECT){
+		if(R != Camera::OUTSIDE/* && R != Camera::INTERSECT */){
 			pkNode->Draw();
 		}
 
+		for(int i=0; i < pkNode->childs().size(); i ++){
+			pkNode->childs()[i]->drawAABB(r);
+		}		
+
+		pkNode->drawAABB(r);
 	}
 
 	return true;

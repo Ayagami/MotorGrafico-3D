@@ -327,7 +327,13 @@ bool Import::importNode (const aiNode* pkAiNode, const aiScene* pkAiScene, Node&
 	}
 
 		//Deberia cargar aca la data...
-		orkNode.aabb().setData( fabs(fMaxX - fMinX), fabs(fMaxY - fMinY), fabs(fMaxZ - fMinZ), (fMinX + fMaxX) / 2 - orkNode.posX(), (fMinY + fMaxY) / 2 - orkNode.posY(), (fMinZ + fMaxZ) / 2 - orkNode.posZ());
+		orkNode.aabb().setData( fabs(fMaxX - fMinX), 
+								fabs(fMaxY - fMinY), 
+								fabs(fMaxZ - fMinZ), 
+								
+								(fMinX + fMaxX) / 2 - orkNode.posX(), 
+								(fMinY + fMaxY) / 2 - orkNode.posY(), 
+								(fMinZ + fMaxZ) / 2 - orkNode.posZ());
 	
 
 
