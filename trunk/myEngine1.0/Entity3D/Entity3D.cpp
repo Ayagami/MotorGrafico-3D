@@ -253,9 +253,19 @@ void Entity3D::drawAABB(Renderer& pkRenderer) const{
 	if(pk){
 		s_AKAABBMesh->setParent((Node*) this);
 	}*/
-
-	s_AKAABBMesh->setPos(posX() + aabb().offset()->x / aabb().width(), posY() + aabb().offset()->y / aabb().height() , posZ() + aabb().offset()->z / aabb().depth() );
-	s_AKAABBMesh->setScale(aabb().width() ,aabb().height() ,aabb().depth() );
+	
+	
+	//s_AKAABBMesh->setParent((Node*)this);
+	s_AKAABBMesh->setPos( (_TrMatrix->_41 + _TrLocalMatrix->_41) / aabb().width() + aabb().offset()->x / aabb().width()  ,
+						  (_TrMatrix->_42 + _TrLocalMatrix->_42) / aabb().width() + aabb().offset()->y / aabb().height() , 
+						  (_TrMatrix->_43 + _TrLocalMatrix->_43) / aabb().width() + aabb().offset()->z / aabb().depth()  );
+						  
+	//s_AKAABBMesh->setPos(aabb().offset()->x - _TrMatrix->_41, aabb().offset()->y - _TrMatrix->_42 ,aabb().offset()->z - _TrMatrix->_43);
+	//s_AKAABBMesh->setPos(0,0,0);
+	
+	//s_AKAABBMesh->setPos(aabb().offset()->x + posX() , aabb().offset()->y + posY() , aabb().offset()->z + posZ() );
+	
+	s_AKAABBMesh->setScale(aabb().width()  ,aabb().height() ,aabb().depth() );
 	s_AKAABBMesh->updateTransformation();
 	s_AKAABBMesh->Draw();
 
