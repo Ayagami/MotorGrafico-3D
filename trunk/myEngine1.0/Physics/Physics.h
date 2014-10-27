@@ -33,5 +33,6 @@ namespace DoMaRe{
 		// Escena de Ejemplo!
 		static hkpRigidBody* s_RigidBody1;
 		static hkpRigidBody* s_RigidBody2;
+		static hkpRigidBody* s_RigidBody3;
 	};
 }
