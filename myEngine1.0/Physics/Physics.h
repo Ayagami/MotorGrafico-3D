@@ -22,6 +22,7 @@ namespace DoMaRe{
 
 	private:  // IDK WHAT IM DOING!-
 		static void HavokFailure(const char* msg, void* userAgent);
+		static void StartTestScene();
 		static hkVisualDebugger* s_VDebugger;
 		static hkpPhysicsContext* s_HvkContext;
 

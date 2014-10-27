@@ -97,8 +97,17 @@ Physics::Physics ()
 		s_VDebugger->serve();
 
 		//*********************************** TERMINO EL VISUAL DEBUGER *******************************
-		//*********************************** COMIENZO LA TEST SCENE  *********************************
 
+		//****************************************** LLAMO A TEST SCENE *******************************
+		StartTestScene();
+		//****************************** TERMINO DE LLAMAR A TEST SCENE *******************************
+
+		s_HavokIsStarted = true;				// Seteo mi trigger a True para no poder inicializar todo de nuevo :D!
+	}
+}
+
+void Physics::StartTestScene(){
+		//*********************************** COMIENZO LA TEST SCENE  *********************************
 				//******************************* CAJA 1 ****************************************
 		// Creo la Caja
 		hkpBoxShape* m_Box1 = new hkpBoxShape( hkVector4(0.5f, 0.5f, 0.5f) );
@@ -138,12 +147,9 @@ Physics::Physics ()
 		s_RigidBody2 = new hkpRigidBody(HavokRBodyInfo2);
 		s_HvkWorld->addEntity(s_RigidBody2);
 	
-		// no longer need the reference on the m_Box2, as the rigidBody now owns it.
 		m_Box2->removeReference();
 				//*************************** TERMINO CAJA 2 ************************************
 		//*********************************** TERMINO LA TEST SCENE  ***********************************
-		s_HavokIsStarted = true;				// Seteo mi trigger a True para no poder inicializar todo de nuevo :D!
-	}
 }
 
 Physics::~Physics (){
