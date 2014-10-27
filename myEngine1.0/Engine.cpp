@@ -11,9 +11,10 @@
 #include "Scene\Import.h"
 #include "Scene\Scene.h"
 #include "Sound\Sound.h"
+#include "Physics\Physics.h"
 using namespace DoMaRe;
 Engine::Engine(HINSTANCE hInst, int nCmdS, std::string t, int w, int h):
-hInstance(hInst),nCmdShow(nCmdS), _t(t), _w(w), _h(h), hWnd(0), WndC(new Window(hInst) ), Rendr(new Renderer), G(NULL), dInput( new DirectInput() ), m_pkTimer( new Timer() ), Importer (new Import()), pk_Sound(new Sound()){
+hInstance(hInst),nCmdShow(nCmdS), _t(t), _w(w), _h(h), hWnd(0), WndC(new Window(hInst) ), Rendr(new Renderer), G(NULL), dInput( new DirectInput() ), m_pkTimer( new Timer() ), Importer (new Import()), pk_Sound(new Sound()), m_pkPhysics(new Physics()){
 	// So... Why so Serious?
 }
 bool Engine::init(){
@@ -41,6 +42,9 @@ void Engine::run(){
 		WndC->setWindowName(Title.str());
 
 		dInput->reacquire();
+
+		m_pkPhysics->update(m_pkTimer->timeBetweenFrames());
+
 		Rendr->BeginFrame();
 		G->currentScene()->getCamera()->Update();
 		G->Frame(*Rendr, *dInput, *m_pkTimer, *Importer);
@@ -59,6 +63,10 @@ void Engine::run(){
 	G->DeInit();
 }
 Engine::~Engine(){
+	if(m_pkPhysics){
+	delete m_pkPhysics;
+	m_pkPhysics = NULL;
+	}
 	if(pk_Sound){
 	pk_Sound->stopSoundEngine();
 	delete pk_Sound;

@@ -23,6 +23,9 @@ namespace DoMaRe{
 	class MYENGINE_API Scene{
 		public:
 			Scene();
+			/*Scene(std::string pkName);
+			Scene(std::string pkName, Game& pkGame);
+			Scene(Game& pkGame);*/
 			virtual ~Scene();
 			std::string Name;
 			virtual bool Init(DoMaRe::Import&);
@@ -43,7 +46,6 @@ namespace DoMaRe{
 		private:
 			std::vector<Entity2D*> m_pkEntidades;
 			std::vector<Entity3D*> m_pkEntidades3D;
-
-
+			//Game& CurrentGame;
 	};
 }
