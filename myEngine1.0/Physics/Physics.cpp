@@ -29,6 +29,7 @@
 // Cositas de prueba
 #include <Physics2012/Dynamics/Entity/hkpRigidBody.h>
 #include <Physics2012/Collide/Shape/Convex/Box/hkpBoxShape.h>
+#include <Physics2012\Collide\Shape\Convex\Sphere\hkpSphereShape.h>
 #include <Physics2012/Utilities/Dynamics/Inertia/hkpInertiaTensorComputer.h>
 //**************************************************************
 using namespace DoMaRe;
@@ -46,6 +47,7 @@ bool Physics::s_HavokIsStarted = false;
 // Cositas para la escena de prueba
 hkpRigidBody* Physics::s_RigidBody1 = NULL;
 hkpRigidBody* Physics::s_RigidBody2 = NULL;
+hkpRigidBody* Physics::s_RigidBody3 = NULL;
 //**************************************************************
 Physics::Physics ()
 {
@@ -117,9 +119,8 @@ void Physics::StartTestScene(){
 		HavokRBodyInfo1.m_shape = m_Box1;
 		HavokRBodyInfo1.m_position = hkVector4(0, 15, 0);
 		HavokRBodyInfo1.m_motionType = hkpMotion::MOTION_DYNAMIC;
-		HavokRBodyInfo1.m_restitution = 1.9f;
+
 		m_Box1->setRadius(0.001f);
- 
 		// Configuro la Masa del rigidbody :)
 		const hkReal fBoxMass(10.0f);
 		hkMassProperties kMassProperties;
@@ -149,6 +150,26 @@ void Physics::StartTestScene(){
 	
 		m_Box2->removeReference();
 				//*************************** TERMINO CAJA 2 ************************************
+				//******************************* SPHERE 2 **************************************
+		 hkpSphereShape* sphereShape = new hkpSphereShape(2.0f);
+		 hkpRigidBodyCinfo HavokRBodyInfo3;
+		 HavokRBodyInfo3.m_shape = sphereShape;
+		 HavokRBodyInfo3.m_position = hkVector4(3.0f,15.0f,0.0f);
+		 HavokRBodyInfo3.m_motionType = hkpMotion::MOTION_DYNAMIC;
+		 HavokRBodyInfo3.m_restitution = 1.9f;
+		 sphereShape->setRadius(0.3f);
+		 const hkReal sphereMass = 10.0f;
+ 
+         hkMassProperties massProperties;
+         hkpInertiaTensorComputer::computeShapeVolumeMassProperties(sphereShape, sphereMass, massProperties);
+         
+		 HavokRBodyInfo3.setMassProperties(massProperties);  
+         HavokRBodyInfo3.m_restitution = (hkReal) 1.9;
+         
+		 s_RigidBody3 = new hkpRigidBody(HavokRBodyInfo3);
+		 s_HvkWorld->addEntity(s_RigidBody3);
+		 sphereShape->removeReference();
+				//*************************** TERMINO SPHERE 2 **********************************
 		//*********************************** TERMINO LA TEST SCENE  ***********************************
 }
 
@@ -160,6 +181,8 @@ Physics::~Physics (){
 	s_RigidBody2->removeReference();
 	s_RigidBody2 = NULL;
 
+	s_RigidBody3->removeReference();
+	s_RigidBody3 = NULL;
 	// Borro el VDebugger y el vector de Context
 	s_VDebugger->shutdown();
 	s_VDebugger->removeReference();
