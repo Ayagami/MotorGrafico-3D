@@ -17,14 +17,13 @@
 using namespace DoMaRe;
 
 Scene::Scene() : pkNode(NULL){
-}
 
+}
 Scene::~Scene(){
 
 }
 bool Scene::Init(DoMaRe::Import&){
 	return true;
-	// Aca van cosas del importer.
 }
 
 bool Scene::Frame(DoMaRe::Renderer& r, DoMaRe::DirectInput& directInput,Timer& timer, Import& Importer, Game& game, Sound& sound){
@@ -64,11 +63,6 @@ bool Scene::draw(DoMaRe::Renderer& r, DoMaRe::DirectInput& directInput,Timer& ti
 	//	}
 
 		pkNode->Draw();
-		for(int i=0; i < pkNode->childs().size(); i ++){
-			pkNode->childs()[i]->drawAABB(r);
-		}		
-
-		pkNode->drawAABB(r);
 	}
 
 	return true;

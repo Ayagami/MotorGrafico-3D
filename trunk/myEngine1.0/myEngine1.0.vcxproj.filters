@@ -79,6 +79,12 @@
     <Filter Include="Archivos de encabezado\include\Sound">
       <UniqueIdentifier>{f7b1e665-861b-4fa1-b6f7-f86b6f6f6061}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Archivos de código fuente\src\Physics">
+      <UniqueIdentifier>{6f64ab1d-f42b-457e-acb9-d00de3dcfa45}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Archivos de encabezado\include\Physics">
+      <UniqueIdentifier>{10c5cd0e-7c2c-4e36-8c44-db9bf3df5dcb}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="myEngine_API.h">
@@ -159,6 +165,9 @@
     <ClInclude Include="Renderer\AABB.h">
       <Filter>Archivos de encabezado\include\Renderer</Filter>
     </ClInclude>
+    <ClInclude Include="Physics\Physics.h">
+      <Filter>Archivos de encabezado\include\Physics</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine.cpp">
@@ -232,6 +241,9 @@
     </ClCompile>
     <ClCompile Include="Renderer\AABB.cpp">
       <Filter>Archivos de código fuente\src\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="Physics\Physics.cpp">
+      <Filter>Archivos de código fuente\src\Physics</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
