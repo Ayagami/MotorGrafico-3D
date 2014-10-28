@@ -14,6 +14,8 @@
 #include "..\timer\pg1_timer.h"
 #include "../Sound/Sound.h"
 
+#include "../Physics/Physics.h"
+
 using namespace DoMaRe;
 
 Scene::Scene() : pkNode(NULL){

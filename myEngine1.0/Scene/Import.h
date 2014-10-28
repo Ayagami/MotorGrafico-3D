@@ -27,10 +27,8 @@ namespace DoMaRe{
 	class Node;
 
 	class MYENGINE_API Import{
+		friend class Engine;
 		public:
-			Import();
-			~Import();
-			bool Init(Renderer* pkRenderer, Sound* pkSound);
 			// 2D
 			bool importScene(Scene&, std::string);
 			void importSprite(Scene&,tinyxml2::XMLElement*);
@@ -44,8 +42,17 @@ namespace DoMaRe{
 			// - 3D
 			Renderer& GetRenderer() const{ return *pk_renderer; }
 			Sound&	  GetSound()	const{ return *pk_Sound;	}
+			Import* getInstance();
 			//Renderer *renderer;
+		protected:
+			Import();
+			~Import();
+
+			bool Init(Renderer* pkRenderer, Sound* pkSound);
 		private:
+
+
+			static Import* Instance;
 
 			bool importNode(const aiNode* pkAiNode, const aiScene* pkAiScene, Node& orkNode);
 			bool importMesh(const aiMesh* pkAiMesh, const aiMaterial* pkAiMaterial, Mesh& orkMesh);

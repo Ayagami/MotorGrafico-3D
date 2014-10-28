@@ -24,12 +24,22 @@
 
 using namespace DoMaRe;
 
+Import* Import::Instance = NULL;
 Import::Import(){
 	//*pk_renderer = *pkRenderer;
 }
 Import::~Import(){
 	// Fin MAP de Meshes
 }
+
+Import* Import::getInstance(){
+	if(Instance == NULL){
+		Instance = new Import();
+	}
+
+	return Instance;
+}
+
 bool Import::Init(Renderer* pkRenderer, Sound* pkSound){
 	pk_renderer = pkRenderer;
 	pk_Sound	= pkSound;

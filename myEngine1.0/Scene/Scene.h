@@ -19,6 +19,8 @@ namespace DoMaRe{
 	class Game;
 	class Sound;
 	class Node;
+
+	class Physics;
 	//class Camera;
 	class MYENGINE_API Scene{
 		public:

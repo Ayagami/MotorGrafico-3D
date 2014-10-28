@@ -31,6 +31,9 @@
 #include <Physics2012/Collide/Shape/Convex/Box/hkpBoxShape.h>
 #include <Physics2012\Collide\Shape\Convex\Sphere\hkpSphereShape.h>
 #include <Physics2012/Utilities/Dynamics/Inertia/hkpInertiaTensorComputer.h>
+
+#include <Physics2012\Collide\Shape\Convex\ConvexVertices\hkpConvexVerticesShape.h>
+#include <Common\Internal\ConvexHull\hkGeometryUtility.h>
 //**************************************************************
 using namespace DoMaRe;
 
@@ -48,6 +51,7 @@ bool Physics::s_HavokIsStarted = false;
 hkpRigidBody* Physics::s_RigidBody1 = NULL;
 hkpRigidBody* Physics::s_RigidBody2 = NULL;
 hkpRigidBody* Physics::s_RigidBody3 = NULL;
+Physics*	  Physics::Instance		= NULL;
 //**************************************************************
 Physics::Physics ()
 {
@@ -105,12 +109,19 @@ Physics::Physics ()
 		//****************************** TERMINO DE LLAMAR A TEST SCENE *******************************
 
 		s_HavokIsStarted = true;				// Seteo mi trigger a True para no poder inicializar todo de nuevo :D!
+		Instance = this;
 	}
 }
 
+Physics* Physics::getInstance(){
+	if(Instance == NULL){
+		Instance = new Physics();
+	}
+	return Instance;
+}
 void Physics::StartTestScene(){
 		//*********************************** COMIENZO LA TEST SCENE  *********************************
-				//******************************* CAJA 1 ****************************************
+	/*			//******************************* CAJA 1 ****************************************
 		// Creo la Caja
 		hkpBoxShape* m_Box1 = new hkpBoxShape( hkVector4(0.5f, 0.5f, 0.5f) );
 
@@ -135,7 +146,7 @@ void Physics::StartTestScene(){
 	
 		// Elimino la referencia a mi Box, ya que puedo acceder a ella a travez de mi Rigidbody Estatico.
 		m_Box1->removeReference();
-				//*************************** TERMINO CAJA 1 ************************************
+				//*************************** TERMINO CAJA 1 ************************************ */
 				//******************************* CAJA 2 ****************************************
 		hkpBoxShape* m_Box2 = new hkpBoxShape( hkVector4(5.0f, 1.0f, 5.0f) );
 
@@ -150,14 +161,12 @@ void Physics::StartTestScene(){
 	
 		m_Box2->removeReference();
 				//*************************** TERMINO CAJA 2 ************************************
-				//******************************* SPHERE 2 **************************************
-		 hkpSphereShape* sphereShape = new hkpSphereShape(2.0f);
+				//******************************* SPHERE 1 **************************************
+		 hkpSphereShape* sphereShape = new hkpSphereShape(0.5f);
 		 hkpRigidBodyCinfo HavokRBodyInfo3;
 		 HavokRBodyInfo3.m_shape = sphereShape;
-		 HavokRBodyInfo3.m_position = hkVector4(3.0f,15.0f,0.0f);
+		 HavokRBodyInfo3.m_position = hkVector4(0.0f,15.0f,0.0f);
 		 HavokRBodyInfo3.m_motionType = hkpMotion::MOTION_DYNAMIC;
-		 HavokRBodyInfo3.m_restitution = 1.9f;
-		 sphereShape->setRadius(0.3f);
 		 const hkReal sphereMass = 10.0f;
  
          hkMassProperties massProperties;
@@ -166,17 +175,18 @@ void Physics::StartTestScene(){
 		 HavokRBodyInfo3.setMassProperties(massProperties);  
          HavokRBodyInfo3.m_restitution = (hkReal) 1.9;
          
+
 		 s_RigidBody3 = new hkpRigidBody(HavokRBodyInfo3);
 		 s_HvkWorld->addEntity(s_RigidBody3);
 		 sphereShape->removeReference();
-				//*************************** TERMINO SPHERE 2 **********************************
+				//*************************** TERMINO SPHERE 1 **********************************
 		//*********************************** TERMINO LA TEST SCENE  ***********************************
 }
 
 Physics::~Physics (){
 	// Escena de Prueba!
-	s_RigidBody1->removeReference();
-	s_RigidBody1 = NULL;
+	/*s_RigidBody1->removeReference();
+	s_RigidBody1 = NULL;*/
 
 	s_RigidBody2->removeReference();
 	s_RigidBody2 = NULL;
