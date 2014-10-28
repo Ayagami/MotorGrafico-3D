@@ -1,6 +1,8 @@
 #include "Scene1.h"
 #include "Entity3D\Mesh.h"
 #include "Entity3D\Node.h"
+
+#include "Physics\Physics.h"
 //#include "Sound\Sound.h"
 using namespace MiJuego;
 bool ds = true;
@@ -94,5 +96,10 @@ void Scene1::UpdateInputs(DoMaRe::DirectInput& dInput, DoMaRe::Timer& timer, DoM
 
 	if(dInput.keyDown(DoMaRe::Input::KEY_9)){
 		pkNode->childs()[0]->setPos(pkNode->childs()[0]->posX() + (mSpeed*timer.timeBetweenFrames()), pkNode->childs()[0]->posY(), pkNode->childs()[0]->posZ() );
+	}
+
+	if(dInput.keyDown(DoMaRe::Input::KEY_SPACE)){
+		DoMaRe::Physics* P = DoMaRe::Physics::getInstance();
+		P->test();
 	}
 }

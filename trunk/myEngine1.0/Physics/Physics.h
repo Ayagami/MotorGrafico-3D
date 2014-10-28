@@ -1,6 +1,7 @@
 #pragma once
 #include "../myEngine_API.h"
-
+#include <iostream>
+#include <Windows.h>
 class hkVisualDebugger;
 class hkpPhysicsContext;
 class hkpWorld;
@@ -13,14 +14,20 @@ class hkpWorld;
 class hkpRigidBody;
 
 namespace DoMaRe{
-	class Physics{
+	class MYENGINE_API Physics{
+		friend class Engine;
 	public:
+		void update(float fk_DeltaTime);
+		void test() {
+			OutputDebugString("Testing from Physics::Object");
+		}
+		static Physics* getInstance();
+
+	protected:
 		Physics();
 		~Physics();
-
-		void update(float fk_DeltaTime);
-
 	private:  // IDK WHAT IM DOING!-
+		static Physics* Instance;
 		static void HavokFailure(const char* msg, void* userAgent);
 		static void StartTestScene();
 		static hkVisualDebugger* s_VDebugger;
