@@ -168,6 +168,12 @@
     <ClInclude Include="Physics\Physics.h">
       <Filter>Archivos de encabezado\include\Physics</Filter>
     </ClInclude>
+    <ClInclude Include="Physics\Collider.h">
+      <Filter>Archivos de encabezado\include\Physics</Filter>
+    </ClInclude>
+    <ClInclude Include="Physics\RigidBody.h">
+      <Filter>Archivos de encabezado\include\Entity3D</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine.cpp">
@@ -243,6 +249,12 @@
       <Filter>Archivos de código fuente\src\Renderer</Filter>
     </ClCompile>
     <ClCompile Include="Physics\Physics.cpp">
+      <Filter>Archivos de código fuente\src\Physics</Filter>
+    </ClCompile>
+    <ClCompile Include="Physics\Collider.cpp">
+      <Filter>Archivos de código fuente\src\Physics</Filter>
+    </ClCompile>
+    <ClCompile Include="Physics\RigidBody.cpp">
       <Filter>Archivos de código fuente\src\Physics</Filter>
     </ClCompile>
   </ItemGroup>

@@ -424,7 +424,7 @@ bool Import::importMesh(const aiMesh* pkAiMesh, const aiMaterial* pkAiMaterial, 
 	
 	return true;
 }
-void Import::quaternionToEulerAngles (float qX, float qY, float qZ, float qW, float& orfRotX, float& orfRotY, float& orfRotZ){
+/*void Import::quaternionToEulerAngles (float qX, float qY, float qZ, float qW, float& orfRotX, float& orfRotY, float& orfRotZ){
 	double test = qX * qY + qZ * qW;
 	if(test > 0.499f){
 		// singularity at north pole
@@ -453,4 +453,4 @@ void Import::quaternionToEulerAngles (float qX, float qY, float qZ, float qW, fl
 
 	orfRotZ = atan2(2.0f * qX * qW - 2.0f * qY * qZ, 
 					1.0f - 2.0f * sqx - 2.0f * sqz);
-}
+}*/
