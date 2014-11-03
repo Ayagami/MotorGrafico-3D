@@ -11,6 +11,8 @@ namespace DoMaRe{
 	class Timer;
 	class Node;
 	class AABB;
+	class RigidBody;
+	class Physics;
 	class MYENGINE_API Entity3D{
 
 		friend class Node;
@@ -20,6 +22,9 @@ namespace DoMaRe{
 		virtual ~Entity3D();
 
 	public:
+
+		const RigidBody* rigidbody() const;
+		RigidBody* rigidBody();
 
 		void setPos(float fPosX, float fPosY);
 		void setPos(float fPosX,float fPosY, float fPosZ);
@@ -41,21 +46,21 @@ namespace DoMaRe{
 		float posY() const;
 		float posZ() const;
 
-		float rotationX() const { return _RotX;}
-		float rotationY() const { return _RotY;}
-		float rotationZ() const { return _RotZ;}
+		float rotationX() const { return m_pkRigidBody->rotationX();}
+		float rotationY() const { return m_pkRigidBody->rotationY();}
+		float rotationZ() const { return m_pkRigidBody->rotationZ();}
 
 		float scale() const;
 		float scaleX() const;
 		float scaleY() const;
 		float scaleZ() const;
-
+/*
 		float previousPosX() const;
 		float previousPosY() const;
 		float previousPosZ() const;
-
-		float getGravity() const;
-		bool isUsingGravity() const;
+		*/
+		//float getGravity() const;
+		//bool isUsingGravity() const;
 
 		enum CollisionResult{
 			CollisionVertical,
@@ -67,32 +72,34 @@ namespace DoMaRe{
 		//void drawAABB (Renderer& rkRenderer) const;
 
 		void drawAABB(Renderer& pkRenderer) const;
-		void UpdateGravityPos();
+		//void UpdateGravityPos();
 		
 		virtual void updateTransformation();
 
 		void updateLocalTransformation();
-		void returnToPos(float fPosX, float fPosY, float fPosZ);
+		//void returnToPos(float fPosX, float fPosY, float fPosZ);
 		const Matrix& transformationMatrix() const;
 
 		void setParent (Node* pkParent);
 
-		const AABB& aabb() const;
-		AABB& aabb();
+	/*	const AABB& aabb() const;
+		AABB& aabb();*/
 	private:
 
-		AABB* m_kAABB;
+	//	AABB* m_kAABB;
 
 
 		float _PosX, _PosY, _PosZ;
 		float _RotX, _RotY, _RotZ;
 		float _ScaleX,_ScaleY, _ScaleZ;
-		float _PreviousPosX, _PreviousPosY, _PreviousPosZ;
-		float _Gravity;
-		bool _UseGravity;
+		//float _PreviousPosX, _PreviousPosY, _PreviousPosZ;
+		//float _Gravity;
+		//bool _UseGravity;
 		std::string _Name;
 
 		Node* m_pkParent;
+
+		RigidBody* m_pkRigidBody;
 
 	protected:
 

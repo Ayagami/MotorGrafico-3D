@@ -48,9 +48,9 @@ hkpWorld* Physics::s_HvkWorld = NULL;
 bool Physics::s_HavokIsStarted = false;
 //*************************************************************
 // Cositas para la escena de prueba
-hkpRigidBody* Physics::s_RigidBody1 = NULL;
+/*hkpRigidBody* Physics::s_RigidBody1 = NULL;
 hkpRigidBody* Physics::s_RigidBody2 = NULL;
-hkpRigidBody* Physics::s_RigidBody3 = NULL;
+hkpRigidBody* Physics::s_RigidBody3 = NULL;*/
 Physics*	  Physics::Instance		= NULL;
 //**************************************************************
 Physics::Physics ()
@@ -105,7 +105,7 @@ Physics::Physics ()
 		//*********************************** TERMINO EL VISUAL DEBUGER *******************************
 
 		//****************************************** LLAMO A TEST SCENE *******************************
-		StartTestScene();
+		//StartTestScene();
 		//****************************** TERMINO DE LLAMAR A TEST SCENE *******************************
 
 		s_HavokIsStarted = true;				// Seteo mi trigger a True para no poder inicializar todo de nuevo :D!
@@ -148,6 +148,7 @@ void Physics::StartTestScene(){
 		m_Box1->removeReference();
 				//*************************** TERMINO CAJA 1 ************************************ */
 				//******************************* CAJA 2 ****************************************
+	/*
 		hkpBoxShape* m_Box2 = new hkpBoxShape( hkVector4(5.0f, 1.0f, 5.0f) );
 
 		hkpRigidBodyCinfo HavokRBodyInfo2;
@@ -180,7 +181,7 @@ void Physics::StartTestScene(){
 		 s_HvkWorld->addEntity(s_RigidBody3);
 		 sphereShape->removeReference();
 				//*************************** TERMINO SPHERE 1 **********************************
-		//*********************************** TERMINO LA TEST SCENE  ***********************************
+		//*********************************** TERMINO LA TEST SCENE  *********************************** */
 }
 
 Physics::~Physics (){
@@ -188,11 +189,11 @@ Physics::~Physics (){
 	/*s_RigidBody1->removeReference();
 	s_RigidBody1 = NULL;*/
 
-	s_RigidBody2->removeReference();
+/*	s_RigidBody2->removeReference();
 	s_RigidBody2 = NULL;
 
 	s_RigidBody3->removeReference();
-	s_RigidBody3 = NULL;
+	s_RigidBody3 = NULL;*/
 	// Borro el VDebugger y el vector de Context
 	s_VDebugger->shutdown();
 	s_VDebugger->removeReference();
@@ -210,7 +211,7 @@ void Physics::update (float fk_DeltaTime){
 	s_VDebugger->step();
 
 	float fHavokStep = (fk_DeltaTime / 1000.0f);
-	if(fHavokStep < 0.00001f) {
+	if(fHavokStep < 0.00000001f) {
 		return;
 	}
 

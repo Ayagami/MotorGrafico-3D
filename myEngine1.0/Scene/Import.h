@@ -58,8 +58,8 @@ namespace DoMaRe{
 			bool importMesh(const aiMesh* pkAiMesh, const aiMaterial* pkAiMaterial, Mesh& orkMesh);
 
 			// HELPER EXTRAIDO DE WIKI-DEV
-			void quaternionToEulerAngles (float qX, float qY, float qZ, float qW, 
-								  float& orfRotX, float& orfRotY, float& orfRotZ);
+			/*void quaternionToEulerAngles (float qX, float qY, float qZ, float qW, 
+								  float& orfRotX, float& orfRotY, float& orfRotZ);*/
 
 			Renderer* pk_renderer;
 			Sound* pk_Sound;

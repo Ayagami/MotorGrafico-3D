@@ -4,6 +4,7 @@
 #include <iostream>
 #include "Entity3D.h"
 #include "..\Renderer\Renderer.h"
+#include "..\Physics\RigidBody.h"
 #include "Mesh.h"
 #include "Node.h"
 #include <string>
@@ -18,17 +19,18 @@ _RotY(0.0f),
 _RotZ(0.0f),
 _ScaleX(1.0f),
 _ScaleY(1.0f),
-_ScaleZ(1.0f),
+_ScaleZ(1.0f),/*
 _PreviousPosX(0.0f),
 _PreviousPosY(0.0f),
 _PreviousPosZ(0.0f),
 _UseGravity(false),
-_Gravity(1.5f),
+_Gravity(1.5f),*/
 //_theSound(NULL),
 _TrMatrix( new D3DXMATRIX() ),
 _TrLocalMatrix (new D3DXMATRIX() ),
-m_kAABB(new AABB()),
-m_pkParent(NULL)
+//m_kAABB(new AABB()),
+m_pkParent(NULL),
+m_pkRigidBody( new RigidBody() )
 {
 	D3DXMatrixIdentity(_TrMatrix);
 	updateLocalTransformation();
@@ -40,23 +42,28 @@ Entity3D::~Entity3D(){
 	delete _TrLocalMatrix;
 	_TrLocalMatrix = NULL;
 
-	delete m_kAABB;
-	m_kAABB = NULL;
+	delete m_pkRigidBody;
+	m_pkRigidBody = NULL;
+
+	/*delete m_kAABB;
+	m_kAABB = NULL;*/
 }
 
 
 void Entity3D::setPos(float fPosX, float fPosY){
-	_PreviousPosX = _PosX;
+/*	_PreviousPosX = _PosX;
 	_PreviousPosY = _PosY;
 
 	_PosX = fPosX;
 	_PosY = fPosY;
 
-	updateLocalTransformation();
+	updateLocalTransformation();*/
+
+	m_pkRigidBody->setPosition(fPosX,fPosY,m_pkRigidBody->posZ());
 }
 
 void Entity3D::setPos(float fPosX, float fPosY, float fPosZ){
-	_PreviousPosX = _PosX;
+	/*_PreviousPosX = _PosX;
 	_PreviousPosY = _PosY;
 	_PreviousPosZ = _PosZ;
 
@@ -64,32 +71,37 @@ void Entity3D::setPos(float fPosX, float fPosY, float fPosZ){
 	_PosY = fPosY;
 	_PosZ = fPosZ;
 
-	updateLocalTransformation();
+	updateLocalTransformation();*/
+
+	m_pkRigidBody->setPosition(fPosX,fPosY, fPosZ);
 }
 
-
+/*
 float Entity3D::getGravity() const{
 	return _Gravity;
 }
 
 bool Entity3D::isUsingGravity() const{
 	return _UseGravity;
-}
+}*/
 
 void Entity3D::setRotation(float fRotationX, float fRotationY, float fRotationZ){
-	_RotX = fRotationX;
+	/*_RotX = fRotationX;
 	_RotY = fRotationY;
 	_RotZ = fRotationZ;
-	updateLocalTransformation();
+	updateLocalTransformation();*/
+
+	m_pkRigidBody->setRotation(fRotationX,fRotationY,fRotationZ);
 }
 
 void Entity3D::setScale(float fScaleX, float fScaleY, float fScaleZ){
 	_ScaleX = fScaleX;
 	_ScaleY = fScaleY;
 	_ScaleZ = fScaleZ;
-	updateLocalTransformation();
-}
+/*	updateLocalTransformation();*/
 
+}
+/*
 void Entity3D::SetGravity(float _G){
 	_Gravity = _G;
 }
@@ -97,9 +109,9 @@ void Entity3D::SetGravity(float _G){
 void Entity3D::UseGravity(bool _T){
 	_UseGravity = _T;
 }
-
+*/
 void Entity3D::updateLocalTransformation(){
-
+/*
  D3DXMATRIX translateMatrix;
  D3DXMatrixTranslation(&translateMatrix, _PosX, _PosY, _PosZ);
 
@@ -118,8 +130,9 @@ void Entity3D::updateLocalTransformation(){
  D3DXMatrixMultiply(_TrLocalMatrix,_TrLocalMatrix,&rotationMatrixZ);
  D3DXMatrixMultiply(_TrLocalMatrix,_TrLocalMatrix,&rotationMatrixY);
  D3DXMatrixMultiply(_TrLocalMatrix,_TrLocalMatrix,&rotationMatrixX);
- D3DXMatrixMultiply(_TrLocalMatrix,_TrLocalMatrix,&scaleMatrix);
+ D3DXMatrixMultiply(_TrLocalMatrix,_TrLocalMatrix,&scaleMatrix);*/
 
+	// FALTA ACTUALIZAR Y DEVOLVER MATRIZ DE RIGIDBODY
 }
 
 const Matrix& Entity3D::transformationMatrix() const{
@@ -127,17 +140,20 @@ const Matrix& Entity3D::transformationMatrix() const{
 }
 
 float Entity3D::posX() const{
-	return _PosX;
+	//return _PosX;
+	return m_pkRigidBody->posX();
 }
 
 float Entity3D::posY() const{
-	return _PosY;
+	//return _PosY;
+	return m_pkRigidBody->posY();
 }
 
 float Entity3D::posZ() const{
-	return _PosZ;
+//	return _PosZ;
+	return m_pkRigidBody->posZ();
 }
-
+/*
 float Entity3D::previousPosX() const{
 	return _PreviousPosX;
 }
@@ -148,7 +164,7 @@ float Entity3D::previousPosY() const{
 
 float Entity3D::previousPosZ() const{
 	return _PreviousPosZ;
-}
+}*/
 
 void Entity3D::setName(std::string _name){
 	_Name = _name;
@@ -157,7 +173,7 @@ void Entity3D::setName(std::string _name){
 std::string Entity3D::getName() const{
 	return _Name;
 }
-
+/*
 void Entity3D::returnToPos(float fPosX, float fPosY, float fPosZ){
 	_PosX = fPosX;
 	_PosY = fPosY;
@@ -165,7 +181,7 @@ void Entity3D::returnToPos(float fPosX, float fPosY, float fPosZ){
 
 	updateLocalTransformation();
 }
-
+*/
 float Entity3D::scaleX() const{
 	return _ScaleX;
 }
@@ -219,7 +235,7 @@ float Entity3D::scaleZ() const{
 */
 
 void Entity3D::drawAABB(Renderer& pkRenderer) const{
-	static Mesh* s_AKAABBMesh;
+/*	static Mesh* s_AKAABBMesh;
 	static bool s_bIsInitialized = false;
 	if(!s_bIsInitialized){
 		s_bIsInitialized = true;
@@ -256,7 +272,7 @@ void Entity3D::drawAABB(Renderer& pkRenderer) const{
 	
 	
 	//s_AKAABBMesh->setParent((Node*)this);
-	s_AKAABBMesh->setPos( (_TrMatrix->_41 + _TrLocalMatrix->_41) / aabb().width() + aabb().offset()->x / aabb().width()  ,
+/*	s_AKAABBMesh->setPos( (_TrMatrix->_41 + _TrLocalMatrix->_41) / aabb().width() + aabb().offset()->x / aabb().width()  ,
 						  (_TrMatrix->_42 + _TrLocalMatrix->_42) / aabb().width() + aabb().offset()->y / aabb().height() , 
 						  (_TrMatrix->_43 + _TrLocalMatrix->_43) / aabb().width() + aabb().offset()->z / aabb().depth()  );
 						  
@@ -267,15 +283,15 @@ void Entity3D::drawAABB(Renderer& pkRenderer) const{
 	
 	s_AKAABBMesh->setScale(aabb().width()  ,aabb().height() ,aabb().depth() );
 	s_AKAABBMesh->updateTransformation();
-	s_AKAABBMesh->Draw();
+	s_AKAABBMesh->Draw();*/
 
 }
-void Entity3D::UpdateGravityPos(){
+/*void Entity3D::UpdateGravityPos(){
 	if(isUsingGravity()){
 		setPos(posX(), posY() - getGravity());
 		updateLocalTransformation();
 	}
-}
+}*/
 
 void Entity3D::updateTransformation(){
 	if(m_pkParent){
@@ -290,5 +306,5 @@ void Entity3D::setParent (Node* pkParent){
 	m_pkParent = pkParent;
 }
 
-const AABB&	Entity3D::aabb() const{	return *m_kAABB; }
-AABB&		Entity3D::aabb()	  {	return *m_kAABB; }
+/*const AABB&	Entity3D::aabb() const{	return *m_kAABB; }
+AABB&		Entity3D::aabb()	  {	return *m_kAABB; }*/
