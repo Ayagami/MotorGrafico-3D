@@ -14,6 +14,7 @@ class hkpWorld;
 class hkpRigidBody;
 
 namespace DoMaRe{
+	class RigidBody;
 	class MYENGINE_API Physics{
 		friend class Engine;
 	public:
@@ -22,6 +23,8 @@ namespace DoMaRe{
 			OutputDebugString("Testing from Physics::Object");
 		}
 		static Physics* getInstance();
+
+		void addRigidBody(RigidBody& rigidBody); // TO-DO ADD RIGIDBODY TO WORLD!
 
 	protected:
 		Physics();

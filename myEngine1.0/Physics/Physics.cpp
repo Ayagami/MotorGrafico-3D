@@ -1,4 +1,5 @@
 #include "Physics.h"
+#include "RigidBody.h"
 #include <iostream>
 
 //**************************************************************
@@ -206,7 +207,11 @@ Physics::~Physics (){
 	hkBaseSystem::quit();
 	hkMemoryInitUtil::quit();
 }
-
+void Physics::addRigidBody(RigidBody& pkRb){
+	s_HvkWorld->markForWrite();
+	s_HvkWorld->addEntity(pkRb.rigidBody());
+	s_HvkWorld->unmarkForWrite();
+}
 void Physics::update (float fk_DeltaTime){
 	s_VDebugger->step();
 

@@ -25,6 +25,7 @@ namespace MiJuego{
 		bool deInit();
 	private:
 		void UpdateInputs(DoMaRe::DirectInput& dInput, DoMaRe::Timer& timer, DoMaRe::Sound& pkSound, DoMaRe::Renderer& renderer);
+		void doRigidBodys(DoMaRe::Node& node);
 		DoMaRe::Quad * _Cubo1;
 
 		DoMaRe::Sprite * _Sprite2;
