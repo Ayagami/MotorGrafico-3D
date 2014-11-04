@@ -128,6 +128,7 @@
     <ClCompile Include="Physics\Physics.cpp" />
     <ClCompile Include="Physics\RigidBody.cpp" />
     <ClCompile Include="Renderer\AABB.cpp" />
+    <ClCompile Include="Renderer\EMath.cpp" />
     <ClCompile Include="Renderer\Renderer.cpp" />
     <ClCompile Include="Renderer\RenderTypes.cpp" />
     <ClCompile Include="Renderer\Window.cpp" />

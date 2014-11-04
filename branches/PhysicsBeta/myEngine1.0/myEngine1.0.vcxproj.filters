@@ -172,7 +172,7 @@
       <Filter>Archivos de encabezado\include\Physics</Filter>
     </ClInclude>
     <ClInclude Include="Physics\RigidBody.h">
-      <Filter>Archivos de encabezado\include\Entity3D</Filter>
+      <Filter>Archivos de encabezado\include\Physics</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -256,6 +256,9 @@
     </ClCompile>
     <ClCompile Include="Physics\RigidBody.cpp">
       <Filter>Archivos de código fuente\src\Physics</Filter>
+    </ClCompile>
+    <ClCompile Include="Renderer\EMath.cpp">
+      <Filter>Archivos de código fuente\src\Renderer</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

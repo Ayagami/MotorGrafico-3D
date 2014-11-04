@@ -16,8 +16,8 @@ bool Scene1::Init(DoMaRe::Import& Importer){
 	pkNode = new DoMaRe::Node();
 	
 	Importer.importScene("Mesh.obj", *pkNode);
+	
 	pkNode->setPos(0,0,0);
-
 	Importer.GetSound().playSoundFile("sound.mp3",false);
 	return true;
 }
@@ -101,5 +101,14 @@ void Scene1::UpdateInputs(DoMaRe::DirectInput& dInput, DoMaRe::Timer& timer, DoM
 	if(dInput.keyDown(DoMaRe::Input::KEY_SPACE)){
 		DoMaRe::Physics* P = DoMaRe::Physics::getInstance();
 		P->test();
+	}
+}
+void Scene1::doRigidBodys(DoMaRe::Node& pkNode){				// TO DO _ RECURSIVE ADD RigidBodys !!!!
+	DoMaRe::Physics* pkPhysics = DoMaRe::Physics::getInstance();
+
+	for(int i=0; pkNode.childs().size(); i ++){
+	//	DoMaRe::Node* pkN = dynamic_cast<DoMaRe::Node*> pk
+		
+		//pkNode.childs()[i]->rigidBody()->setCollider();
 	}
 }

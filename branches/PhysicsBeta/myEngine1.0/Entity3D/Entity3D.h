@@ -4,6 +4,8 @@
 #include "../Renderer/EMath.h"
 #include "../Renderer/AABB.h"
 #include "../Renderer/RenderTypes.h"
+
+#include "../Physics/RigidBody.h"
 #include "../../ext/irrKlang/include/irrKlang.h"
 
 namespace DoMaRe{

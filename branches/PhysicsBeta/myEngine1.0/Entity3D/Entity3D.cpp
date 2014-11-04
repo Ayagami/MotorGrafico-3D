@@ -111,15 +111,15 @@ void Entity3D::UseGravity(bool _T){
 }
 */
 void Entity3D::updateLocalTransformation(){
-/*
+
  D3DXMATRIX translateMatrix;
- D3DXMatrixTranslation(&translateMatrix, _PosX, _PosY, _PosZ);
+ D3DXMatrixTranslation(&translateMatrix, posX(), posY(), posZ());
 
  D3DXMATRIX rotationMatrixZ, rotationMatrixX, rotationMatrixY;
 
- D3DXMatrixRotationZ(&rotationMatrixZ, _RotZ);
- D3DXMatrixRotationY(&rotationMatrixY, _RotY);
- D3DXMatrixRotationX(&rotationMatrixX, _RotX);
+ D3DXMatrixRotationZ(&rotationMatrixZ, m_pkRigidBody->rotationZ());
+ D3DXMatrixRotationY(&rotationMatrixY, m_pkRigidBody->rotationY());
+ D3DXMatrixRotationX(&rotationMatrixX, m_pkRigidBody->rotationX());
 
  D3DXMATRIX scaleMatrix;
  D3DXMatrixScaling(&scaleMatrix, _ScaleX, _ScaleY, _ScaleZ);
@@ -130,7 +130,7 @@ void Entity3D::updateLocalTransformation(){
  D3DXMatrixMultiply(_TrLocalMatrix,_TrLocalMatrix,&rotationMatrixZ);
  D3DXMatrixMultiply(_TrLocalMatrix,_TrLocalMatrix,&rotationMatrixY);
  D3DXMatrixMultiply(_TrLocalMatrix,_TrLocalMatrix,&rotationMatrixX);
- D3DXMatrixMultiply(_TrLocalMatrix,_TrLocalMatrix,&scaleMatrix);*/
+ D3DXMatrixMultiply(_TrLocalMatrix,_TrLocalMatrix,&scaleMatrix);
 
 	// FALTA ACTUALIZAR Y DEVOLVER MATRIZ DE RIGIDBODY
 }

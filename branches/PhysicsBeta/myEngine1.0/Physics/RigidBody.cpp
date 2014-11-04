@@ -5,7 +5,6 @@
 #include <Common/Base/hkBase.h>
 #include <Physics2012/Dynamics/Entity/hkpRigidBody.h>
 #include <Physics2012/Collide/Shape/Convex/Box/hkpBoxShape.h>
-
 using namespace DoMaRe;
 
 hkpMotion::MotionType s_HavokMType [RigidBody::HavokMotionCount] = {
@@ -57,11 +56,11 @@ float RigidBody::posZ() const{
         return fResult;
 }
 
-void RigidBody::setRotation(float x, float y, float z){
+void RigidBody::setRotation(float px, float py, float pz){
 	    m_pkRigidBody->markForWrite();
 
         float x, y, z, w;
-        eulerAnglesToQuaternion(x, y, z, x, y, z, w);
+        MATHF::eulerAnglesToQuaternion(px, py, pz, x, y, z, w);
         hkQuaternion kRotation(x, y, z, w);
         m_pkRigidBody->setRotation(kRotation);
 
@@ -72,7 +71,7 @@ float RigidBody::rotationX () const{
         m_pkRigidBody->markForRead();
 
         float fRotX, fRotY, fRotZ;
-		quaternionToEulerAngles( m_pkRigidBody->getRotation()(0), 
+		MATHF::quaternionToEulerAngles( m_pkRigidBody->getRotation()(0), 
                                                                    m_pkRigidBody->getRotation()(1), 
                                                                    m_pkRigidBody->getRotation()(2), 
                                                                    m_pkRigidBody->getRotation()(3), 
@@ -87,7 +86,7 @@ float RigidBody::rotationY () const{
         m_pkRigidBody->markForRead();
 
         float fRotX, fRotY, fRotZ;
-        quaternionToEulerAngles( m_pkRigidBody->getRotation()(0), 
+        MATHF::quaternionToEulerAngles( m_pkRigidBody->getRotation()(0), 
                                                                    m_pkRigidBody->getRotation()(1), 
                                                                    m_pkRigidBody->getRotation()(2), 
                                                                    m_pkRigidBody->getRotation()(3), 
@@ -102,7 +101,7 @@ float RigidBody::rotationZ () const{
         m_pkRigidBody->markForRead();
 
         float fRotX, fRotY, fRotZ;
-        quaternionToEulerAngles( m_pkRigidBody->getRotation()(0), 
+        MATHF::quaternionToEulerAngles( m_pkRigidBody->getRotation()(0), 
                                                                    m_pkRigidBody->getRotation()(1), 
                                                                    m_pkRigidBody->getRotation()(2), 
                                                                    m_pkRigidBody->getRotation()(3), 

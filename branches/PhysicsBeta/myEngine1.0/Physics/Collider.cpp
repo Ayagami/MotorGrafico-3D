@@ -17,7 +17,7 @@ using namespace DoMaRe;
 //------------------------------------------------------------- COLLIDER
 Collider::Collider() : m_pkRigidBody(NULL){
 }
-Collider::Collider(){
+Collider::~Collider(){
 	m_pkRigidBody->removeReference();		// DELETE RIGIDBODY!
 	m_pkRigidBody = NULL;
 }
@@ -32,6 +32,7 @@ BoxCollider::~BoxCollider(){
 
 }
 void BoxCollider::calculate(const Mesh* pkMesh){
+	// DO CALCULATIONS!
 }
 hkpShape* BoxCollider::shape(){
 	return m_pkBox;

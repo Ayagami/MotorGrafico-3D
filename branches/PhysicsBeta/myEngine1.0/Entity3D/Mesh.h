@@ -32,7 +32,7 @@ namespace DoMaRe{
 		Renderer& pk_Renderer;
 
 	private:
-		std::vector<MeshVertex>& m_pkVertex;
+		std::vector<MeshVertex> m_pkVertex;
 		std::vector<unsigned short> m_pkIndex;
 	};
 
