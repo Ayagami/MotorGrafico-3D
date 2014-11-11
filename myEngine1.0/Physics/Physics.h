@@ -1,7 +1,11 @@
 #pragma once
 #include "../myEngine_API.h"
-#include <iostream>
-#include <Windows.h>
+
+
+//#include "RigidBody.h"
+
+//#include <Physics2012/Dynamics/Entity/hkpRigidBody.h>
+
 class hkVisualDebugger;
 class hkpPhysicsContext;
 class hkpWorld;
@@ -11,6 +15,7 @@ class hkpWorld;
 // https://software.intel.com/en-us/forums/topic/278673									<- Moar Documentación  **
 //*************************************** FIN DOCUMENTACIÓN *****************************************************
 // Rigidbody para Escena de prueba :)
+
 class hkpRigidBody;
 
 namespace DoMaRe{
@@ -19,13 +24,10 @@ namespace DoMaRe{
 		friend class Engine;
 	public:
 		void update(float fk_DeltaTime);
-		void test() {
-			OutputDebugString("Testing from Physics::Object");
-		}
+
 		static Physics* getInstance();
 
-		void addRigidBody(RigidBody& rigidBody); // TO-DO ADD RIGIDBODY TO WORLD!
-
+		void addEntity(RigidBody* pkR); // TO-DO ADD RIGIDBODY TO WORLD!
 	protected:
 		Physics();
 		~Physics();

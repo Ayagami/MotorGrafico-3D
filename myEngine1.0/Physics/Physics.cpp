@@ -29,12 +29,12 @@
 
 // Cositas de prueba
 #include <Physics2012/Dynamics/Entity/hkpRigidBody.h>
-#include <Physics2012/Collide/Shape/Convex/Box/hkpBoxShape.h>
+/*#include <Physics2012/Collide/Shape/Convex/Box/hkpBoxShape.h>
 #include <Physics2012\Collide\Shape\Convex\Sphere\hkpSphereShape.h>
 #include <Physics2012/Utilities/Dynamics/Inertia/hkpInertiaTensorComputer.h>
 
 #include <Physics2012\Collide\Shape\Convex\ConvexVertices\hkpConvexVerticesShape.h>
-#include <Common\Internal\ConvexHull\hkGeometryUtility.h>
+#include <Common\Internal\ConvexHull\hkGeometryUtility.h>*/
 //**************************************************************
 using namespace DoMaRe;
 
@@ -120,6 +120,7 @@ Physics* Physics::getInstance(){
 	}
 	return Instance;
 }
+
 void Physics::StartTestScene(){
 		//*********************************** COMIENZO LA TEST SCENE  *********************************
 	/*			//******************************* CAJA 1 ****************************************
@@ -207,11 +208,13 @@ Physics::~Physics (){
 	hkBaseSystem::quit();
 	hkMemoryInitUtil::quit();
 }
-void Physics::addRigidBody(RigidBody& pkRb){
+
+void Physics::addEntity(DoMaRe::RigidBody* rigidBody){
 	s_HvkWorld->markForWrite();
-	s_HvkWorld->addEntity(pkRb.rigidBody());
+	s_HvkWorld->addEntity(rigidBody->rigidBody());
 	s_HvkWorld->unmarkForWrite();
 }
+
 void Physics::update (float fk_DeltaTime){
 	s_VDebugger->step();
 
