@@ -24,12 +24,12 @@ namespace DoMaRe{
 		float rotationY () const;
 		float rotationZ () const;
 
-		const Matrix& transform () const;
+		const Matrix& transform () const { return m_pTransformation; };
 
 		// Collider
 	
 		void setCollider(Collider*);
-		const Collider* collider() const;
+		const Collider* collider() const { return m_pkCollider; };
 
 		enum HavokMotion{
 			Static,
@@ -38,7 +38,7 @@ namespace DoMaRe{
 		};
 
 		void setHavokMotion(HavokMotion type);
-		HavokMotion havokMotion () const;
+		HavokMotion havokMotion () const { return m_HMotion; };
 
 	private:
 		Matrix m_pTransformation;
@@ -49,7 +49,7 @@ namespace DoMaRe{
 
 	protected:
 
-		hkpRigidBody* rigidBody();
+		hkpRigidBody* rigidbody(){ return m_pkRigidBody; }
 		hkpRigidBody* m_pkRigidBody;
 	};
 }

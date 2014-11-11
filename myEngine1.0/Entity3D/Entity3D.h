@@ -25,8 +25,8 @@ namespace DoMaRe{
 
 	public:
 
-		const RigidBody* rigidbody() const;
-		RigidBody* rigidBody();
+		const RigidBody* rigidbody() const { return m_pkRigidBody; };
+		RigidBody* rigidBody(){ return m_pkRigidBody; };
 
 		void setPos(float fPosX, float fPosY);
 		void setPos(float fPosX,float fPosY, float fPosZ);
