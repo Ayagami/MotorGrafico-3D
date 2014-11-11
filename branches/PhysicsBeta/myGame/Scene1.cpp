@@ -1,8 +1,15 @@
 #include "Scene1.h"
+
+#include "Entity3D\Entity3D.h"
 #include "Entity3D\Mesh.h"
 #include "Entity3D\Node.h"
 
+#include "Physics\Collider.h"
 #include "Physics\Physics.h"
+#include "Physics\RigidBody.h"
+
+#include <vector>
+
 //#include "Sound\Sound.h"
 using namespace MiJuego;
 bool ds = true;
@@ -100,15 +107,24 @@ void Scene1::UpdateInputs(DoMaRe::DirectInput& dInput, DoMaRe::Timer& timer, DoM
 
 	if(dInput.keyDown(DoMaRe::Input::KEY_SPACE)){
 		DoMaRe::Physics* P = DoMaRe::Physics::getInstance();
-		P->test();
 	}
 }
 void Scene1::doRigidBodys(DoMaRe::Node& pkNode){				// TO DO _ RECURSIVE ADD RigidBodys !!!!
-	DoMaRe::Physics* pkPhysics = DoMaRe::Physics::getInstance();
+/*	DoMaRe::Physics* pkPhysics = DoMaRe::Physics::getInstance();
 
-	for(int i=0; pkNode.childs().size(); i ++){
-	//	DoMaRe::Node* pkN = dynamic_cast<DoMaRe::Node*> pk
-		
-		//pkNode.childs()[i]->rigidBody()->setCollider();
-	}
+	for(std::vector<DoMaRe::Entity3D*>::const_iterator it = pkNode.childs().begin(); it != pkNode.childs().end; it ++){
+		DoMaRe::Node* pNode = dynamic_cast<DoMaRe::Node*>(*it);
+
+		if(pNode){
+			doRigidBodys(*pNode);
+		}else{
+			DoMaRe::Mesh* cMesh = dynamic_cast<DoMaRe::Mesh*>(*it);
+			if(cMesh){
+				DoMaRe::MeshCollider* collider = new DoMaRe::MeshCollider();
+				collider->calculate(cMesh);
+				cMesh->rigidBody()->setCollider(collider);
+				pkPhysics->addRigidBody(*cMesh->rigidBody());
+			}
+		}
+	}*/
 }
