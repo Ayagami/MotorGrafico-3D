@@ -13,9 +13,12 @@
 #include "Scene\Camera.h"
 #include "Sound\Sound.h"
 #include <string>
+
 namespace MiJuego{
 	class Camera;
 	class Mesh;
+	class RigidBody;
+	class Physics;
 	class Sound;
 	class Scene1 : public DoMaRe::Scene{
 

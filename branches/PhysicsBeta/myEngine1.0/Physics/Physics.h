@@ -20,6 +20,7 @@ class hkpRigidBody;
 
 namespace DoMaRe{
 	class RigidBody;
+	//class hkpRigidBody;
 	class MYENGINE_API Physics{
 		friend class Engine;
 	public:
@@ -27,7 +28,7 @@ namespace DoMaRe{
 
 		static Physics* getInstance();
 
-		void addEntity(RigidBody* pkR); // TO-DO ADD RIGIDBODY TO WORLD!
+		static void addEntity(RigidBody* pkR); // TO-DO ADD RIGIDBODY TO WORLD!
 	protected:
 		Physics();
 		~Physics();

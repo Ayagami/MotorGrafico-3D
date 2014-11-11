@@ -211,7 +211,7 @@ Physics::~Physics (){
 
 void Physics::addEntity(DoMaRe::RigidBody* rigidBody){
 	s_HvkWorld->markForWrite();
-	s_HvkWorld->addEntity(rigidBody->rigidBody());
+	s_HvkWorld->addEntity(rigidBody->rigidbody());
 	s_HvkWorld->unmarkForWrite();
 }
 

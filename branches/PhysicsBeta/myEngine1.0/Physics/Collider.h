@@ -4,10 +4,10 @@ namespace DoMaRe{
 	class Mesh;
 }
 
-class hkpRigidBody;
-class hkpShape;
-class hkpBoxShape;
-class hkpConvexVerticesShape;
+	class hkpRigidBody;
+	class hkpShape;
+	class hkpBoxShape;
+	class hkpConvexVerticesShape;
 
 namespace DoMaRe{
 

@@ -4,6 +4,7 @@
 #include "Entity3D\Mesh.h"
 #include "Entity3D\Node.h"
 
+
 #include "Physics\Collider.h"
 #include "Physics\Physics.h"
 #include "Physics\RigidBody.h"
@@ -26,6 +27,7 @@ bool Scene1::Init(DoMaRe::Import& Importer){
 	
 	pkNode->setPos(0,0,0);
 	Importer.GetSound().playSoundFile("sound.mp3",false);
+	doRigidBodys(*pkNode);
 	return true;
 }
 
@@ -110,9 +112,9 @@ void Scene1::UpdateInputs(DoMaRe::DirectInput& dInput, DoMaRe::Timer& timer, DoM
 	}
 }
 void Scene1::doRigidBodys(DoMaRe::Node& pkNode){				// TO DO _ RECURSIVE ADD RigidBodys !!!!
-/*	DoMaRe::Physics* pkPhysics = DoMaRe::Physics::getInstance();
+	DoMaRe::Physics* pkPhysics = DoMaRe::Physics::getInstance();
 
-	for(std::vector<DoMaRe::Entity3D*>::const_iterator it = pkNode.childs().begin(); it != pkNode.childs().end; it ++){
+	for(std::vector<DoMaRe::Entity3D*>::const_iterator it = pkNode.childs().begin(); it != pkNode.childs().end(); it ++){
 		DoMaRe::Node* pNode = dynamic_cast<DoMaRe::Node*>(*it);
 
 		if(pNode){
@@ -123,8 +125,9 @@ void Scene1::doRigidBodys(DoMaRe::Node& pkNode){				// TO DO _ RECURSIVE ADD Rig
 				DoMaRe::MeshCollider* collider = new DoMaRe::MeshCollider();
 				collider->calculate(cMesh);
 				cMesh->rigidBody()->setCollider(collider);
-				pkPhysics->addRigidBody(*cMesh->rigidBody());
+				cMesh->rigidBody()->setHavokMotion(DoMaRe::RigidBody::HavokMotion::Static);
+				pkPhysics->addEntity(cMesh->rigidBody());
 			}
 		}
-	}*/
+	}
 }
