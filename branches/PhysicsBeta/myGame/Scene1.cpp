@@ -111,6 +111,7 @@ void Scene1::UpdateInputs(DoMaRe::DirectInput& dInput, DoMaRe::Timer& timer, DoM
 		DoMaRe::Physics* P = DoMaRe::Physics::getInstance();
 	}
 }
+
 void Scene1::doRigidBodys(DoMaRe::Node& pkNode){				// TO DO _ RECURSIVE ADD RigidBodys !!!!
 	DoMaRe::Physics* pkPhysics = DoMaRe::Physics::getInstance();
 
@@ -125,7 +126,7 @@ void Scene1::doRigidBodys(DoMaRe::Node& pkNode){				// TO DO _ RECURSIVE ADD Rig
 				DoMaRe::MeshCollider* collider = new DoMaRe::MeshCollider();
 				collider->calculate(cMesh);
 				cMesh->rigidBody()->setCollider(collider);
-				cMesh->rigidBody()->setHavokMotion(DoMaRe::RigidBody::HavokMotion::Static);
+				cMesh->rigidBody()->setHavokMotion(DoMaRe::RigidBody::HavokMotion::Dynamic);
 				pkPhysics->addEntity(cMesh->rigidBody());
 			}
 		}
