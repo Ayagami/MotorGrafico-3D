@@ -27,6 +27,9 @@ RigidBody::RigidBody() :	m_pTransformation (new D3DXMATRIX()), m_pkRigidBody(NUL
 RigidBody::~RigidBody(){
 	m_pkRigidBody->removeReference();
 	m_pkRigidBody = NULL;
+
+	delete m_pTransformation;
+	m_pTransformation = NULL;
 }
 
 void RigidBody::setPosition(float x, float y, float z){
@@ -41,7 +44,18 @@ float RigidBody::posX() const{
         m_pkRigidBody->unmarkForRead();
         return fResult;
 }
+const Matrix& RigidBody::transform () const{
 
+	hkTransform trans = m_pkRigidBody->getTransform();
+
+	D3DXMATRIX physMat( trans(0,0), trans(1,0), trans(2,0), trans(3,0),
+                                                trans(0,1), trans(1,1), trans(2,1), trans(3,1),
+                                                trans(0,2), trans(1,2), trans(2,2), trans(3,2),
+                                                trans(0,3), trans(1,3), trans(2,3), trans(3,3)
+	);
+
+	return &physMat;
+}
 float RigidBody::posY() const{
 	    m_pkRigidBody->markForRead();
         float fResult = m_pkRigidBody->getPosition().getComponent(1);

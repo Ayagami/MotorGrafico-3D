@@ -113,11 +113,25 @@ bool Scene::addEntity(Entity3D* Entity){
 }
 
 bool Scene::getEntity(Mesh** Entity, std::string Name){
-	if(m_pkEntidades3D.empty()) return false;
+	/*if(m_pkEntidades3D.empty()) return false;
 	for(int i=0; i < m_pkEntidades3D.size(); i++){
 		if(m_pkEntidades3D[i]->getName() == Name){
 			*Entity = (Mesh*)m_pkEntidades3D[i];
 			return true;
+		}
+	}
+	return false;*/
+	// TESTING!
+	for(std::vector<Entity3D*>::const_iterator it = pkNode->childs().begin(); it != pkNode->childs().end(); it++){
+		if( (*it)->getName() == Name ){
+			*Entity = (Mesh*)(*it);
+			return true;
+		}
+		Node* pkN = dynamic_cast<Node*>(*it);
+		if(pkN){	// Entonces es un nodo!
+			for(std::vector<Entity3D*>::const_iterator t = pkN->childs().begin(); t != pkN->childs().end(); t++){
+				getEntity(Entity,Name);
+			}
 		}
 	}
 	return false;
