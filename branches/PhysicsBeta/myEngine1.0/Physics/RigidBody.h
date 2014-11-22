@@ -24,7 +24,7 @@ namespace DoMaRe{
 		float rotationY () const;
 		float rotationZ () const;
 
-		const Matrix& transform () const { return m_pTransformation; };
+		const Matrix& transform () const;
 
 		// Collider
 	
