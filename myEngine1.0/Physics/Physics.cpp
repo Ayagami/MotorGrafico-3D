@@ -75,7 +75,7 @@ Physics::Physics ()
 
 		// ¿Seteo el Frustum? y el Size del World.
 		HavokWorldInfo.m_broadPhaseBorderBehaviour = hkpWorldCinfo::BROADPHASE_BORDER_REMOVE_ENTITY;
-		HavokWorldInfo.setBroadPhaseWorldSize(1000.0f);
+		HavokWorldInfo.setBroadPhaseWorldSize(10000.0f);
 
 		s_HvkWorld = new hkpWorld(HavokWorldInfo);
 		s_HvkWorld->m_wantDeactivation = false;

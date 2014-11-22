@@ -51,45 +51,19 @@ Entity3D::~Entity3D(){
 
 
 void Entity3D::setPos(float fPosX, float fPosY){
-/*	_PreviousPosX = _PosX;
-	_PreviousPosY = _PosY;
-
-	_PosX = fPosX;
-	_PosY = fPosY;
-
-	updateLocalTransformation();*/
 
 	m_pkRigidBody->setPosition(fPosX,fPosY,m_pkRigidBody->posZ());
+
 }
 
 void Entity3D::setPos(float fPosX, float fPosY, float fPosZ){
-	/*_PreviousPosX = _PosX;
-	_PreviousPosY = _PosY;
-	_PreviousPosZ = _PosZ;
 
-	_PosX = fPosX;
-	_PosY = fPosY;
-	_PosZ = fPosZ;
-
-	updateLocalTransformation();*/
 
 	m_pkRigidBody->setPosition(fPosX,fPosY, fPosZ);
 }
 
-/*
-float Entity3D::getGravity() const{
-	return _Gravity;
-}
-
-bool Entity3D::isUsingGravity() const{
-	return _UseGravity;
-}*/
 
 void Entity3D::setRotation(float fRotationX, float fRotationY, float fRotationZ){
-	/*_RotX = fRotationX;
-	_RotY = fRotationY;
-	_RotZ = fRotationZ;
-	updateLocalTransformation();*/
 
 	m_pkRigidBody->setRotation(fRotationX,fRotationY,fRotationZ);
 }
@@ -98,22 +72,13 @@ void Entity3D::setScale(float fScaleX, float fScaleY, float fScaleZ){
 	_ScaleX = fScaleX;
 	_ScaleY = fScaleY;
 	_ScaleZ = fScaleZ;
-/*	updateLocalTransformation();*/
 
 }
-/*
-void Entity3D::SetGravity(float _G){
-	_Gravity = _G;
-}
 
-void Entity3D::UseGravity(bool _T){
-	_UseGravity = _T;
-}
-*/
 void Entity3D::updateLocalTransformation(){
 
  D3DXMATRIX translateMatrix;
- D3DXMatrixTranslation(&translateMatrix, posX(), posY(), posZ());
+ D3DXMatrixTranslation(&translateMatrix, m_pkRigidBody->posX(), m_pkRigidBody->posY(), m_pkRigidBody->posZ());
 
  D3DXMATRIX rotationMatrixZ, rotationMatrixX, rotationMatrixY;
 
@@ -140,31 +105,16 @@ const Matrix& Entity3D::transformationMatrix() const{
 }
 
 float Entity3D::posX() const{
-	//return _PosX;
 	return m_pkRigidBody->posX();
 }
 
 float Entity3D::posY() const{
-	//return _PosY;
 	return m_pkRigidBody->posY();
 }
 
 float Entity3D::posZ() const{
-//	return _PosZ;
 	return m_pkRigidBody->posZ();
 }
-/*
-float Entity3D::previousPosX() const{
-	return _PreviousPosX;
-}
-
-float Entity3D::previousPosY() const{
-	return _PreviousPosY;
-}
-
-float Entity3D::previousPosZ() const{
-	return _PreviousPosZ;
-}*/
 
 void Entity3D::setName(std::string _name){
 	_Name = _name;
@@ -173,15 +123,7 @@ void Entity3D::setName(std::string _name){
 std::string Entity3D::getName() const{
 	return _Name;
 }
-/*
-void Entity3D::returnToPos(float fPosX, float fPosY, float fPosZ){
-	_PosX = fPosX;
-	_PosY = fPosY;
-	_PosZ = fPosZ;
 
-	updateLocalTransformation();
-}
-*/
 float Entity3D::scaleX() const{
 	return _ScaleX;
 }
@@ -286,20 +228,18 @@ void Entity3D::drawAABB(Renderer& pkRenderer) const{
 	s_AKAABBMesh->Draw();*/
 
 }
-/*void Entity3D::UpdateGravityPos(){
-	if(isUsingGravity()){
-		setPos(posX(), posY() - getGravity());
-		updateLocalTransformation();
-	}
-}*/
 
 void Entity3D::updateTransformation(){
+	
+	updateLocalTransformation();
+
 	if(m_pkParent){
 		D3DXMatrixIdentity(_TrMatrix);
 		D3DXMatrixMultiply(_TrMatrix, m_pkParent->_TrMatrix, _TrLocalMatrix);
 	}else{
 		(*_TrMatrix) = (*_TrLocalMatrix);
 	}
+
 }
 
 void Entity3D::setParent (Node* pkParent){

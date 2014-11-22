@@ -424,33 +424,3 @@ bool Import::importMesh(const aiMesh* pkAiMesh, const aiMaterial* pkAiMaterial, 
 	
 	return true;
 }
-/*void Import::quaternionToEulerAngles (float qX, float qY, float qZ, float qW, float& orfRotX, float& orfRotY, float& orfRotZ){
-	double test = qX * qY + qZ * qW;
-	if(test > 0.499f){
-		// singularity at north pole
-		orfRotX = 2.0f * atan2(qX, qW);
-		orfRotY = AI_MATH_PI_F / 2.0f;
-		orfRotZ = 0.0f;
-		return;
-	}
-
-	if (test < -0.499f){
-		// singularity at south pole
-		orfRotX = -2.0f * atan2(qX, qW);
-		orfRotY = - AI_MATH_PI_F / 2.0f;
-		orfRotZ = 0.0f;
-		return;
-	}
-
-    float sqx = qX * qX;
-    float sqy = qY * qY;
-    float sqz = qZ * qZ;
-    
-	orfRotX = atan2(2.0f * qY * qW - 2.0f * qX * qZ, 
-					1.0f - 2.0f * sqy - 2.0f * sqz);
-	
-	orfRotY = static_cast<float>( asin(2.0f * test) );
-
-	orfRotZ = atan2(2.0f * qX * qW - 2.0f * qY * qZ, 
-					1.0f - 2.0f * sqx - 2.0f * sqz);
-}*/
