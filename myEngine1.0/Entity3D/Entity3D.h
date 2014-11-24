@@ -84,11 +84,11 @@ namespace DoMaRe{
 
 		void setParent (Node* pkParent);
 
-	/*	const AABB& aabb() const;
-		AABB& aabb();*/
+		const AABB& aabb() const;
+		AABB& aabb();
 	private:
 
-	//	AABB* m_kAABB;
+		AABB* m_kAABB;
 
 
 		float _PosX, _PosY, _PosZ;

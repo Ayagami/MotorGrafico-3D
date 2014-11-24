@@ -29,12 +29,6 @@
 
 // Cositas de prueba
 #include <Physics2012/Dynamics/Entity/hkpRigidBody.h>
-/*#include <Physics2012/Collide/Shape/Convex/Box/hkpBoxShape.h>
-#include <Physics2012\Collide\Shape\Convex\Sphere\hkpSphereShape.h>
-#include <Physics2012/Utilities/Dynamics/Inertia/hkpInertiaTensorComputer.h>
-
-#include <Physics2012\Collide\Shape\Convex\ConvexVertices\hkpConvexVerticesShape.h>
-#include <Common\Internal\ConvexHull\hkGeometryUtility.h>*/
 //**************************************************************
 using namespace DoMaRe;
 
@@ -48,10 +42,6 @@ hkpWorld* Physics::s_HvkWorld = NULL;
 
 bool Physics::s_HavokIsStarted = false;
 //*************************************************************
-// Cositas para la escena de prueba
-/*hkpRigidBody* Physics::s_RigidBody1 = NULL;
-hkpRigidBody* Physics::s_RigidBody2 = NULL;
-hkpRigidBody* Physics::s_RigidBody3 = NULL;*/
 Physics*	  Physics::Instance		= NULL;
 //**************************************************************
 Physics::Physics ()
@@ -73,8 +63,8 @@ Physics::Physics ()
 		HavokWorldInfo.m_gravity = hkVector4(0.0f, -9.8f, 0.0f); // Ajusto Gravedad YAY!
 		HavokWorldInfo.m_simulationType = hkpWorldCinfo::SIMULATION_TYPE_CONTINUOUS;
 
-		// ¿Seteo el Frustum? y el Size del World.
-		HavokWorldInfo.m_broadPhaseBorderBehaviour = hkpWorldCinfo::BROADPHASE_BORDER_REMOVE_ENTITY;
+		// Seteo el comportamiento en los limites del world y el Size del World.
+		HavokWorldInfo.m_broadPhaseBorderBehaviour = hkpWorldCinfo::BROADPHASE_BORDER_FIX_ENTITY;
 		HavokWorldInfo.setBroadPhaseWorldSize(10000.0f);
 
 		s_HvkWorld = new hkpWorld(HavokWorldInfo);
@@ -187,15 +177,6 @@ void Physics::StartTestScene(){
 }
 
 Physics::~Physics (){
-	// Escena de Prueba!
-	/*s_RigidBody1->removeReference();
-	s_RigidBody1 = NULL;*/
-
-/*	s_RigidBody2->removeReference();
-	s_RigidBody2 = NULL;
-
-	s_RigidBody3->removeReference();
-	s_RigidBody3 = NULL;*/
 	// Borro el VDebugger y el vector de Context
 	s_VDebugger->shutdown();
 	s_VDebugger->removeReference();

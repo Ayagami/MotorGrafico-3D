@@ -1,7 +1,7 @@
 ﻿#include "Camera.h"
 #include "../Renderer/Renderer.h"
 #include "../Renderer/AABB.h"
-
+#include "../Entity3D/Entity3D.h"
 using namespace DoMaRe;
 
 Camera::Camera()
@@ -180,9 +180,10 @@ void Camera::BuildFrustum(){
         }
 
 }
-int Camera::AABBinFrustum(AABB& b){
+int Camera::AABBinFrustum(Entity3D& pkNode){
+	AABB& b = pkNode.aabb();
 	D3DXVECTOR3 aabbSize = D3DXVECTOR3(b.width(),b.height(),b.depth());
-	D3DXVECTOR3 aabbCenter = D3DXVECTOR3(b.offset()->x,b.offset()->y,b.offset()->z);
+	D3DXVECTOR3 aabbCenter = D3DXVECTOR3(b.offset()->x + pkNode.transformationMatrix()->_41 ,b.offset()->y + pkNode.transformationMatrix()->_42 ,b.offset()->z + pkNode.transformationMatrix()->_43);
 
 	int result = INSIDE;
 	for(int i=0; i < 6; i++){

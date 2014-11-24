@@ -27,7 +27,6 @@ bool Scene1::Init(DoMaRe::Import& Importer){
 	
 	pkNode->setPos(0,0,0);
 	Importer.GetSound().playSoundFile("sound.mp3",false);
-	doRigidBodys(*pkNode);
 	return true;
 }
 
@@ -105,30 +104,5 @@ void Scene1::UpdateInputs(DoMaRe::DirectInput& dInput, DoMaRe::Timer& timer, DoM
 
 	if(dInput.keyDown(DoMaRe::Input::KEY_9)){
 		pkNode->childs()[0]->setPos(pkNode->childs()[0]->posX() + (mSpeed*timer.timeBetweenFrames()), pkNode->childs()[0]->posY(), pkNode->childs()[0]->posZ() );
-	}
-
-	if(dInput.keyDown(DoMaRe::Input::KEY_SPACE)){
-		DoMaRe::Physics* P = DoMaRe::Physics::getInstance();
-	}
-}
-
-void Scene1::doRigidBodys(DoMaRe::Node& pkNode){				// TO DO _ RECURSIVE ADD RigidBodys !!!!
-	DoMaRe::Physics* pkPhysics = DoMaRe::Physics::getInstance();
-
-	for(std::vector<DoMaRe::Entity3D*>::const_iterator it = pkNode.childs().begin(); it != pkNode.childs().end(); it ++){
-		DoMaRe::Node* pNode = dynamic_cast<DoMaRe::Node*>(*it);
-
-		if(pNode){
-			doRigidBodys(*pNode);
-		}else{
-			DoMaRe::Mesh* cMesh = dynamic_cast<DoMaRe::Mesh*>(*it);
-			if(cMesh){
-				DoMaRe::MeshCollider* collider = new DoMaRe::MeshCollider();
-				collider->calculate(cMesh);
-				cMesh->rigidBody()->setCollider(collider);
-				cMesh->rigidBody()->setHavokMotion(DoMaRe::RigidBody::HavokMotion::Dynamic);
-				pkPhysics->addEntity(cMesh->rigidBody());
-			}
-		}
 	}
 }
