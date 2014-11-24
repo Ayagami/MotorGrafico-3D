@@ -9,6 +9,7 @@
 namespace DoMaRe{
 	class Renderer;
 	class AABB;
+	class Entity3D;
 	class MYENGINE_API Camera{
 public:
         Camera();
@@ -40,7 +41,7 @@ public:
         void RotateRight(float Angle);
         void Roll(float Angle);
 
-		int AABBinFrustum(AABB& b);
+		int AABBinFrustum(Entity3D& b);
 
 protected:
         void Update();

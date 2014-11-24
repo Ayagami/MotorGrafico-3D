@@ -48,6 +48,8 @@ namespace DoMaRe{
 		private:
 			std::vector<Entity2D*> m_pkEntidades;
 			std::vector<Entity3D*> m_pkEntidades3D;
+
+			void ifNeededtoDraw(Entity3D& pkNode);
 			//Game& CurrentGame;
 	};
 }

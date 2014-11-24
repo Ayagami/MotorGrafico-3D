@@ -43,33 +43,50 @@ bool Scene::draw(DoMaRe::Renderer& r, DoMaRe::DirectInput& directInput,Timer& ti
 	}
 
 	for(int i=0; i < m_pkEntidades3D.size(); i++){
-		m_pkEntidades3D[i]->Draw();
+		m_pkEntidades3D[i]->updateTransformation();
+		ifNeededtoDraw(*m_pkEntidades3D[i]);
 	}
 
 	if(pkNode != NULL){
 		pkNode->updateTransformation();
-
-		//int r = mainCamera->AABBinFrustum(pkNode->aabb());
-
-		/*
-		if( r == Camera::OUTSIDE )
-			OutputDebugString("OUTSIDE");
-		else if(r == Camera::INTERSECT)
-			OutputDebugString("INTERSECT");
-		else if(r == Camera::INSIDE)
-			OutputDebugString("INSIDE");
-		*/
-		//int R = mainCamera->AABBinFrustum(pkNode->aabb());
-	//	if(R != Camera::OUTSIDE/* && R != Camera::INTERSECT */){
-		//	pkNode->Draw();
-	//	}
-
-		pkNode->Draw();
+		ifNeededtoDraw(*pkNode);
 	}
 
 	return true;
 }
+void Scene::ifNeededtoDraw(Entity3D& pkNode){
 
+	int Result = getCamera()->AABBinFrustum(pkNode);
+
+	switch(Result){
+	
+		case Camera::INSIDE :
+
+			pkNode.Draw();
+			break;
+
+		case Camera::INTERSECT:
+			{
+			DoMaRe::Node* pkChild = dynamic_cast<DoMaRe::Node*>(&pkNode);
+			if(pkChild){ // its a node...
+			
+				for( std::vector<Entity3D*>::const_iterator it = pkChild->childs().begin(); it != pkChild->childs().end(); it++){
+				
+					ifNeededtoDraw( *(*it) );
+
+				}
+
+			}else{
+				pkNode.Draw();
+			}
+
+			break;
+			}
+		/*case Camera::OUTSIDE:		// FOR DEBUG
+			OutputDebugString("NO NEED TO DRAW");
+			break;*/
+	}
+}
 bool Scene::deinit(){
 	if(m_pkEntidades.empty() && m_pkEntidades3D.empty()) return true;
 

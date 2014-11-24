@@ -15,12 +15,10 @@ class hkpWorld;
 // https://software.intel.com/en-us/forums/topic/278673									<- Moar Documentación  **
 //*************************************** FIN DOCUMENTACIÓN *****************************************************
 // Rigidbody para Escena de prueba :)
-
 class hkpRigidBody;
 
 namespace DoMaRe{
 	class RigidBody;
-	//class hkpRigidBody;
 	class MYENGINE_API Physics{
 		friend class Engine;
 	public:
@@ -28,7 +26,7 @@ namespace DoMaRe{
 
 		static Physics* getInstance();
 
-		static void addEntity(RigidBody* pkR); // TO-DO ADD RIGIDBODY TO WORLD!
+		static void addEntity(RigidBody* pkR);
 	protected:
 		Physics();
 		~Physics();
@@ -42,10 +40,5 @@ namespace DoMaRe{
 		static hkpWorld* s_HvkWorld;
 
 		static bool s_HavokIsStarted;
-
-		// Escena de Ejemplo!
-		/*static hkpRigidBody* s_RigidBody1;
-		static hkpRigidBody* s_RigidBody2;
-		static hkpRigidBody* s_RigidBody3;*/
 	};
 }

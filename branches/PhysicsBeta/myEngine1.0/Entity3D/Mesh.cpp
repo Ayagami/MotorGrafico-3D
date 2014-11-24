@@ -1,6 +1,8 @@
 #include "Mesh.h"
 #include "../Renderer/Renderer.h"
 #include "../Renderer/RenderTypes.h"
+#include "../Physics/Collider.h"
+#include "../Physics/Physics.h"
 using namespace DoMaRe;
 
 Mesh::Mesh(Renderer & p_Renderer): pk_Renderer(p_Renderer) , s_Texture(NoTexture){
@@ -39,7 +41,15 @@ void Mesh::setData(const MeshVertex* Tex_Vertex, size_t vertexCount, DoMaRe::Pri
 	m_pkIndex.resize(indexCount);
 	memcpy( &( m_pkIndex.front() ), pInt, indexCount * sizeof(unsigned short) );
 
+	// Actualizo el collider en mi RigidBody.
 
+	DoMaRe::MeshCollider* newCollider = new DoMaRe::MeshCollider();
+	newCollider->calculate(this);
+	rigidBody()->setCollider(newCollider);
+	rigidBody()->setHavokMotion(DoMaRe::RigidBody::HavokMotion::Dynamic);
+	Physics::getInstance()->addEntity(rigidBody());
+
+	//
 }
 
 void Mesh::Draw(){

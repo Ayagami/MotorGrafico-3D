@@ -28,7 +28,7 @@ _Gravity(1.5f),*/
 //_theSound(NULL),
 _TrMatrix( new D3DXMATRIX() ),
 _TrLocalMatrix (new D3DXMATRIX() ),
-//m_kAABB(new AABB()),
+m_kAABB(new AABB()),
 m_pkParent(NULL),
 m_pkRigidBody( new RigidBody() )
 {
@@ -45,8 +45,8 @@ Entity3D::~Entity3D(){
 	delete m_pkRigidBody;
 	m_pkRigidBody = NULL;
 
-	/*delete m_kAABB;
-	m_kAABB = NULL;*/
+	delete m_kAABB;
+	m_kAABB = NULL;
 }
 
 
@@ -246,5 +246,5 @@ void Entity3D::setParent (Node* pkParent){
 	m_pkParent = pkParent;
 }
 
-/*const AABB&	Entity3D::aabb() const{	return *m_kAABB; }
-AABB&		Entity3D::aabb()	  {	return *m_kAABB; }*/
+const AABB&	Entity3D::aabb() const{	return *m_kAABB; }
+AABB&		Entity3D::aabb()	  {	return *m_kAABB; }

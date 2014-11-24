@@ -12,8 +12,7 @@ hkpMotion::MotionType s_HavokMType [RigidBody::HavokMotionCount] = {
 	hkpMotion::MOTION_DYNAMIC
 };
 
-RigidBody::RigidBody() :	m_pTransformation (new D3DXMATRIX()), m_pkRigidBody(NULL), m_HMotion(Dynamic){
-	     // create a box as a dummy shape
+RigidBody::RigidBody() :	m_pTransformation (new D3DXMATRIX()), m_pkRigidBody(NULL), m_HMotion(Dynamic), m_pkCollider(NULL){
         hkpBoxShape* pkBox = new hkpBoxShape( hkVector4(1.0f, 1.0f, 1.0f) );
 
         hkpRigidBodyCinfo kRigidBodyInfo;
@@ -30,6 +29,11 @@ RigidBody::~RigidBody(){
 
 	delete m_pTransformation;
 	m_pTransformation = NULL;
+
+	if(m_pkCollider != NULL){
+		delete m_pkCollider;
+		m_pkCollider = NULL;
+	}
 }
 
 void RigidBody::setPosition(float x, float y, float z){
@@ -46,13 +50,12 @@ float RigidBody::posX() const{
 }
 const Matrix& RigidBody::transform () const{
 
-	hkTransform trans = m_pkRigidBody->getTransform();
+	hkTransform rbTransformation = m_pkRigidBody->getTransform();
 
-	D3DXMATRIX physMat( trans(0,0), trans(1,0), trans(2,0), trans(3,0),
-                                                trans(0,1), trans(1,1), trans(2,1), trans(3,1),
-                                                trans(0,2), trans(1,2), trans(2,2), trans(3,2),
-                                                trans(0,3), trans(1,3), trans(2,3), trans(3,3)
-	);
+	D3DXMATRIX physMat( rbTransformation(0,0), rbTransformation(1,0), rbTransformation(2,0), rbTransformation(3,0),
+                        rbTransformation(0,1), rbTransformation(1,1), rbTransformation(2,1), rbTransformation(3,1),
+                        rbTransformation(0,2), rbTransformation(1,2), rbTransformation(2,2), rbTransformation(3,2),
+                        rbTransformation(0,3), rbTransformation(1,3), rbTransformation(2,3), rbTransformation(3,3) );
 
 	return &physMat;
 }
@@ -86,11 +89,10 @@ float RigidBody::rotationX () const{
 
         float fRotX, fRotY, fRotZ;
 		MATHF::quaternionToEulerAngles( m_pkRigidBody->getRotation()(0), 
-                                                                   m_pkRigidBody->getRotation()(1), 
-                                                                   m_pkRigidBody->getRotation()(2), 
-                                                                   m_pkRigidBody->getRotation()(3), 
-                                                                   fRotX, fRotY, fRotZ
-        );
+                                        m_pkRigidBody->getRotation()(1), 
+                                        m_pkRigidBody->getRotation()(2), 
+                                        m_pkRigidBody->getRotation()(3), 
+                                        fRotX, fRotY, fRotZ );
 
         m_pkRigidBody->unmarkForRead();
 
@@ -100,12 +102,11 @@ float RigidBody::rotationY () const{
         m_pkRigidBody->markForRead();
 
         float fRotX, fRotY, fRotZ;
-        MATHF::quaternionToEulerAngles( m_pkRigidBody->getRotation()(0), 
-                                                                   m_pkRigidBody->getRotation()(1), 
-                                                                   m_pkRigidBody->getRotation()(2), 
-                                                                   m_pkRigidBody->getRotation()(3), 
-                                                                   fRotX, fRotY, fRotZ
-        );
+		MATHF::quaternionToEulerAngles( m_pkRigidBody->getRotation()(0), 
+                                        m_pkRigidBody->getRotation()(1), 
+                                        m_pkRigidBody->getRotation()(2), 
+                                        m_pkRigidBody->getRotation()(3), 
+                                        fRotX, fRotY, fRotZ );
 
         m_pkRigidBody->unmarkForRead();
 
@@ -115,25 +116,28 @@ float RigidBody::rotationZ () const{
         m_pkRigidBody->markForRead();
 
         float fRotX, fRotY, fRotZ;
-        MATHF::quaternionToEulerAngles( m_pkRigidBody->getRotation()(0), 
-                                                                   m_pkRigidBody->getRotation()(1), 
-                                                                   m_pkRigidBody->getRotation()(2), 
-                                                                   m_pkRigidBody->getRotation()(3), 
-                                                                   fRotX, fRotY, fRotZ
-        );
+		MATHF::quaternionToEulerAngles( m_pkRigidBody->getRotation()(0), 
+                                        m_pkRigidBody->getRotation()(1), 
+                                        m_pkRigidBody->getRotation()(2), 
+                                        m_pkRigidBody->getRotation()(3), 
+                                        fRotX, fRotY, fRotZ );
 
         m_pkRigidBody->unmarkForRead();
 
         return fRotZ;
 }
-/*
-hkTransform trans = RigidBody::m_pkRigidBody->getTransform();
-
-*/
-
 void RigidBody::setCollider(Collider* pkCollider){
+
+	if(m_pkCollider != NULL){
+		m_pkRigidBody->markForWrite();
+
+		delete m_pkCollider;
+		m_pkCollider = pkCollider;
+	
+	}else{
 	m_pkCollider = pkCollider;
 	m_pkRigidBody->markForWrite();
+	}
 	m_pkRigidBody->setShape( m_pkCollider->shape() );
 	m_pkRigidBody->unmarkForWrite();
 }
