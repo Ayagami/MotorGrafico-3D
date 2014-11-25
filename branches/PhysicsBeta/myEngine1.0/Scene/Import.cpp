@@ -238,28 +238,28 @@ void Import::importMesh(Mesh& theMesh, std::string FileName){
 	}
 	return;
 }
-bool Import::importScene (const std::string& rkFilename, Node& orkSceneRoot){
+bool Import::importScene (const std::string& fileName, Node& SceneRoot){
 
 	Assimp::Importer kImporter;
-	const aiScene* pkAiScene = kImporter.ReadFile(rkFilename, aiProcess_Triangulate | aiProcess_SortByPType);
-	importNode(pkAiScene->mRootNode, pkAiScene, orkSceneRoot);
+	const aiScene* AiScene = kImporter.ReadFile(fileName, aiProcess_Triangulate | aiProcess_SortByPType);
+	importNode(AiScene->mRootNode, AiScene, SceneRoot);
 	
 	return true;
 }
-bool Import::importNode (const aiNode* pkAiNode, const aiScene* pkAiScene, Node& orkNode){
+bool Import::importNode (const aiNode* AiNode, const aiScene* AiScene, Node& kNode){
 	// import transformation
 	aiVector3t<float> v3AiScaling;
 	aiQuaterniont<float> qAiRotation;
 	aiVector3t<float> v3AiPosition;
 
-	pkAiNode->mTransformation.Decompose(v3AiScaling, qAiRotation, v3AiPosition);
+	AiNode->mTransformation.Decompose(v3AiScaling, qAiRotation, v3AiPosition);
 
-	orkNode.setPos(v3AiPosition.x, v3AiPosition.y, v3AiPosition.z); // Seteo POS
-	orkNode.setScale(v3AiScaling.x, v3AiScaling.y, v3AiScaling.z); // Seteo Scale
+	kNode.setPos(v3AiPosition.x, v3AiPosition.y, v3AiPosition.z); // Seteo POS
+	kNode.setScale(v3AiScaling.x, v3AiScaling.y, v3AiScaling.z); // Seteo Scale
 	float fRotX, fRotY, fRotZ;
 	MATHF::quaternionToEulerAngles(qAiRotation.x, qAiRotation.y, qAiRotation.z, qAiRotation.w, fRotX, fRotY, fRotZ); // Uso QuaternionToEuler :)
 	
-	orkNode.setRotation(fRotX, fRotY, fRotZ); // Seteo Rotation
+	kNode.setRotation(fRotX, fRotY, fRotZ); // Seteo Rotation
 
 	
 	
@@ -275,13 +275,13 @@ bool Import::importNode (const aiNode* pkAiNode, const aiScene* pkAiScene, Node&
 	
 	// Importo Child Nodes
 
-	for(unsigned int i=0; i<pkAiNode->mNumChildren; i++){
+	for(unsigned int i=0; i<AiNode->mNumChildren; i++){
 		Node* pkNode = new Node();
-		orkNode.addChild(pkNode);
+		kNode.addChild(pkNode);
 
-		pkNode->setParent(&orkNode);
+		pkNode->setParent(&kNode);
 
-		importNode(pkAiNode->mChildren[i], pkAiScene, *pkNode);
+		importNode(AiNode->mChildren[i], AiScene, *pkNode);
 
 		
 
@@ -307,14 +307,14 @@ bool Import::importNode (const aiNode* pkAiNode, const aiScene* pkAiScene, Node&
 
 	// Importo Child Meshes
 
-	for(unsigned int i=0; i<pkAiNode->mNumMeshes; i++){
+	for(unsigned int i=0; i<AiNode->mNumMeshes; i++){
 		Mesh* pkMesh = new Mesh(this->GetRenderer());
-		orkNode.addChild(pkMesh);
+		kNode.addChild(pkMesh);
 
-		pkMesh->setParent(&orkNode);
+		pkMesh->setParent(&kNode);
 
-		aiMesh* pkAiMesh = pkAiScene->mMeshes[ pkAiNode->mMeshes[i] ];
-		aiMaterial* pkAiMaterial = pkAiScene->mMaterials[pkAiMesh->mMaterialIndex];
+		aiMesh* pkAiMesh = AiScene->mMeshes[ AiNode->mMeshes[i] ];
+		aiMaterial* pkAiMaterial = AiScene->mMaterials[pkAiMesh->mMaterialIndex];
 		importMesh(pkAiMesh, pkAiMaterial, *pkMesh);
 
 		//	Actualizo nuevamente los AABB (Pero para meshes!)
@@ -337,19 +337,13 @@ bool Import::importNode (const aiNode* pkAiNode, const aiScene* pkAiScene, Node&
 	}
 
 		//Deberia cargar aca la data...
-		orkNode.aabb().setData( fabs(MaxX - MinX), 
-								fabs(MaxY - MinY), 
-								fabs(MaxZ - MinZ), 
-								
-								(MinX + MaxX) / 2 - orkNode.posX(), 
-								(MinY + MaxY) / 2 - orkNode.posY(), 
-								(MinZ + MaxZ) / 2 - orkNode.posZ());
+		kNode.aabb().setData( fabs(MaxX - MinX), fabs(MaxY - MinY), fabs(MaxZ - MinZ), (MinX + MaxX) / 2 - kNode.posX(), (MinY + MaxY) / 2 - kNode.posY(), (MinZ + MaxZ) / 2 - kNode.posZ());
 	
 	
 
 	return true;
 }
-bool Import::importMesh(const aiMesh* pkAiMesh, const aiMaterial* pkAiMaterial, Mesh& orkMesh){
+bool Import::importMesh(const aiMesh* pkAiMesh, const aiMaterial* pkAiMaterial, Mesh& kMesh){
 	
 			//Tendria que cargar los AABB para cada Mesh, De Forma Recursiva Quizá?
 				float MaxX = std::numeric_limits<float>::lowest();
@@ -360,31 +354,31 @@ bool Import::importMesh(const aiMesh* pkAiMesh, const aiMaterial* pkAiMaterial, 
 				float MinY = std::numeric_limits<float>::max();
 				float MinZ = std::numeric_limits<float>::max(); 
 	
-	MeshVertex* pakVertices = new MeshVertex[pkAiMesh->mNumVertices];
+	MeshVertex* pVertices = new MeshVertex[pkAiMesh->mNumVertices];
 	for(unsigned int i=0; i<pkAiMesh->mNumVertices; i++){
-		pakVertices[i].x = pkAiMesh->mVertices[i].x;
-		pakVertices[i].y = pkAiMesh->mVertices[i].y;
-		pakVertices[i].z = pkAiMesh->mVertices[i].z;
+		pVertices[i].x = pkAiMesh->mVertices[i].x;
+		pVertices[i].y = pkAiMesh->mVertices[i].y;
+		pVertices[i].z = pkAiMesh->mVertices[i].z;
 		if( pkAiMesh->mTextureCoords[0] != NULL ) {
-			pakVertices[i].u = pkAiMesh->mTextureCoords[0][i].x;
-			pakVertices[i].v = pkAiMesh->mTextureCoords[0][i].y;
+			pVertices[i].u = pkAiMesh->mTextureCoords[0][i].x;
+			pVertices[i].v = pkAiMesh->mTextureCoords[0][i].y;
 		}
 		
 		
 		// Actualizo AABB
-			if( MaxX < pakVertices[i].x ) MaxX = pakVertices[i].x;
-			if( MaxY < pakVertices[i].y ) MaxY = pakVertices[i].y;
-			if( MaxZ < pakVertices[i].z ) MaxZ = pakVertices[i].z;
+			if( MaxX < pVertices[i].x ) MaxX = pVertices[i].x;
+			if( MaxY < pVertices[i].y ) MaxY = pVertices[i].y;
+			if( MaxZ < pVertices[i].z ) MaxZ = pVertices[i].z;
 
-			if( MinX > pakVertices[i].x ) MinX = pakVertices[i].x;
-			if( MinY > pakVertices[i].y ) MinY = pakVertices[i].y;
-			if( MinZ > pakVertices[i].z ) MinZ = pakVertices[i].z;
+			if( MinX > pVertices[i].x ) MinX = pVertices[i].x;
+			if( MinY > pVertices[i].y ) MinY = pVertices[i].y;
+			if( MinZ > pVertices[i].z ) MinZ = pVertices[i].z;
 			
 		
 		if(pkAiMesh->HasNormals()){
-			pakVertices[i].nx = pkAiMesh->mNormals[i].x;
-			pakVertices[i].ny = pkAiMesh->mNormals[i].y;
-			pakVertices[i].nz = pkAiMesh->mNormals[i].z;
+			pVertices[i].nx = pkAiMesh->mNormals[i].x;
+			pVertices[i].ny = pkAiMesh->mNormals[i].y;
+			pVertices[i].nz = pkAiMesh->mNormals[i].z;
 		}
 	}
 	size_t uiIndexCount = pkAiMesh->mNumFaces * 3;
@@ -395,8 +389,8 @@ bool Import::importMesh(const aiMesh* pkAiMesh, const aiMaterial* pkAiMaterial, 
 		pausIndices[i * 3 + 1] = pkAiMesh->mFaces[i].mIndices[1];
 		pausIndices[i * 3 + 2] = pkAiMesh->mFaces[i].mIndices[2];
 	}
-	orkMesh.setData(pakVertices, pkAiMesh->mNumVertices, DoMaRe::Primitive::TriangleList, pausIndices, uiIndexCount);
-	orkMesh.setName(pkAiMesh->mName.C_Str());
+	kMesh.setData(pVertices, pkAiMesh->mNumVertices, DoMaRe::Primitive::TriangleList, pausIndices, uiIndexCount);
+	kMesh.setName(pkAiMesh->mName.C_Str());
 
 	if(pkAiMaterial){
 		// diffuse texture
@@ -411,15 +405,15 @@ bool Import::importMesh(const aiMesh* pkAiMesh, const aiMaterial* pkAiMaterial, 
 			kTexturePath = "." + kTexturePath;
 		}
 		Texture TheTexture = pk_renderer->loadTexture(kTexturePath);
-		orkMesh.setTexture(TheTexture);
+		kMesh.setTexture(TheTexture);
 	}
 	
-	delete[] pakVertices;
-	pakVertices = NULL;
+	delete[] pVertices;
+	pVertices = NULL;
 
 		//Cargo Termino de Actualizar los AABB Seteando Data...
 
-	orkMesh.aabb().setData( fabs(MaxX - MinX), fabs(MaxY - MinY), fabs(MaxZ - MinZ),(MinX + MaxX) / 2, (MinY + MaxY) / 2, (MinZ + MaxZ) / 2);
+	kMesh.aabb().setData( fabs(MaxX - MinX), fabs(MaxY - MinY), fabs(MaxZ - MinZ),(MinX + MaxX) / 2, (MinY + MaxY) / 2, (MinZ + MaxZ) / 2);
 	
 	
 	return true;
