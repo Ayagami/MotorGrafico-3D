@@ -264,13 +264,13 @@ bool Import::importNode (const aiNode* pkAiNode, const aiScene* pkAiScene, Node&
 	
 	
 	//INTENTO crear AABB.
-	float fMaxX = std::numeric_limits<float>::lowest();
-	float fMaxY = std::numeric_limits<float>::lowest();
-	float fMaxZ = std::numeric_limits<float>::lowest();
+	float MaxX = std::numeric_limits<float>::lowest();
+	float MaxY = std::numeric_limits<float>::lowest();
+	float MaxZ = std::numeric_limits<float>::lowest();
 
-	float fMinX = std::numeric_limits<float>::max();
-	float fMinY = std::numeric_limits<float>::max();
-	float fMinZ = std::numeric_limits<float>::max();
+	float MinX = std::numeric_limits<float>::max();
+	float MinY = std::numeric_limits<float>::max();
+	float MinZ = std::numeric_limits<float>::max();
 	
 	
 	// Importo Child Nodes
@@ -286,21 +286,21 @@ bool Import::importNode (const aiNode* pkAiNode, const aiScene* pkAiScene, Node&
 		
 
 		//Ajusto AABB ?
-		float fAabbMaxX = pkNode->posX() + ( pkNode->aabb().offset()->x + ( pkNode->aabb().width() / 2 ) );
-		float fAabbMaxY = pkNode->posY() + ( pkNode->aabb().offset()->y + ( pkNode->aabb().height() / 2 ) );
-		float fAabbMaxZ = pkNode->posZ() + ( pkNode->aabb().offset()->z + ( pkNode->aabb().depth() / 2 ) );
+		float AabbMx = pkNode->posX() + ( pkNode->aabb().offset()->x + ( pkNode->aabb().width() / 2 ) );
+		float AabbMy = pkNode->posY() + ( pkNode->aabb().offset()->y + ( pkNode->aabb().height() / 2 ) );
+		float AabbMz = pkNode->posZ() + ( pkNode->aabb().offset()->z + ( pkNode->aabb().depth() / 2 ) );
 
-		float fAabbMinX = pkNode->posX() + ( pkNode->aabb().offset()->x - ( pkNode->aabb().width() / 2 ) );
-		float fAabbMinY = pkNode->posY() + ( pkNode->aabb().offset()->y - ( pkNode->aabb().height() / 2 ) );
-		float fAabbMinZ = pkNode->posZ() + ( pkNode->aabb().offset()->z - ( pkNode->aabb().depth() / 2 ) );
+		float Aabbmx = pkNode->posX() + ( pkNode->aabb().offset()->x - ( pkNode->aabb().width() / 2 ) );
+		float Aabbmy = pkNode->posY() + ( pkNode->aabb().offset()->y - ( pkNode->aabb().height() / 2 ) );
+		float Aabbmz = pkNode->posZ() + ( pkNode->aabb().offset()->z - ( pkNode->aabb().depth() / 2 ) );
 
-		if(fMaxX < fAabbMaxX) fMaxX = fAabbMaxX;
-		if(fMaxY < fAabbMaxY) fMaxY = fAabbMaxY;
-		if(fMaxZ < fAabbMaxZ) fMaxZ = fAabbMaxZ;
+		if(MaxX < AabbMx) MaxX = AabbMx;
+		if(MaxY < AabbMy) MaxY = AabbMy;
+		if(MaxZ < AabbMz) MaxZ = AabbMz;
 
-		if(fMinX > fAabbMinX) fMinX = fAabbMinX;
-		if(fMinY > fAabbMinY) fMinY = fAabbMinY;
-		if(fMinZ > fAabbMinZ) fMinZ = fAabbMinZ;
+		if(MinX > Aabbmx) MinX = Aabbmx;
+		if(MinY > Aabbmy) MinY = Aabbmy;
+		if(MinZ > Aabbmz) MinZ = Aabbmz;
 
 		
 	}
@@ -318,32 +318,32 @@ bool Import::importNode (const aiNode* pkAiNode, const aiScene* pkAiScene, Node&
 		importMesh(pkAiMesh, pkAiMaterial, *pkMesh);
 
 		//	Actualizo nuevamente los AABB (Pero para meshes!)
-		float fAabbMaxX = pkMesh->posX() + ( pkMesh->aabb().offset()->x + ( pkMesh->aabb().width() / 2 ) );
-		float fAabbMaxY = pkMesh->posY() + ( pkMesh->aabb().offset()->y + ( pkMesh->aabb().height() / 2 ) );
-		float fAabbMaxZ = pkMesh->posZ() + ( pkMesh->aabb().offset()->z + ( pkMesh->aabb().depth() / 2 ) );
+		float AabbMx = pkMesh->posX() + ( pkMesh->aabb().offset()->x + ( pkMesh->aabb().width() / 2 ) );
+		float AabbMy = pkMesh->posY() + ( pkMesh->aabb().offset()->y + ( pkMesh->aabb().height() / 2 ) );
+		float AabbMz = pkMesh->posZ() + ( pkMesh->aabb().offset()->z + ( pkMesh->aabb().depth() / 2 ) );
 
-		float fAabbMinX = pkMesh->posX() + ( pkMesh->aabb().offset()->x - ( pkMesh->aabb().width() / 2 ) );
-		float fAabbMinY = pkMesh->posY() + ( pkMesh->aabb().offset()->y - ( pkMesh->aabb().height() / 2 ) );
-		float fAabbMinZ = pkMesh->posZ() + ( pkMesh->aabb().offset()->z - ( pkMesh->aabb().depth() / 2 ) );
+		float Aabbmx = pkMesh->posX() + ( pkMesh->aabb().offset()->x - ( pkMesh->aabb().width() / 2 ) );
+		float Aabbmy = pkMesh->posY() + ( pkMesh->aabb().offset()->y - ( pkMesh->aabb().height() / 2 ) );
+		float Aabbmz = pkMesh->posZ() + ( pkMesh->aabb().offset()->z - ( pkMesh->aabb().depth() / 2 ) );
 
-		if(fMaxX < fAabbMaxX) fMaxX = fAabbMaxX;
-		if(fMaxY < fAabbMaxY) fMaxY = fAabbMaxY;
-		if(fMaxZ < fAabbMaxZ) fMaxZ = fAabbMaxZ;
+		if(MaxX < AabbMx) MaxX = AabbMx;
+		if(MaxY < AabbMy) MaxY = AabbMy;
+		if(MaxZ < AabbMz) MaxZ = AabbMz;
 
-		if(fMinX > fAabbMinX) fMinX = fAabbMinX;
-		if(fMinY > fAabbMinY) fMinY = fAabbMinY;
-		if(fMinZ > fAabbMinZ) fMinZ = fAabbMinZ;
+		if(MinX > Aabbmx) MinX = Aabbmx;
+		if(MinY > Aabbmy) MinY = Aabbmy;
+		if(MinZ > Aabbmz) MinZ = Aabbmz;
 		
 	}
 
 		//Deberia cargar aca la data...
-		orkNode.aabb().setData( fabs(fMaxX - fMinX), 
-								fabs(fMaxY - fMinY), 
-								fabs(fMaxZ - fMinZ), 
+		orkNode.aabb().setData( fabs(MaxX - MinX), 
+								fabs(MaxY - MinY), 
+								fabs(MaxZ - MinZ), 
 								
-								(fMinX + fMaxX) / 2 - orkNode.posX(), 
-								(fMinY + fMaxY) / 2 - orkNode.posY(), 
-								(fMinZ + fMaxZ) / 2 - orkNode.posZ());
+								(MinX + MaxX) / 2 - orkNode.posX(), 
+								(MinY + MaxY) / 2 - orkNode.posY(), 
+								(MinZ + MaxZ) / 2 - orkNode.posZ());
 	
 	
 
@@ -352,13 +352,13 @@ bool Import::importNode (const aiNode* pkAiNode, const aiScene* pkAiScene, Node&
 bool Import::importMesh(const aiMesh* pkAiMesh, const aiMaterial* pkAiMaterial, Mesh& orkMesh){
 	
 			//Tendria que cargar los AABB para cada Mesh, De Forma Recursiva Quizá?
-				float fMaxX = std::numeric_limits<float>::lowest();
-				float fMaxY = std::numeric_limits<float>::lowest();
-				float fMaxZ = std::numeric_limits<float>::lowest();
+				float MaxX = std::numeric_limits<float>::lowest();
+				float MaxY = std::numeric_limits<float>::lowest();
+				float MaxZ = std::numeric_limits<float>::lowest();
 
-				float fMinX = std::numeric_limits<float>::max();
-				float fMinY = std::numeric_limits<float>::max();
-				float fMinZ = std::numeric_limits<float>::max(); 
+				float MinX = std::numeric_limits<float>::max();
+				float MinY = std::numeric_limits<float>::max();
+				float MinZ = std::numeric_limits<float>::max(); 
 	
 	MeshVertex* pakVertices = new MeshVertex[pkAiMesh->mNumVertices];
 	for(unsigned int i=0; i<pkAiMesh->mNumVertices; i++){
@@ -372,13 +372,13 @@ bool Import::importMesh(const aiMesh* pkAiMesh, const aiMaterial* pkAiMaterial, 
 		
 		
 		// Actualizo AABB
-			if( fMaxX < pakVertices[i].x ) fMaxX = pakVertices[i].x;
-			if( fMaxY < pakVertices[i].y ) fMaxY = pakVertices[i].y;
-			if( fMaxZ < pakVertices[i].z ) fMaxZ = pakVertices[i].z;
+			if( MaxX < pakVertices[i].x ) MaxX = pakVertices[i].x;
+			if( MaxY < pakVertices[i].y ) MaxY = pakVertices[i].y;
+			if( MaxZ < pakVertices[i].z ) MaxZ = pakVertices[i].z;
 
-			if( fMinX > pakVertices[i].x ) fMinX = pakVertices[i].x;
-			if( fMinY > pakVertices[i].y ) fMinY = pakVertices[i].y;
-			if( fMinZ > pakVertices[i].z ) fMinZ = pakVertices[i].z;
+			if( MinX > pakVertices[i].x ) MinX = pakVertices[i].x;
+			if( MinY > pakVertices[i].y ) MinY = pakVertices[i].y;
+			if( MinZ > pakVertices[i].z ) MinZ = pakVertices[i].z;
 			
 		
 		if(pkAiMesh->HasNormals()){
@@ -419,7 +419,7 @@ bool Import::importMesh(const aiMesh* pkAiMesh, const aiMaterial* pkAiMaterial, 
 
 		//Cargo Termino de Actualizar los AABB Seteando Data...
 
-	orkMesh.aabb().setData( fabs(fMaxX - fMinX), fabs(fMaxY - fMinY), fabs(fMaxZ - fMinZ),(fMinX + fMaxX) / 2, (fMinY + fMaxY) / 2, (fMinZ + fMaxZ) / 2);
+	orkMesh.aabb().setData( fabs(MaxX - MinX), fabs(MaxY - MinY), fabs(MaxZ - MinZ),(MinX + MaxX) / 2, (MinY + MaxY) / 2, (MinZ + MaxZ) / 2);
 	
 	
 	return true;

@@ -12,23 +12,20 @@ hkpMotion::MotionType s_HavokMType [RigidBody::HavokMotionCount] = {
 	hkpMotion::MOTION_DYNAMIC
 };
 
-RigidBody::RigidBody() :	m_pTransformation (new D3DXMATRIX()), m_pkRigidBody(NULL), m_HMotion(Dynamic), m_pkCollider(NULL){
+RigidBody::RigidBody() : pk_RigidBody(NULL), m_HMotion(Dynamic), m_pkCollider(NULL){
         hkpBoxShape* pkBox = new hkpBoxShape( hkVector4(1.0f, 1.0f, 1.0f) );
 
-        hkpRigidBodyCinfo kRigidBodyInfo;
-        kRigidBodyInfo.m_shape = pkBox;
-        kRigidBodyInfo.m_position = hkVector4(0, 0, 0);
-        kRigidBodyInfo.m_motionType = hkpMotion::MOTION_DYNAMIC;
+        hkpRigidBodyCinfo RigidBodyInfo;
+        RigidBodyInfo.m_shape = pkBox;
+        RigidBodyInfo.m_position = hkVector4(0, 0, 0);
+        RigidBodyInfo.m_motionType = hkpMotion::MOTION_DYNAMIC;
 
-        m_pkRigidBody = new hkpRigidBody(kRigidBodyInfo);
+        pk_RigidBody = new hkpRigidBody(RigidBodyInfo);
 }
 
 RigidBody::~RigidBody(){
-	m_pkRigidBody->removeReference();
-	m_pkRigidBody = NULL;
-
-	delete m_pTransformation;
-	m_pTransformation = NULL;
+	pk_RigidBody->removeReference();
+	pk_RigidBody = NULL;
 
 	if(m_pkCollider != NULL){
 		delete m_pkCollider;
@@ -37,114 +34,102 @@ RigidBody::~RigidBody(){
 }
 
 void RigidBody::setPosition(float x, float y, float z){
-	m_pkRigidBody->markForWrite();
-	m_pkRigidBody->setPosition( hkVector4(-x, y, z) );
-	m_pkRigidBody->unmarkForWrite();
+	pk_RigidBody->markForWrite();
+	pk_RigidBody->setPosition( hkVector4(-x, y, z) );
+	pk_RigidBody->unmarkForWrite();
 }
 
 float RigidBody::posX() const{
-	    m_pkRigidBody->markForRead();
-        float fResult = -m_pkRigidBody->getPosition().getComponent(0);
-        m_pkRigidBody->unmarkForRead();
-        return fResult;
+	    pk_RigidBody->markForRead();
+        float posX = -pk_RigidBody->getPosition().getComponent(0);
+        pk_RigidBody->unmarkForRead();
+        return posX;
 }
 const Matrix& RigidBody::transform () const{
 
-	hkTransform rbTransformation = m_pkRigidBody->getTransform();
+	hkTransform rbTransformation = pk_RigidBody->getTransform();
 
-	D3DXMATRIX physMat( rbTransformation(0,0), rbTransformation(1,0), rbTransformation(2,0), rbTransformation(3,0),
-                        rbTransformation(0,1), rbTransformation(1,1), rbTransformation(2,1), rbTransformation(3,1),
-                        rbTransformation(0,2), rbTransformation(1,2), rbTransformation(2,2), rbTransformation(3,2),
-                        rbTransformation(0,3), rbTransformation(1,3), rbTransformation(2,3), rbTransformation(3,3) );
+	D3DXMATRIX rigidbodyMaterial( rbTransformation(0,0), rbTransformation(1,0), rbTransformation(2,0), rbTransformation(3,0),
+								  rbTransformation(0,1), rbTransformation(1,1), rbTransformation(2,1), rbTransformation(3,1),
+								  rbTransformation(0,2), rbTransformation(1,2), rbTransformation(2,2), rbTransformation(3,2),
+								  rbTransformation(0,3), rbTransformation(1,3), rbTransformation(2,3), rbTransformation(3,3) );
 
-	return &physMat;
+	return &rigidbodyMaterial;
 }
 float RigidBody::posY() const{
-	    m_pkRigidBody->markForRead();
-        float fResult = m_pkRigidBody->getPosition().getComponent(1);
-        m_pkRigidBody->unmarkForRead();
-        return fResult;
+	    pk_RigidBody->markForRead();
+        float posY = pk_RigidBody->getPosition().getComponent(1);
+        pk_RigidBody->unmarkForRead();
+        return posY;
 }
 
 float RigidBody::posZ() const{
-	    m_pkRigidBody->markForRead();
-        float fResult = m_pkRigidBody->getPosition().getComponent(2);
-        m_pkRigidBody->unmarkForRead();
-        return fResult;
+	    pk_RigidBody->markForRead();
+        float posZ = pk_RigidBody->getPosition().getComponent(2);
+        pk_RigidBody->unmarkForRead();
+        return posZ;
 }
 
 void RigidBody::setRotation(float px, float py, float pz){
-	    m_pkRigidBody->markForWrite();
+	    pk_RigidBody->markForWrite();
 
         float x, y, z, w;
         MATHF::eulerAnglesToQuaternion(px, py, pz, x, y, z, w);
         hkQuaternion kRotation(x, y, z, w);
-        m_pkRigidBody->setRotation(kRotation);
+        pk_RigidBody->setRotation(kRotation);
 
-        m_pkRigidBody->unmarkForWrite();
+        pk_RigidBody->unmarkForWrite();
 }
 
 float RigidBody::rotationX () const{
-        m_pkRigidBody->markForRead();
+        pk_RigidBody->markForRead();
 
-        float fRotX, fRotY, fRotZ;
-		MATHF::quaternionToEulerAngles( m_pkRigidBody->getRotation()(0), 
-                                        m_pkRigidBody->getRotation()(1), 
-                                        m_pkRigidBody->getRotation()(2), 
-                                        m_pkRigidBody->getRotation()(3), 
-                                        fRotX, fRotY, fRotZ );
+        float rotX, rotY, rotZ;
+		MATHF::quaternionToEulerAngles( pk_RigidBody->getRotation()(0),  pk_RigidBody->getRotation()(1),  pk_RigidBody->getRotation()(2),   pk_RigidBody->getRotation()(3),  rotX, rotY, rotZ );
 
-        m_pkRigidBody->unmarkForRead();
+        pk_RigidBody->unmarkForRead();
 
-        return fRotX;
+        return rotX;
 }
 float RigidBody::rotationY () const{
-        m_pkRigidBody->markForRead();
+        pk_RigidBody->markForRead();
 
-        float fRotX, fRotY, fRotZ;
-		MATHF::quaternionToEulerAngles( m_pkRigidBody->getRotation()(0), 
-                                        m_pkRigidBody->getRotation()(1), 
-                                        m_pkRigidBody->getRotation()(2), 
-                                        m_pkRigidBody->getRotation()(3), 
-                                        fRotX, fRotY, fRotZ );
+        float rotX, rotY, rotZ;
+		MATHF::quaternionToEulerAngles( pk_RigidBody->getRotation()(0),  pk_RigidBody->getRotation()(1),  pk_RigidBody->getRotation()(2),  pk_RigidBody->getRotation()(3),  rotX, rotY, rotZ );
 
-        m_pkRigidBody->unmarkForRead();
+        pk_RigidBody->unmarkForRead();
 
-        return fRotY;
+        return rotY;
 }
 float RigidBody::rotationZ () const{
-        m_pkRigidBody->markForRead();
+        pk_RigidBody->markForRead();
 
-        float fRotX, fRotY, fRotZ;
-		MATHF::quaternionToEulerAngles( m_pkRigidBody->getRotation()(0), 
-                                        m_pkRigidBody->getRotation()(1), 
-                                        m_pkRigidBody->getRotation()(2), 
-                                        m_pkRigidBody->getRotation()(3), 
-                                        fRotX, fRotY, fRotZ );
+        float rotX, rotY, rotZ;
+		MATHF::quaternionToEulerAngles( pk_RigidBody->getRotation()(0),   pk_RigidBody->getRotation()(1),   pk_RigidBody->getRotation()(2),   pk_RigidBody->getRotation()(3),   rotX, rotY, rotZ );
 
-        m_pkRigidBody->unmarkForRead();
+        pk_RigidBody->unmarkForRead();
 
-        return fRotZ;
+        return rotZ;
 }
 void RigidBody::setCollider(Collider* pkCollider){
 
 	if(m_pkCollider != NULL){
-		m_pkRigidBody->markForWrite();
+		pk_RigidBody->markForWrite();
 
 		delete m_pkCollider;
 		m_pkCollider = pkCollider;
 	
 	}else{
 	m_pkCollider = pkCollider;
-	m_pkRigidBody->markForWrite();
+	pk_RigidBody->markForWrite();
 	}
-	m_pkRigidBody->setShape( m_pkCollider->shape() );
-	m_pkRigidBody->unmarkForWrite();
+	pk_RigidBody->setShape( m_pkCollider->shape() );
+	pk_RigidBody->unmarkForWrite();
 }
 
 void RigidBody::setHavokMotion(RigidBody::HavokMotion type){
 	m_HMotion = type;
-	m_pkRigidBody->markForWrite();
-	m_pkRigidBody->setMotionType( s_HavokMType[type] );
-	m_pkRigidBody->unmarkForWrite();
+	pk_RigidBody->markForWrite();
+	pk_RigidBody->setMotionType( s_HavokMType[type] );
+	pk_RigidBody->unmarkForWrite();
 }

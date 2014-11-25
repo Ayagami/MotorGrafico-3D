@@ -20,13 +20,13 @@ namespace DoMaRe{
 		Collider();
 		virtual ~Collider();
 
-		virtual void calculate(const Mesh* pkMesh) = 0;
+		virtual void build(const Mesh* pkMesh) = 0;
 		void setPosition (float fX, float fY, float fZ);
 
 	protected:
 		virtual hkpShape* shape () = 0;
 		hkpRigidBody* rigidBody();
-		hkpRigidBody* m_pkRigidBody;
+		hkpRigidBody* pk_RigidBody;
 	};
 
 
@@ -35,7 +35,7 @@ namespace DoMaRe{
 		public:
 			BoxCollider();
 			~BoxCollider();
-			void calculate(const Mesh* pkMesh);
+			void build(const Mesh* pkMesh);
 
 		protected:
 			hkpShape* shape();
@@ -49,7 +49,7 @@ namespace DoMaRe{
 	class MYENGINE_API MeshCollider : public Collider{
 		public:
 			MeshCollider();
-			void calculate(const Mesh* pkMesh);
+			void build(const Mesh* pkMesh);
 			//~MeshCollider();
 		protected:
 			hkpShape* shape();

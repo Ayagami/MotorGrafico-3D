@@ -30,7 +30,7 @@ _TrMatrix( new D3DXMATRIX() ),
 _TrLocalMatrix (new D3DXMATRIX() ),
 m_kAABB(new AABB()),
 m_pkParent(NULL),
-m_pkRigidBody( new RigidBody() )
+pk_RigidBody( new RigidBody() )
 {
 	D3DXMatrixIdentity(_TrMatrix);
 	updateLocalTransformation();
@@ -42,8 +42,8 @@ Entity3D::~Entity3D(){
 	delete _TrLocalMatrix;
 	_TrLocalMatrix = NULL;
 
-	delete m_pkRigidBody;
-	m_pkRigidBody = NULL;
+	delete pk_RigidBody;
+	pk_RigidBody = NULL;
 
 	delete m_kAABB;
 	m_kAABB = NULL;
@@ -52,20 +52,20 @@ Entity3D::~Entity3D(){
 
 void Entity3D::setPos(float fPosX, float fPosY){
 
-	m_pkRigidBody->setPosition(fPosX,fPosY,m_pkRigidBody->posZ());
+	pk_RigidBody->setPosition(fPosX,fPosY,pk_RigidBody->posZ());
 
 }
 
 void Entity3D::setPos(float fPosX, float fPosY, float fPosZ){
 
 
-	m_pkRigidBody->setPosition(fPosX,fPosY, fPosZ);
+	pk_RigidBody->setPosition(fPosX,fPosY, fPosZ);
 }
 
 
 void Entity3D::setRotation(float fRotationX, float fRotationY, float fRotationZ){
 
-	m_pkRigidBody->setRotation(fRotationX,fRotationY,fRotationZ);
+	pk_RigidBody->setRotation(fRotationX,fRotationY,fRotationZ);
 }
 
 void Entity3D::setScale(float fScaleX, float fScaleY, float fScaleZ){
@@ -78,13 +78,13 @@ void Entity3D::setScale(float fScaleX, float fScaleY, float fScaleZ){
 void Entity3D::updateLocalTransformation(){
 
  D3DXMATRIX translateMatrix;
- D3DXMatrixTranslation(&translateMatrix, m_pkRigidBody->posX(), m_pkRigidBody->posY(), m_pkRigidBody->posZ());
+ D3DXMatrixTranslation(&translateMatrix, pk_RigidBody->posX(), pk_RigidBody->posY(), pk_RigidBody->posZ());
 
  D3DXMATRIX rotationMatrixZ, rotationMatrixX, rotationMatrixY;
 
- D3DXMatrixRotationZ(&rotationMatrixZ, m_pkRigidBody->rotationZ());
- D3DXMatrixRotationY(&rotationMatrixY, m_pkRigidBody->rotationY());
- D3DXMatrixRotationX(&rotationMatrixX, m_pkRigidBody->rotationX());
+ D3DXMatrixRotationZ(&rotationMatrixZ, pk_RigidBody->rotationZ());
+ D3DXMatrixRotationY(&rotationMatrixY, pk_RigidBody->rotationY());
+ D3DXMatrixRotationX(&rotationMatrixX, pk_RigidBody->rotationX());
 
  D3DXMATRIX scaleMatrix;
  D3DXMatrixScaling(&scaleMatrix, _ScaleX, _ScaleY, _ScaleZ);
@@ -105,15 +105,15 @@ const Matrix& Entity3D::transformationMatrix() const{
 }
 
 float Entity3D::posX() const{
-	return m_pkRigidBody->posX();
+	return pk_RigidBody->posX();
 }
 
 float Entity3D::posY() const{
-	return m_pkRigidBody->posY();
+	return pk_RigidBody->posY();
 }
 
 float Entity3D::posZ() const{
-	return m_pkRigidBody->posZ();
+	return pk_RigidBody->posZ();
 }
 
 void Entity3D::setName(std::string _name){

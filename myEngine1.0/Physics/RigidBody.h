@@ -41,7 +41,6 @@ namespace DoMaRe{
 		HavokMotion havokMotion () const { return m_HMotion; };
 
 	private:
-		Matrix m_pTransformation;
 
 		Collider* m_pkCollider;
 
@@ -49,7 +48,7 @@ namespace DoMaRe{
 
 	protected:
 
-		hkpRigidBody* rigidbody(){ return m_pkRigidBody; }
-		hkpRigidBody* m_pkRigidBody;
+		hkpRigidBody* rigidbody(){ return pk_RigidBody; }
+		hkpRigidBody* pk_RigidBody;
 	};
 }
