@@ -19,7 +19,6 @@ AABB::~AABB(){
 	m_pkOffset = NULL;
 }
 void AABB::setData(float fWidth, float fHeight, float fDepth, float fOffsetX, float fOffsetY, float fOffsetZ){
-	// REVISAR LOGICA... I DONT HAVE A FUCKING IDEA OF WHAT I'M DOING.
 	m_pkOffset->x = fOffsetX;
 	m_pkOffset->y = fOffsetY;
 	m_pkOffset->z = fOffsetZ;
