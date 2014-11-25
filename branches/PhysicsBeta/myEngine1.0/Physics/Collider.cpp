@@ -15,14 +15,14 @@
 using namespace DoMaRe;
 
 //------------------------------------------------------------- COLLIDER
-Collider::Collider() : m_pkRigidBody(NULL){
+Collider::Collider() : pk_RigidBody(NULL){
 }
 Collider::~Collider(){
-	m_pkRigidBody->removeReference();		// DELETE RIGIDBODY!
-	m_pkRigidBody = NULL;
+	pk_RigidBody->removeReference();		// DELETE RIGIDBODY!
+	pk_RigidBody = NULL;
 }
 void Collider::setPosition(float x,float y,float z){
-	m_pkRigidBody->setPosition( hkVector4(x,y,z) );
+	pk_RigidBody->setPosition( hkVector4(x,y,z) );
 }
 //------------------------------------------------------------- BoxCollider
 BoxCollider::BoxCollider()	:	Collider(),	m_pkBox(NULL){
@@ -31,7 +31,7 @@ BoxCollider::BoxCollider()	:	Collider(),	m_pkBox(NULL){
 BoxCollider::~BoxCollider(){
 
 }
-void BoxCollider::calculate(const Mesh* pkMesh){
+void BoxCollider::build(const Mesh* pkMesh){
 	// DO CALCULATIONS!
 }
 hkpShape* BoxCollider::shape(){
@@ -42,7 +42,7 @@ MeshCollider::MeshCollider() :	Collider(),	m_pkMeshCollider(NULL){
 
 }
 
-void MeshCollider::calculate(const Mesh* pkMesh){
+void MeshCollider::build(const Mesh* pkMesh){
 	size_t iCount = pkMesh->indexs().size();
 	hkArray<hkVector4> aVertexs(iCount);
 	for(unsigned int i=0; i < iCount; i++){
@@ -59,7 +59,7 @@ void MeshCollider::calculate(const Mesh* pkMesh){
 	rbInfo.m_position = hkVector4(0.0f,0.0f,0.0f);
 	rbInfo.m_motionType = hkpMotion::MOTION_FIXED;
 
-	m_pkRigidBody = new hkpRigidBody(rbInfo);
+	pk_RigidBody = new hkpRigidBody(rbInfo);
 	m_pkMeshCollider->removeReference();
 }
 hkpShape* MeshCollider::shape(){

@@ -25,8 +25,8 @@ namespace DoMaRe{
 
 	public:
 
-		const RigidBody* rigidbody() const { return m_pkRigidBody; };
-		RigidBody* rigidBody(){ return m_pkRigidBody; };
+		const RigidBody* rigidbody() const { return pk_RigidBody; };
+		RigidBody* rigidBody(){ return pk_RigidBody; };
 
 		void setPos(float fPosX, float fPosY);
 		void setPos(float fPosX,float fPosY, float fPosZ);
@@ -48,9 +48,9 @@ namespace DoMaRe{
 		float posY() const;
 		float posZ() const;
 
-		float rotationX() const { return m_pkRigidBody->rotationX();}
-		float rotationY() const { return m_pkRigidBody->rotationY();}
-		float rotationZ() const { return m_pkRigidBody->rotationZ();}
+		float rotationX() const { return pk_RigidBody->rotationX();}
+		float rotationY() const { return pk_RigidBody->rotationY();}
+		float rotationZ() const { return pk_RigidBody->rotationZ();}
 
 		float scale() const;
 		float scaleX() const;
@@ -101,7 +101,7 @@ namespace DoMaRe{
 
 		Node* m_pkParent;
 
-		RigidBody* m_pkRigidBody;
+		RigidBody* pk_RigidBody;
 
 	protected:
 

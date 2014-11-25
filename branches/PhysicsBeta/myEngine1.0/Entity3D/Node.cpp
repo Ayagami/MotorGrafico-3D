@@ -29,13 +29,13 @@ void Node::updateTransformation(){
 	Entity3D::updateTransformation();
 
 	//--
-	float fMaxX = std::numeric_limits<float>::lowest();
-	float fMaxY = std::numeric_limits<float>::lowest();
-	float fMaxZ = std::numeric_limits<float>::lowest();
+	float MaxX = std::numeric_limits<float>::lowest();
+	float MaxY = std::numeric_limits<float>::lowest();
+	float MaxZ = std::numeric_limits<float>::lowest();
 
-	float fMinX = std::numeric_limits<float>::max();
-	float fMinY = std::numeric_limits<float>::max();
-	float fMinZ = std::numeric_limits<float>::max();
+	float MinX = std::numeric_limits<float>::max();
+	float MinY = std::numeric_limits<float>::max();
+	float MinZ = std::numeric_limits<float>::max();
 	
 	//---
 
@@ -43,27 +43,27 @@ void Node::updateTransformation(){
 		(*it)->updateTransformation();
 
 		//---
-		float fAabbMaxX = (*it)->posX() + ( (*it)->aabb().offset()->x + ( (*it)->aabb().width() / 2 ) );
-		float fAabbMaxY = (*it)->posY() + ( (*it)->aabb().offset()->y + ( (*it)->aabb().height() / 2 ) );
-		float fAabbMaxZ = (*it)->posZ() + ( (*it)->aabb().offset()->z + ( (*it)->aabb().depth() / 2 ) );
+		float AabbMx = (*it)->posX() + ( (*it)->aabb().offset()->x + ( (*it)->aabb().width() / 2 ) );
+		float AabbMy = (*it)->posY() + ( (*it)->aabb().offset()->y + ( (*it)->aabb().height() / 2 ) );
+		float AabbMz = (*it)->posZ() + ( (*it)->aabb().offset()->z + ( (*it)->aabb().depth() / 2 ) );
 
 		
-		float fAabbMinX = (*it)->posX() + ( (*it)->aabb().offset()->x - ( (*it)->aabb().width() / 2 ) );
-		float fAabbMinY = (*it)->posY() + ( (*it)->aabb().offset()->y - ( (*it)->aabb().height() / 2 ) );
-		float fAabbMinZ = (*it)->posZ() + ( (*it)->aabb().offset()->z - ( (*it)->aabb().depth() / 2 ) );
+		float Aabbmx = (*it)->posX() + ( (*it)->aabb().offset()->x - ( (*it)->aabb().width() / 2 ) );
+		float Aabbmy = (*it)->posY() + ( (*it)->aabb().offset()->y - ( (*it)->aabb().height() / 2 ) );
+		float Aabbmz = (*it)->posZ() + ( (*it)->aabb().offset()->z - ( (*it)->aabb().depth() / 2 ) );
 
 
-		if(fMaxX < fAabbMaxX) fMaxX = fAabbMaxX;
-		if(fMaxY < fAabbMaxY) fMaxY = fAabbMaxY;
-		if(fMaxZ < fAabbMaxZ) fMaxZ = fAabbMaxZ;
+		if(MaxX < AabbMx) MaxX = AabbMx;
+		if(MaxY < AabbMy) MaxY = AabbMy;
+		if(MaxZ < AabbMz) MaxZ = AabbMz;
 
-		if(fMinX > fAabbMinX) fMinX = fAabbMinX;
-		if(fMinY > fAabbMinY) fMinY = fAabbMinY;
-		if(fMinZ > fAabbMinZ) fMinZ = fAabbMinZ;
+		if(MinX > Aabbmx) MinX = Aabbmx;
+		if(MinY > Aabbmy) MinY = Aabbmy;
+		if(MinZ > Aabbmz) MinZ = Aabbmz;
 		//---
 
 	}
-	aabb().setData( fabs(fMaxX - fMinX), fabs(fMaxY - fMinY), fabs(fMaxZ - fMinZ), (fMinX + fMaxX) / 2 - this->posX() , (fMinY + fMaxY) / 2 - this->posY(), (fMinZ + fMaxZ) / 2 - this->posZ());	
+	aabb().setData( fabs(MaxX - MinX), fabs(MaxY - MinY), fabs(MaxZ - MinZ), (MinX + MaxX) / 2 - this->posX() , (MinY + MaxY) / 2 - this->posY(), (MinZ + MaxZ) / 2 - this->posZ());	
 }
 
 void Node::Draw(){
