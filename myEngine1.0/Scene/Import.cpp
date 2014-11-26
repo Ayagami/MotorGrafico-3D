@@ -27,16 +27,13 @@ using namespace DoMaRe;
 Import* Import::Instance = NULL;
 Import::Import(){
 	//*pk_renderer = *pkRenderer;
+	Instance = this;
 }
 Import::~Import(){
 	// Fin MAP de Meshes
 }
 
 Import* Import::getInstance(){
-	if(Instance == NULL){
-		Instance = new Import();
-	}
-
 	return Instance;
 }
 
