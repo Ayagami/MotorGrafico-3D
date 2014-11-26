@@ -42,7 +42,7 @@ namespace DoMaRe{
 			// - 3D
 			Renderer& GetRenderer() const{ return *pk_renderer; }
 			Sound&	  GetSound()	const{ return *pk_Sound;	}
-			Import* getInstance();
+			static Import* getInstance();
 			//Renderer *renderer;
 		protected:
 			Import();

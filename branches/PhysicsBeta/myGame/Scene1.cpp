@@ -94,6 +94,7 @@ void Scene1::UpdateInputs(DoMaRe::DirectInput& dInput, DoMaRe::Timer& timer, DoM
 		mainCamera->MoveUp(mSpeed * timer.timeBetweenFrames());
 	}
 
+
 	if(dInput.keyDown(DoMaRe::Input::KEY_L)){
 		pkNode->setPos(pkNode->posX() + (mSpeed * timer.timeBetweenFrames()) , pkNode->posY(), pkNode->posZ());
 	}
