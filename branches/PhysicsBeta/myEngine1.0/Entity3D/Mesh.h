@@ -24,6 +24,8 @@ namespace DoMaRe{
 		const std::vector<MeshVertex>& vertexs() const;
 		const std::vector<unsigned short> indexs() const;
 
+		static int debugedMeshes;
+
 	protected:
 		IndexBuffer* mk_IndexBuffer;
 		Texture s_Texture;

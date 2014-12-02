@@ -12,7 +12,7 @@ hkpMotion::MotionType s_HavokMType [RigidBody::HavokMotionCount] = {
 	hkpMotion::MOTION_DYNAMIC
 };
 
-RigidBody::RigidBody() : pk_RigidBody(NULL), m_HMotion(Dynamic), m_pkCollider(NULL){
+RigidBody::RigidBody() : pk_RigidBody(NULL), m_HMotion(Static), m_pkCollider(NULL){
         hkpBoxShape* pkBox = new hkpBoxShape( hkVector4(1.0f, 1.0f, 1.0f) );
 
         hkpRigidBodyCinfo RigidBodyInfo;
@@ -21,6 +21,8 @@ RigidBody::RigidBody() : pk_RigidBody(NULL), m_HMotion(Dynamic), m_pkCollider(NU
         RigidBodyInfo.m_motionType = hkpMotion::MOTION_DYNAMIC;
 
         pk_RigidBody = new hkpRigidBody(RigidBodyInfo);
+
+		pkBox->removeReference();
 }
 
 RigidBody::~RigidBody(){
@@ -112,7 +114,6 @@ float RigidBody::rotationZ () const{
         return rotZ;
 }
 void RigidBody::setCollider(Collider* pkCollider){
-
 	if(m_pkCollider != NULL){
 		pk_RigidBody->markForWrite();
 
