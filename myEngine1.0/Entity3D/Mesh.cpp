@@ -5,6 +5,8 @@
 #include "../Physics/Physics.h"
 using namespace DoMaRe;
 
+int Mesh::debugedMeshes = 0;
+
 Mesh::Mesh(Renderer & p_Renderer): pk_Renderer(p_Renderer) , s_Texture(NoTexture){
 	mk_VertexBuffer3D = pk_Renderer.createVB(sizeof(DoMaRe::MeshVertex), DoMaRe::MeshVertexType);
 	mk_IndexBuffer = pk_Renderer.createIB();
@@ -46,7 +48,7 @@ void Mesh::setData(const MeshVertex* Tex_Vertex, size_t vertexCount, DoMaRe::Pri
 	DoMaRe::MeshCollider* newCollider = new DoMaRe::MeshCollider();
 	newCollider->build(this);
 	rigidBody()->setCollider(newCollider);
-	rigidBody()->setHavokMotion(DoMaRe::RigidBody::HavokMotion::Dynamic);
+	rigidBody()->setHavokMotion(DoMaRe::RigidBody::HavokMotion::Static);
 	Physics::getInstance()->addEntity(rigidBody());
 
 	//
@@ -58,6 +60,8 @@ void Mesh::Draw(){
 	pk_Renderer.setCurrentTexture(s_Texture);
 	pk_Renderer.setMatrix(World, _TrMatrix );
 	pk_Renderer.Draw(pkPrimitive);
+
+	debugedMeshes ++ ;
 }
 
 void Mesh::setTexture(std::string pkTextureFile, DWORD theColor){
