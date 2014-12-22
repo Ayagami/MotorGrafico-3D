@@ -17,6 +17,7 @@ namespace DoMaRe{/*
 class VertexBuffer;
 struct ColorVertex;
 struct TexCoordVertex;*/
+class Material;
 class MYENGINE_API Renderer{
 	public:
 		Renderer();
@@ -28,6 +29,7 @@ class MYENGINE_API Renderer{
 		void SetCamera(D3DXMATRIX * matrix);
 		void setCurrentVertexBuffer(VertexBuffer3D * p);
 		void setCurrentIndexBuffer(IndexBuffer * p);
+		void setMaterial(Material* pkMaterial = NULL);
 		void loadIdentity();
 		void setTransformMatrix(D3DXMATRIX * matrix);
 		void setMatrix(MatrixType, const Matrix&);
@@ -43,6 +45,9 @@ class MYENGINE_API Renderer{
 		VertexBuffer3D* createVB(size_t vSize, unsigned int FVF);
 		IndexBuffer* createIB();
 		const Matrix&	projectionMatrix	() const;
+
+		void setLight(D3DLIGHT9*, unsigned long);
+		void enableLight(bool, unsigned long);
 	private:
 		bool wireFrameMode;
 		IDirect3D9  * d3d;
