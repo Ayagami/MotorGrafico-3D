@@ -99,6 +99,8 @@
     <ClInclude Include="Physics\RigidBody.h" />
     <ClInclude Include="Renderer\AABB.h" />
     <ClInclude Include="Renderer\EMath.h" />
+    <ClInclude Include="Renderer\Light.h" />
+    <ClInclude Include="Renderer\Material.h" />
     <ClInclude Include="Renderer\Renderer.h" />
     <ClInclude Include="Renderer\RenderTypes.h" />
     <ClInclude Include="Renderer\Window.h" />
@@ -129,6 +131,8 @@
     <ClCompile Include="Physics\RigidBody.cpp" />
     <ClCompile Include="Renderer\AABB.cpp" />
     <ClCompile Include="Renderer\EMath.cpp" />
+    <ClCompile Include="Renderer\Light.cpp" />
+    <ClCompile Include="Renderer\Material.cpp" />
     <ClCompile Include="Renderer\Renderer.cpp" />
     <ClCompile Include="Renderer\RenderTypes.cpp" />
     <ClCompile Include="Renderer\Window.cpp" />

@@ -11,6 +11,7 @@
 
 #include <vector>
 
+
 //#include "Sound\Sound.h"
 using namespace MiJuego;
 bool ds = true;
@@ -23,7 +24,16 @@ bool Scene1::Init(DoMaRe::Import& Importer){
 
 	pkNode = new DoMaRe::Node();
 	
-	Importer.importScene("Mesh.obj", *pkNode);
+	mainLight = new DoMaRe::Light(&Importer.GetRenderer());
+	mainLight->setLightType(DoMaRe::Light::POINT_LIGHT);
+	mainLight->setPosition(0, 0, 0);
+	mainLight->setDirection(1, 1, 1);
+	mainLight->setAmbient(0, 0, 0, 0);
+	mainLight->setSpecular(0, 0, 0, 0);
+	mainLight->setLightIndex(0);
+	mainLight->enable(true);
+
+	Importer.importScene("Consola.obj", *pkNode);
 	
 	pkNode->setPos(0,0,0);
 	Importer.GetSound().playSoundFile("sound.mp3",false);
@@ -37,6 +47,9 @@ bool Scene1::Frame(DoMaRe::Renderer& renderer, DoMaRe::DirectInput& dInput, DoMa
 
 bool Scene1::deInit(){
 	OutputDebugString("Salí Scene1");
+
+	delete mainLight;
+
 	return true;
 }
 
@@ -50,7 +63,7 @@ void Scene1::UpdateInputs(DoMaRe::DirectInput& dInput, DoMaRe::Timer& timer, DoM
 	}
 
 	if(dInput.keyDown(DoMaRe::Input::KEY_F1)){
-		renderer.setWireFrameMode(!renderer.getWireFrameMode());	
+			renderer.setWireFrameMode(!renderer.getWireFrameMode());	
 	}
 
 	if(dInput.keyDown(DoMaRe::Input::KEY_UP)){

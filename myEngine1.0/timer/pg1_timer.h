@@ -23,6 +23,7 @@ public:
 
 	float timeBetweenFrames () const;
 	unsigned int fps () const;
+	float time() const;
 
 private:
 	double m_dTimeBetweenFrames;
@@ -33,6 +34,8 @@ private:
 	LARGE_INTEGER m_kPerfCount1;
 	LARGE_INTEGER m_kPerfCount2;
 	LARGE_INTEGER m_kFrequency;
+
+	double m_dTime;
 };
 //---------------------------------------------------------------------------
 #include "pg1_timer.inl"

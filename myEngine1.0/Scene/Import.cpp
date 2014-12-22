@@ -12,6 +12,8 @@
 #include "../Entity3D/Node.h"
 #include "../Entity3D/Entity3D.h"
 
+#include "../Renderer/Material.h"
+
 //----- Assimp
 #include "../../ext/assimp/include/Importer.hpp"
 #include "../../ext/assimp/include/scene.h"
@@ -312,6 +314,7 @@ bool Import::importNode (const aiNode* AiNode, const aiScene* AiScene, Node& kNo
 
 		aiMesh* pkAiMesh = AiScene->mMeshes[ AiNode->mMeshes[i] ];
 		aiMaterial* pkAiMaterial = AiScene->mMaterials[pkAiMesh->mMaterialIndex];
+
 		importMesh(pkAiMesh, pkAiMaterial, *pkMesh);
 
 		//	Actualizo nuevamente los AABB (Pero para meshes!)
@@ -341,7 +344,7 @@ bool Import::importNode (const aiNode* AiNode, const aiScene* AiScene, Node& kNo
 	return true;
 }
 bool Import::importMesh(const aiMesh* pkAiMesh, const aiMaterial* pkAiMaterial, Mesh& kMesh){
-	
+
 			//Tendria que cargar los AABB para cada Mesh, De Forma Recursiva Quizá?
 				float MaxX = std::numeric_limits<float>::lowest();
 				float MaxY = std::numeric_limits<float>::lowest();
@@ -403,6 +406,30 @@ bool Import::importMesh(const aiMesh* pkAiMesh, const aiMaterial* pkAiMaterial, 
 		}
 		Texture TheTexture = pk_renderer->loadTexture(kTexturePath);
 		kMesh.setTexture(TheTexture);
+
+		// Loading Material...
+		aiColor4D diffuse;
+		aiReturn di = aiGetMaterialColor(pkAiMaterial, AI_MATKEY_COLOR_DIFFUSE, &diffuse);
+		
+		aiColor4D ambient;
+		aiReturn am = aiGetMaterialColor(pkAiMaterial, AI_MATKEY_COLOR_AMBIENT, &ambient);
+
+		aiColor4D specular;
+		aiReturn sp = aiGetMaterialColor(pkAiMaterial, AI_MATKEY_COLOR_SPECULAR, &specular);
+
+		aiColor4D emissive;
+		aiReturn em = aiGetMaterialColor(pkAiMaterial, AI_MATKEY_COLOR_EMISSIVE, &emissive);
+
+		if(di == aiReturn_SUCCESS && am == aiReturn_SUCCESS && sp == aiReturn_SUCCESS && em == aiReturn_SUCCESS){
+
+			Material* pkMaterial = new Material();
+			pkMaterial->setDiffuse(diffuse.r,diffuse.g,diffuse.b,diffuse.a);
+			pkMaterial->setAmbient(ambient.r,ambient.g,ambient.b,ambient.a);
+			pkMaterial->setSpecular(specular.r,specular.g,specular.b,specular.a);
+			pkMaterial->setEmissive(emissive.r,emissive.g,emissive.b,emissive.a);
+
+			kMesh.setMaterial(*pkMaterial);
+		}
 	}
 	
 	delete[] pVertices;

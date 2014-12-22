@@ -9,6 +9,7 @@
 
 namespace DoMaRe{
 	class Renderer;
+	class Material;
 	class MYENGINE_API Mesh : public Entity3D{
 	public:
 		Mesh(Renderer&);
@@ -16,6 +17,7 @@ namespace DoMaRe{
 		void setData(const MeshVertex*, size_t vertexCount, DoMaRe::Primitive, const unsigned short*, size_t indexCount);
 		void setTexture(std::string, DWORD theColor);
 		void setTexture(Texture& theTexture);
+		void setMaterial(Material& pkMaterial);
 		void Draw();
 
 		const VertexBuffer3D* vertexBuffer() const;
@@ -23,6 +25,7 @@ namespace DoMaRe{
 
 		const std::vector<MeshVertex>& vertexs() const;
 		const std::vector<unsigned short> indexs() const;
+		const Material& getMaterial() const;
 
 		static int debugedMeshes;
 
@@ -32,6 +35,7 @@ namespace DoMaRe{
 		VertexBuffer3D* mk_VertexBuffer3D;
 		Primitive pkPrimitive;
 		Renderer& pk_Renderer;
+		Material* pk_Material;
 
 	private:
 		std::vector<MeshVertex> m_pkVertex;

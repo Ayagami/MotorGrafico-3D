@@ -1,5 +1,6 @@
 #pragma once
 #include "Renderer.h"
+#include "Material.h"
 using namespace DoMaRe;
 Renderer::Renderer():
 d3d(NULL),
@@ -41,6 +42,11 @@ Renderer::~Renderer(){
 	m_pkProjectionMatrix = NULL;
 	}
 
+	if(Material::Default_Material){
+		delete Material::Default_Material;
+		Material::Default_Material = NULL;
+	}
+
 	Clear();
 }
 void Renderer::Clear(){
@@ -68,8 +74,15 @@ bool Renderer::Init(HWND _HwnD){
 	d3dpp.PresentationInterval = D3DPRESENT_INTERVAL_IMMEDIATE;  // HAGAMOS 2500 FRAMES, PORQUE PODEMOS.
 
 	if(d3d->CreateDevice( D3DADAPTER_DEFAULT, D3DDEVTYPE_HAL, _HwnD, D3DCREATE_HARDWARE_VERTEXPROCESSING, &d3dpp, &d3d_dev) == D3D_OK){
-		d3d_dev->SetRenderState(D3DRS_LIGHTING,FALSE);
-		d3d_dev->SetRenderState(D3DRS_ZENABLE, TRUE);
+		
+		d3d_dev->SetRenderState(D3DRS_LIGHTING, TRUE); // Cambiar a TRUE para habilitar la luz.
+		d3d_dev->SetRenderState(D3DRS_ZENABLE,  TRUE);
+
+		d3d_dev->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
+		d3d_dev->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
+		d3d_dev->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
+		d3d_dev->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
+		d3d_dev->SetRenderState(D3DRS_ZFUNC, D3DCMP_LESSEQUAL);
 
 		//d3d_dev->SetRenderState(D3DRS_CULLMODE,D3DCULL_CW);
 
@@ -101,6 +114,10 @@ bool Renderer::Init(HWND _HwnD){
 
 	//	p_vb = new DoMaRe::VertexBuffer(d3d_dev, sizeof(DoMaRe::ColorVertex), DoMaRe::ColorVertexType);
 	//	p_vbT = new DoMaRe::VertexBuffer(d3d_dev, sizeof(DoMaRe::TexCoordVertex), DoMaRe::TexCoordVertexType);
+		
+		// Creo Default Material...
+		Material::Default_Material = new Material();
+
 		return true;
 	}
 	return false;
@@ -116,7 +133,7 @@ void Renderer::setWireFrameMode(bool theMode){
 	wireFrameMode = theMode;
 }
 void Renderer::BeginFrame(){
-	d3d_dev->Clear(0, NULL, D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER, D3DCOLOR_XRGB(0,0,0), 1.0f, 0);
+	d3d_dev->Clear(0, NULL, D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER, D3DCOLOR_XRGB(102,102,102), 1.0f, 0);
 	d3d_dev->BeginScene();
 }
 
@@ -167,6 +184,21 @@ void Renderer::EndFrame(){
 	d3d_dev->Present(NULL,NULL,NULL,NULL);
 }
 
+void Renderer::setMaterial(Material* pkMaterial){
+	if(pkMaterial == NULL)
+		d3d_dev->SetMaterial(NULL);
+	else{
+		d3d_dev->SetMaterial( &(pkMaterial->m_pkMaterial));
+	}
+}
+
+void Renderer::setLight(D3DLIGHT9 * pkL, unsigned long pkIn){
+	d3d_dev->SetLight(pkIn, pkL);
+}
+
+void Renderer::enableLight(bool bEnabled, unsigned long pkIn){
+	d3d_dev->LightEnable(pkIn, bEnabled);
+}
 
 D3DPRIMITIVETYPE primitiveMap[DoMaRe::PrimitiveCount] = {
         D3DPT_TRIANGLELIST, 

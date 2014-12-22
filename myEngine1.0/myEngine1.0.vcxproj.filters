@@ -174,6 +174,12 @@
     <ClInclude Include="Physics\RigidBody.h">
       <Filter>Archivos de encabezado\include\Physics</Filter>
     </ClInclude>
+    <ClInclude Include="Renderer\Light.h">
+      <Filter>Archivos de encabezado\include\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="Renderer\Material.h">
+      <Filter>Archivos de encabezado\include\Renderer</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine.cpp">
@@ -258,6 +264,12 @@
       <Filter>Archivos de código fuente\src\Physics</Filter>
     </ClCompile>
     <ClCompile Include="Renderer\EMath.cpp">
+      <Filter>Archivos de código fuente\src\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="Renderer\Light.cpp">
+      <Filter>Archivos de código fuente\src\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="Renderer\Material.cpp">
       <Filter>Archivos de código fuente\src\Renderer</Filter>
     </ClCompile>
   </ItemGroup>
