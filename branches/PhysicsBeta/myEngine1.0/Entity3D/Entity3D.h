@@ -73,6 +73,12 @@ namespace DoMaRe{
 		//CollisionResult checkCollision(Entity2D& rkEntity2D) const;
 		//void drawAABB (Renderer& rkRenderer) const;
 
+		virtual void OnCollision(Entity3D* pkCollider, Entity3D* Owner) { 
+			if(this->CollisionEvent != NULL){
+				CollisionEvent(pkCollider, Owner);
+			}
+		}
+		void setCollisionEvent(void (*collEvent)(Entity3D*, Entity3D*) );
 		void drawAABB(Renderer& pkRenderer) const;
 		//void UpdateGravityPos();
 		
@@ -102,6 +108,8 @@ namespace DoMaRe{
 		Node* m_pkParent;
 
 		RigidBody* pk_RigidBody;
+
+		void (*CollisionEvent)(Entity3D*,Entity3D*);
 
 	protected:
 
