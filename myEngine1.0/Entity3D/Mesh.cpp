@@ -52,8 +52,9 @@ void Mesh::setData(const MeshVertex* Tex_Vertex, size_t vertexCount, DoMaRe::Pri
 	DoMaRe::MeshCollider* newCollider = new DoMaRe::MeshCollider();
 	newCollider->build(this);
 	rigidBody()->setCollider(newCollider);
-	rigidBody()->setHavokMotion(DoMaRe::RigidBody::HavokMotion::Static);
+	rigidBody()->setHavokMotion(DoMaRe::RigidBody::HavokMotion::Dynamic);
 	Physics::getInstance()->addEntity(rigidBody());
+	
 
 	//
 }

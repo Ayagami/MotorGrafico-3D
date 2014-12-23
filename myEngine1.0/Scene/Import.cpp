@@ -246,6 +246,9 @@ bool Import::importScene (const std::string& fileName, Node& SceneRoot){
 	return true;
 }
 bool Import::importNode (const aiNode* AiNode, const aiScene* AiScene, Node& kNode){
+
+	kNode.setName( AiNode->mName.C_Str() );
+
 	// import transformation
 	aiVector3t<float> v3AiScaling;
 	aiQuaterniont<float> qAiRotation;
@@ -344,6 +347,8 @@ bool Import::importNode (const aiNode* AiNode, const aiScene* AiScene, Node& kNo
 	return true;
 }
 bool Import::importMesh(const aiMesh* pkAiMesh, const aiMaterial* pkAiMaterial, Mesh& kMesh){
+
+	kMesh.setName( pkAiMesh->mName.C_Str() );
 
 			//Tendria que cargar los AABB para cada Mesh, De Forma Recursiva Quizá?
 				float MaxX = std::numeric_limits<float>::lowest();
