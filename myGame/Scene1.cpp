@@ -11,6 +11,7 @@
 
 #include <vector>
 
+void Test2(DoMaRe::Entity3D* pk1, DoMaRe::Entity3D* pk2);
 
 //#include "Sound\Sound.h"
 using namespace MiJuego;
@@ -37,8 +38,13 @@ bool Scene1::Init(DoMaRe::Import& Importer){
 	Importer.importScene("Mesh.obj", *pkNode);
 	pkNode->setPos(0,0,0);
 	
+	//Test2(pkNode->childs()[0],pkNode->childs()[1]);
 	//DoMaRe::Node* pkPlaneNode = dynamic_cast<DoMaRe::Node*>( getEntity3D("Plane001", pkNode) ) ;
 	//pkPlaneNode->childs()[0]->rigidBody()->setHavokMotion(DoMaRe::RigidBody::Static);
+
+	pkNode->setCollisionEvent(&Test2);
+	
+	pkNode->OnCollision(pkNode->childs()[0],pkNode->childs()[1]);
 
 	Importer.GetSound().playSoundFile("sound.mp3",false);
 	return true;
@@ -55,6 +61,12 @@ bool Scene1::deInit(){
 	delete mainLight;
 
 	return true;
+}
+
+void Test2(DoMaRe::Entity3D* pk1, DoMaRe::Entity3D* pk2){
+	OutputDebugString(pk1->getName().c_str());
+	OutputDebugString(" LA LA ");
+	OutputDebugString(pk2->getName().c_str());
 }
 
 void Scene1::UpdateInputs(DoMaRe::DirectInput& dInput, DoMaRe::Timer& timer, DoMaRe::Sound& pkSound, DoMaRe::Renderer& renderer){

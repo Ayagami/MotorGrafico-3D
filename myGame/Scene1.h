@@ -30,7 +30,6 @@ namespace MiJuego{
 		bool deInit();
 	private:
 		void UpdateInputs(DoMaRe::DirectInput& dInput, DoMaRe::Timer& timer, DoMaRe::Sound& pkSound, DoMaRe::Renderer& renderer);
-
 		DoMaRe::Light * mainLight;
 	};
 }

@@ -19,13 +19,8 @@ _RotY(0.0f),
 _RotZ(0.0f),
 _ScaleX(1.0f),
 _ScaleY(1.0f),
-_ScaleZ(1.0f),/*
-_PreviousPosX(0.0f),
-_PreviousPosY(0.0f),
-_PreviousPosZ(0.0f),
-_UseGravity(false),
-_Gravity(1.5f),*/
-//_theSound(NULL),
+_ScaleZ(1.0f),
+CollisionEvent(NULL),
 _TrMatrix( new D3DXMATRIX() ),
 _TrLocalMatrix (new D3DXMATRIX() ),
 m_kAABB(new AABB()),
@@ -244,6 +239,10 @@ void Entity3D::updateTransformation(){
 
 void Entity3D::setParent (Node* pkParent){
 	m_pkParent = pkParent;
+}
+
+void Entity3D::setCollisionEvent(void (*collEvent)(Entity3D*,Entity3D*) ){
+	CollisionEvent = collEvent;
 }
 
 const AABB&	Entity3D::aabb() const{	return *m_kAABB; }
