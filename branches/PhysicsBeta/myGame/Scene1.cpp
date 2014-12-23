@@ -24,6 +24,7 @@ bool Scene1::Init(DoMaRe::Import& Importer){
 
 	pkNode = new DoMaRe::Node();
 	
+
 	mainLight = new DoMaRe::Light(&Importer.GetRenderer());
 	mainLight->setLightType(DoMaRe::Light::POINT_LIGHT);
 	mainLight->setPosition(0, 0, 0);
@@ -33,9 +34,12 @@ bool Scene1::Init(DoMaRe::Import& Importer){
 	mainLight->setLightIndex(0);
 	mainLight->enable(true);
 
-	Importer.importScene("Consola.obj", *pkNode);
-	
+	Importer.importScene("Mesh.obj", *pkNode);
 	pkNode->setPos(0,0,0);
+	
+	//DoMaRe::Node* pkPlaneNode = dynamic_cast<DoMaRe::Node*>( getEntity3D("Plane001", pkNode) ) ;
+	//pkPlaneNode->childs()[0]->rigidBody()->setHavokMotion(DoMaRe::RigidBody::Static);
+
 	Importer.GetSound().playSoundFile("sound.mp3",false);
 	return true;
 }

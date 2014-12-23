@@ -37,7 +37,7 @@ namespace DoMaRe{
 			bool draw(DoMaRe::Renderer&, DoMaRe::DirectInput&, DoMaRe::Timer&, DoMaRe::Import&);
 			bool getEntity(Sprite**, std::string);
 			bool getEntity(Quad**, std::string);
-			bool getEntity(Mesh**, std::string);
+			Entity3D* getEntity3D (const std::string& rkName, const DoMaRe::Node* pkParent);
 			bool getNode(Node& theNodeDir);
 			Camera* getCamera() { return mainCamera; }
 			bool addEntity(Entity2D*);
