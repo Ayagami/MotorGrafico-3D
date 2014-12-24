@@ -24,6 +24,9 @@ public:
 	float timeBetweenFrames () const;
 	unsigned int fps () const;
 	float time() const;
+	
+	float deltaTime() const;
+	void setdeltaTime(float deltaTime);
 
 private:
 	double m_dTimeBetweenFrames;
@@ -36,6 +39,8 @@ private:
 	LARGE_INTEGER m_kFrequency;
 
 	double m_dTime;
+
+	float m_dDeltaTime;
 };
 //---------------------------------------------------------------------------
 #include "pg1_timer.inl"

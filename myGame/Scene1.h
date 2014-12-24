@@ -31,5 +31,6 @@ namespace MiJuego{
 	private:
 		void UpdateInputs(DoMaRe::DirectInput& dInput, DoMaRe::Timer& timer, DoMaRe::Sound& pkSound, DoMaRe::Renderer& renderer);
 		DoMaRe::Light * mainLight;
+		DoMaRe::Mesh  * testMesh;
 	};
 }

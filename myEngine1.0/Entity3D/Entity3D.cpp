@@ -131,6 +131,51 @@ float Entity3D::scaleZ() const{
 	return _ScaleZ;
 }
 
+bool Entity3D::collidesWith(Entity3D& rkEntity3D) const{
+
+	struct TAABB{
+		D3DXVECTOR3 m_vecMax;
+		D3DXVECTOR3 m_vecMin;
+	};
+
+	TAABB thisBox;
+	TAABB otherBox;
+
+	// Calculo Maximo y minimos... de thisBox.
+
+	D3DXVECTOR3 thisBoxCenter (aabb().offset()->x + transformationMatrix()->_41 ,aabb().offset()->y + transformationMatrix()->_42 , aabb().offset()->z + transformationMatrix()->_43);
+	
+	thisBox.m_vecMax.x = thisBoxCenter.x + aabb().width() * 0.5f;
+	thisBox.m_vecMin.x = thisBoxCenter.x - aabb().width() * 0.5f;
+
+	thisBox.m_vecMax.y = thisBoxCenter.y + aabb().height() * 0.5f;
+	thisBox.m_vecMin.y = thisBoxCenter.y - aabb().height() * 0.5f;
+
+	thisBox.m_vecMax.z = thisBoxCenter.z + aabb().depth() * 0.5f;
+	thisBox.m_vecMin.z = thisBoxCenter.z - aabb().depth() * 0.5f;
+
+	// Calculo Maximo y minimos... de otherBox.
+
+	D3DXVECTOR3 otherBoxCenter (rkEntity3D.aabb().offset()->x + rkEntity3D.transformationMatrix()->_41 ,rkEntity3D.aabb().offset()->y + rkEntity3D.transformationMatrix()->_42 , rkEntity3D.aabb().offset()->z + rkEntity3D.transformationMatrix()->_43);
+
+	otherBox.m_vecMax.x = otherBoxCenter.x + rkEntity3D.aabb().width() * 0.5f;
+	otherBox.m_vecMin.x = otherBoxCenter.x - rkEntity3D.aabb().width() * 0.5f;
+
+	otherBox.m_vecMax.y = otherBoxCenter.y + rkEntity3D.aabb().height() * 0.5f;
+	otherBox.m_vecMin.y = otherBoxCenter.y - rkEntity3D.aabb().height() * 0.5f;
+
+	otherBox.m_vecMax.z = otherBoxCenter.z + rkEntity3D.aabb().depth() * 0.5f;
+	otherBox.m_vecMin.z = otherBoxCenter.z - rkEntity3D.aabb().depth() * 0.5f;
+
+	return (
+		thisBox.m_vecMax.x > otherBox.m_vecMin.x &&
+		thisBox.m_vecMin.x < otherBox.m_vecMax.x &&
+		thisBox.m_vecMax.y > otherBox.m_vecMin.y &&
+		thisBox.m_vecMin.y < otherBox.m_vecMax.y &&
+		thisBox.m_vecMax.z > otherBox.m_vecMin.z &&
+		thisBox.m_vecMin.z < otherBox.m_vecMax.z
+		);
+}
 /*Entity3D::CollisionResult Entity3D::checkCollision(Entity3D& rkEntity3D) const{
 	float fOverlapX = std::max( 0.0f, 
 								std::min( posX() + fabs( scaleX() ) / 2.0f,rkEntity3D.posX() + fabs( rkEntity3D.scaleX() ) / 2.0f) -  
