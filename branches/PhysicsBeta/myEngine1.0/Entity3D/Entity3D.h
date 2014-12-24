@@ -71,11 +71,12 @@ namespace DoMaRe{
 		};
 
 		//CollisionResult checkCollision(Entity2D& rkEntity2D) const;
+		bool collidesWith(Entity3D&) const;
 		//void drawAABB (Renderer& rkRenderer) const;
 
 		virtual void OnCollision(Entity3D* pkCollider, Entity3D* Owner) { 
 			if(this->CollisionEvent != NULL){
-				CollisionEvent(pkCollider, Owner);
+				CollisionEvent(Owner, pkCollider);
 			}
 		}
 		void setCollisionEvent(void (*collEvent)(Entity3D*, Entity3D*) );

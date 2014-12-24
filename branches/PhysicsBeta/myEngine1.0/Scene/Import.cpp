@@ -241,9 +241,12 @@ bool Import::importScene (const std::string& fileName, Node& SceneRoot){
 
 	Assimp::Importer kImporter;
 	const aiScene* AiScene = kImporter.ReadFile(fileName, aiProcess_Triangulate | aiProcess_SortByPType);
-	importNode(AiScene->mRootNode, AiScene, SceneRoot);
-	
-	return true;
+	if(AiScene){
+		importNode(AiScene->mRootNode, AiScene, SceneRoot);
+		return true;
+	}
+
+	return false;
 }
 bool Import::importNode (const aiNode* AiNode, const aiScene* AiScene, Node& kNode){
 
