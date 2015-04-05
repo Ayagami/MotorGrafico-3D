@@ -19,7 +19,7 @@ void Test2(DoMaRe::Entity3D* pk1, DoMaRe::Entity3D* pk2);
 using namespace MiJuego;
 bool ds = true;
 float mSpeed = 0.3f;
-
+DoMaRe::Node* cube;
 bool Scene1::Init(DoMaRe::Import& Importer){
 	mainCamera = new DoMaRe::Camera();
 	mainCamera->Init(&Importer.GetRenderer());
@@ -39,13 +39,13 @@ bool Scene1::Init(DoMaRe::Import& Importer){
 	mainLight->enable(true);
 
 
-	Importer.importScene("Consola.obj", *pkNode);
+	Importer.importScene("Mesh.obj", *pkNode);
 	pkNode->setPos(0,0,0);
 
 	//Test2(pkNode->childs()[0],pkNode->childs()[1]);
-	DoMaRe::Node* pkPlaneNode = dynamic_cast<DoMaRe::Node*>( getEntity3D("Cylinder002", pkNode) ) ;
+	cube = dynamic_cast<DoMaRe::Node*>( getEntity3D("Box001", pkNode) ) ;
 	//pkPlaneNode->childs()[0]->rigidBody()->setHavokMotion(DoMaRe::RigidBody::Static);
-
+	cube->childs()[0]->setPos(10,10,10);
 	pkNode->setCollisionEvent(&Test2);
 	
 	//pkNode->OnCollision(pkNode->childs()[0],pkNode->childs()[1]);
@@ -57,6 +57,10 @@ bool Scene1::Init(DoMaRe::Import& Importer){
 bool Scene1::Frame(DoMaRe::Renderer& renderer, DoMaRe::DirectInput& dInput, DoMaRe::Timer& timer, DoMaRe::Import& import, DoMaRe::Game& game, DoMaRe::Sound& pkSound){
 	UpdateInputs(dInput,timer,pkSound,renderer);
 
+	mainLight->setDiffuse(0,128,255,255);
+	//mainLight->enable(true);
+	mainLight->setLightIndex(0);
+	mainLight->enable(true);
 	/*if( pkNode->childs()[0]->collidesWith(*pkNode->childs()[1]) ) {
 		pkNode->OnCollision(pkNode->childs()[0],pkNode->childs()[1]);
 	}*/
@@ -72,14 +76,14 @@ bool Scene1::deInit(){
 }
 
 void Test2(DoMaRe::Entity3D* pk1, DoMaRe::Entity3D* pk2){
-	//std::cout << pk1->getName().c_str() << " COLLIDES WITH " << pk2->getName().c_str();
-	OutputDebugString(pk1->getName().c_str());
-	OutputDebugString("COLLIDES WITH ");
-	OutputDebugString(pk2->getName().c_str());
-	OutputDebugString("\n");
+	std::cout << pk1->getName().c_str() << " COLLIDES WITH " << pk2->getName().c_str() << "\n";
 }
 
 void Scene1::UpdateInputs(DoMaRe::DirectInput& dInput, DoMaRe::Timer& timer, DoMaRe::Sound& pkSound, DoMaRe::Renderer& renderer){
+	if(dInput.keyDown(DoMaRe::Input::KEY_U)){
+		cube->childs()[0]->setPos(cube->childs()[0]->posX() + 1,10,10);
+	}
+
 	if(dInput.keyDown(DoMaRe::Input::KEY_1)){
 		pkSound.setMasterVolume(pkSound.getMasterVolume() - 0.1f);
 	}
