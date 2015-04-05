@@ -57,9 +57,9 @@ bool Scene1::Init(DoMaRe::Import& Importer){
 bool Scene1::Frame(DoMaRe::Renderer& renderer, DoMaRe::DirectInput& dInput, DoMaRe::Timer& timer, DoMaRe::Import& import, DoMaRe::Game& game, DoMaRe::Sound& pkSound){
 	UpdateInputs(dInput,timer,pkSound,renderer);
 
-	if( pkNode->childs()[0]->collidesWith(*pkNode->childs()[1]) ) {
+	/*if( pkNode->childs()[0]->collidesWith(*pkNode->childs()[1]) ) {
 		pkNode->OnCollision(pkNode->childs()[0],pkNode->childs()[1]);
-	}
+	}*/
 	
 	return true;
 }

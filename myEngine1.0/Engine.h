@@ -2,6 +2,8 @@
 #include "myEngine_API.h"
 #include <Windows.h>
 #include <string>
+#include <io.h>         //_open_osfhandle
+#include <fcntl.h>      //_O_TEXT
 namespace DoMaRe{
 class Window;
 class Renderer;
@@ -14,6 +16,8 @@ class Sound;
 //class Physics;
 	class MYENGINE_API Engine{
 		public:
+			static const WORD MAX_CONSOLE_LINES = 1000;
+			static void Log(std::string pk);
 			Engine(HINSTANCE hInst ,int nCmdS, std::string t, int w, int h);
 			~Engine();
 			bool init();
@@ -22,6 +26,8 @@ class Sound;
 			Game* G;
 			Import* Importer;
 		private:
+
+			void RedirectIOToConsole();
 
 			Renderer* Rendr;
 			HINSTANCE hInstance;

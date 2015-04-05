@@ -25,10 +25,43 @@ bool Engine::init(){
 	}
 	return false;
 }
+void Engine::Log(std::string pk){
+	std::cout << pk;
+}
+void Engine::RedirectIOToConsole(){
+        int hConHandle;
+        long lStdHandle;
+        CONSOLE_SCREEN_BUFFER_INFO coninfo;
+        FILE *fp;
+        AllocConsole();
+        GetConsoleScreenBufferInfo(GetStdHandle(STD_OUTPUT_HANDLE), 
+                &coninfo);
+        coninfo.dwSize.Y = MAX_CONSOLE_LINES;
+        SetConsoleScreenBufferSize(GetStdHandle(STD_OUTPUT_HANDLE), 
+                coninfo.dwSize);
+        lStdHandle = (long)GetStdHandle(STD_OUTPUT_HANDLE);
+        hConHandle = _open_osfhandle(lStdHandle, _O_TEXT);
+        fp = _fdopen( hConHandle, "w" );
+        *stdout = *fp;
+        setvbuf( stdout, NULL, _IONBF, 0 );
+        lStdHandle = (long)GetStdHandle(STD_INPUT_HANDLE);
+        hConHandle = _open_osfhandle(lStdHandle, _O_TEXT);
+        fp = _fdopen( hConHandle, "r" );
+        *stdin = *fp;
+        setvbuf( stdin, NULL, _IONBF, 0 );
+        lStdHandle = (long)GetStdHandle(STD_ERROR_HANDLE);
+        hConHandle = _open_osfhandle(lStdHandle, _O_TEXT);
+        fp = _fdopen( hConHandle, "w" );
+        *stderr = *fp;
+        setvbuf( stderr, NULL, _IONBF, 0 );
+        std::ios::sync_with_stdio();
+}
+
 void Engine::run(){
 	//bool grs = true;
 	MSG Mess;
-
+	RedirectIOToConsole();
+	Log("Starting Engine");
 	if(!G) return;
 	if(!G->Init(*Rendr, *Importer)) return;
 	if(!G->currentScene()->Init(*Importer)) return;
