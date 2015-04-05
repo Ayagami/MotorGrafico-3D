@@ -26,3 +26,13 @@
 *.exe
 *.out
 *.app
+*.exp
+*.ilk
+*.pdb
+*.ipch
+*.tlog
+*.manifest
+*.lastbuildstate
+*.log
+*.idb
+*.cache
