@@ -1,4 +1,4 @@
-// ----- Collider Class.
+/*// ----- Collider Class.
 #include "Collider.h"
 // ----- Mesh Class
 #include "../Entity3D/Mesh.h"
@@ -64,4 +64,4 @@ void MeshCollider::build(const Mesh* pkMesh){
 }
 hkpShape* MeshCollider::shape(){
 	return m_pkMeshCollider;
-}
+}*/

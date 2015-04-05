@@ -1,4 +1,4 @@
-#include "RigidBody.h"
+/*#include "RigidBody.h"
 #include "../Renderer/EMath.h"
 #include "Collider.h"
 #include <d3dx9.h>
@@ -133,4 +133,4 @@ void RigidBody::setHavokMotion(RigidBody::HavokMotion type){
 	pk_RigidBody->markForWrite();
 	pk_RigidBody->setMotionType( s_HavokMType[type] );
 	pk_RigidBody->unmarkForWrite();
-}
+}*/

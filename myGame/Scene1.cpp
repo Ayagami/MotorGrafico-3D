@@ -44,7 +44,7 @@ bool Scene1::Init(DoMaRe::Import& Importer){
 
 	//Test2(pkNode->childs()[0],pkNode->childs()[1]);
 	DoMaRe::Node* pkPlaneNode = dynamic_cast<DoMaRe::Node*>( getEntity3D("Cylinder002", pkNode) ) ;
-	pkPlaneNode->childs()[0]->rigidBody()->setHavokMotion(DoMaRe::RigidBody::Static);
+	//pkPlaneNode->childs()[0]->rigidBody()->setHavokMotion(DoMaRe::RigidBody::Static);
 
 	pkNode->setCollisionEvent(&Test2);
 	

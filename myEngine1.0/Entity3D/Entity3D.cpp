@@ -4,7 +4,7 @@
 #include <iostream>
 #include "Entity3D.h"
 #include "..\Renderer\Renderer.h"
-#include "..\Physics\RigidBody.h"
+//#include "..\Physics\RigidBody.h"
 #include "Mesh.h"
 #include "Node.h"
 #include <string>
@@ -24,8 +24,8 @@ CollisionEvent(NULL),
 _TrMatrix( new D3DXMATRIX() ),
 _TrLocalMatrix (new D3DXMATRIX() ),
 m_kAABB(new AABB()),
-m_pkParent(NULL),
-pk_RigidBody( new RigidBody() )
+m_pkParent(NULL)
+//pk_RigidBody( new RigidBody() )
 {
 	D3DXMatrixIdentity(_TrMatrix);
 	updateLocalTransformation();
@@ -37,8 +37,8 @@ Entity3D::~Entity3D(){
 	delete _TrLocalMatrix;
 	_TrLocalMatrix = NULL;
 
-	delete pk_RigidBody;
-	pk_RigidBody = NULL;
+	/*delete pk_RigidBody;
+	pk_RigidBody = NULL;*/
 
 	delete m_kAABB;
 	m_kAABB = NULL;
@@ -47,20 +47,33 @@ Entity3D::~Entity3D(){
 
 void Entity3D::setPos(float fPosX, float fPosY){
 
-	pk_RigidBody->setPosition(fPosX,fPosY,pk_RigidBody->posZ());
+	//pk_RigidBody->setPosition(fPosX,fPosY,pk_RigidBody->posZ());
+	_PosX = fPosX;
+	_PosY = fPosY;
 
+	updateLocalTransformation();
 }
 
 void Entity3D::setPos(float fPosX, float fPosY, float fPosZ){
+	//pk_RigidBody->setPosition(fPosX,fPosY, fPosZ);
 
+	_PosX = fPosX;
+	_PosY = fPosY;
+	_PosZ = fPosZ;
 
-	pk_RigidBody->setPosition(fPosX,fPosY, fPosZ);
+	updateLocalTransformation();
 }
 
 
 void Entity3D::setRotation(float fRotationX, float fRotationY, float fRotationZ){
 
-	pk_RigidBody->setRotation(fRotationX,fRotationY,fRotationZ);
+	//pk_RigidBody->setRotation(fRotationX,fRotationY,fRotationZ);
+
+	_RotX = fRotationX;
+	_RotY = fRotationY;
+	_RotZ = fRotationZ;
+
+	updateLocalTransformation();
 }
 
 void Entity3D::setScale(float fScaleX, float fScaleY, float fScaleZ){
@@ -68,18 +81,19 @@ void Entity3D::setScale(float fScaleX, float fScaleY, float fScaleZ){
 	_ScaleY = fScaleY;
 	_ScaleZ = fScaleZ;
 
+	updateLocalTransformation();
 }
 
 void Entity3D::updateLocalTransformation(){
 
  D3DXMATRIX translateMatrix;
- D3DXMatrixTranslation(&translateMatrix, pk_RigidBody->posX(), pk_RigidBody->posY(), pk_RigidBody->posZ());
+ D3DXMatrixTranslation(&translateMatrix, _PosX, _PosY , _PosZ);
 
  D3DXMATRIX rotationMatrixZ, rotationMatrixX, rotationMatrixY;
 
- D3DXMatrixRotationZ(&rotationMatrixZ, pk_RigidBody->rotationZ());
- D3DXMatrixRotationY(&rotationMatrixY, pk_RigidBody->rotationY());
- D3DXMatrixRotationX(&rotationMatrixX, pk_RigidBody->rotationX());
+ D3DXMatrixRotationZ(&rotationMatrixZ, _RotZ);
+ D3DXMatrixRotationY(&rotationMatrixY, _RotY);
+ D3DXMatrixRotationX(&rotationMatrixX, _RotX);
 
  D3DXMATRIX scaleMatrix;
  D3DXMatrixScaling(&scaleMatrix, _ScaleX, _ScaleY, _ScaleZ);
@@ -100,15 +114,15 @@ const Matrix& Entity3D::transformationMatrix() const{
 }
 
 float Entity3D::posX() const{
-	return pk_RigidBody->posX();
+	return _PosX;
 }
 
 float Entity3D::posY() const{
-	return pk_RigidBody->posY();
+	return _PosY;
 }
 
 float Entity3D::posZ() const{
-	return pk_RigidBody->posZ();
+	return _PosZ;
 }
 
 void Entity3D::setName(std::string _name){

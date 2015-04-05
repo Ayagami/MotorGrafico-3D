@@ -49,13 +49,13 @@ void Mesh::setData(const MeshVertex* Tex_Vertex, size_t vertexCount, DoMaRe::Pri
 
 	// Actualizo el collider en mi RigidBody.
 
-	DoMaRe::MeshCollider* newCollider = new DoMaRe::MeshCollider();
+	/*DoMaRe::MeshCollider* newCollider = new DoMaRe::MeshCollider();
 	newCollider->build(this);
 	rigidBody()->setCollider(newCollider);
 	rigidBody()->setHavokMotion(DoMaRe::RigidBody::HavokMotion::Dynamic);
 	Physics::getInstance()->addEntity(rigidBody());
 	
-
+	*/
 	//
 }
 

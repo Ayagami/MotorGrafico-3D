@@ -1,4 +1,4 @@
-#include "Physics.h"
+/*#include "Physics.h"
 #include "RigidBody.h"
 #include <iostream>
 
@@ -173,7 +173,7 @@ void Physics::StartTestScene(){
 		 s_HvkWorld->addEntity(s_RigidBody3);
 		 sphereShape->removeReference();
 				//*************************** TERMINO SPHERE 1 **********************************
-		//*********************************** TERMINO LA TEST SCENE  *********************************** */
+		//*********************************** TERMINO LA TEST SCENE  *********************************** *//*
 }
 
 Physics::~Physics (){
@@ -246,4 +246,4 @@ void Physics::HavokFailure (const char* msg, void* userAgent){
 #define HK_EXCLUDE_FEATURE_hkpPoweredChainData
 #define HK_EXCLUDE_FEATURE_hkMonitorStream
 //Fin Cositas que no me interesan :)
-#include <Common/Base/Config/hkProductFeatures.cxx>
+#include <Common/Base/Config/hkProductFeatures.cxx>*/

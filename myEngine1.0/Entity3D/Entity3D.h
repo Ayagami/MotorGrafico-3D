@@ -5,7 +5,7 @@
 #include "../Renderer/AABB.h"
 #include "../Renderer/RenderTypes.h"
 
-#include "../Physics/RigidBody.h"
+//#include "../Physics/RigidBody.h"
 #include "../../ext/irrKlang/include/irrKlang.h"
 
 namespace DoMaRe{
@@ -14,7 +14,7 @@ namespace DoMaRe{
 	class Node;
 	class AABB;
 	class RigidBody;
-	class Physics;
+	//class Physics;
 	class MYENGINE_API Entity3D{
 
 		friend class Node;
@@ -25,8 +25,8 @@ namespace DoMaRe{
 
 	public:
 
-		const RigidBody* rigidbody() const { return pk_RigidBody; };
-		RigidBody* rigidBody(){ return pk_RigidBody; };
+		//const RigidBody* rigidbody() const { return pk_RigidBody; };
+		//RigidBody* rigidBody(){ return pk_RigidBody; };
 
 		void setPos(float fPosX, float fPosY);
 		void setPos(float fPosX,float fPosY, float fPosZ);
@@ -48,9 +48,9 @@ namespace DoMaRe{
 		float posY() const;
 		float posZ() const;
 
-		float rotationX() const { return pk_RigidBody->rotationX();}
+		/*float rotationX() const { return pk_RigidBody->rotationX();}
 		float rotationY() const { return pk_RigidBody->rotationY();}
-		float rotationZ() const { return pk_RigidBody->rotationZ();}
+		float rotationZ() const { return pk_RigidBody->rotationZ();}*/
 
 		float scale() const;
 		float scaleX() const;
@@ -108,7 +108,7 @@ namespace DoMaRe{
 
 		Node* m_pkParent;
 
-		RigidBody* pk_RigidBody;
+		//RigidBody* pk_RigidBody;
 
 		void (*CollisionEvent)(Entity3D*,Entity3D*);
 

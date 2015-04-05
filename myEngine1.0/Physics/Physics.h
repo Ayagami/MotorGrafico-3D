@@ -1,4 +1,4 @@
-#pragma once
+/*#pragma once
 #include "../myEngine_API.h"
 
 
@@ -41,4 +41,4 @@ namespace DoMaRe{
 
 		static bool s_HavokIsStarted;
 	};
-}
+}*/

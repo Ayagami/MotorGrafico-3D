@@ -1,4 +1,4 @@
-#pragma once
+/*#pragma once
 #include "../myEngine_API.h"
 #include "../Renderer/EMath.h"
 
@@ -51,4 +51,4 @@ namespace DoMaRe{
 		hkpRigidBody* rigidbody(){ return pk_RigidBody; }
 		hkpRigidBody* pk_RigidBody;
 	};
-}
+}*/

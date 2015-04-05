@@ -1,4 +1,4 @@
-#pragma once
+/*#pragma once
 #include "../myEngine_API.h"
 namespace DoMaRe{
 	class Mesh;
@@ -57,4 +57,4 @@ namespace DoMaRe{
 			hkpConvexVerticesShape* m_pkMeshCollider;
 	};
 
-}
+}*/
