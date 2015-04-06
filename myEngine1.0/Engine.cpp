@@ -60,7 +60,9 @@ void Engine::RedirectIOToConsole(){
 void Engine::run(){
 	//bool grs = true;
 	MSG Mess;
+	#ifdef _DEBUG
 	RedirectIOToConsole();
+	#endif
 	Log("Starting Engine");
 	if(!G) return;
 	if(!G->Init(*Rendr, *Importer)) return;
