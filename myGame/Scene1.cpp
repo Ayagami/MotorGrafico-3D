@@ -18,7 +18,7 @@ void Test2(DoMaRe::Entity3D* pk1, DoMaRe::Entity3D* pk2);
 //#include "Sound\Sound.h"
 using namespace MiJuego;
 bool ds = true;
-float mSpeed = 0.1f;
+float mSpeed = 0.01f;
 DoMaRe::Node* cube;
 bool Scene1::Init(DoMaRe::Import& Importer){
 	mainCamera = new DoMaRe::Camera();
@@ -38,9 +38,10 @@ bool Scene1::Init(DoMaRe::Import& Importer){
 	mainLight->setRange(0.3f);
 	mainLight->enable(true);
 
-	Importer.importScene("Consola.obj", *pkNode);
+	Importer.importScene("bones_all.x", *pkNode);
 	pkNode->setPos(0,0,0);
 	pkNode->setRotation(0,0,0);
+	pkNode->setScale(20,20,20);
 	//Test2(pkNode->childs()[0],pkNode->childs()[1]);
 	//cube = dynamic_cast<DoMaRe::Node*>( getEntity3D("Box001", pkNode) ) ;
 	//pkPlaneNode->childs()[0]->rigidBody()->setHavokMotion(DoMaRe::RigidBody::Static);
@@ -55,7 +56,11 @@ bool Scene1::Init(DoMaRe::Import& Importer){
 
 bool Scene1::Frame(DoMaRe::Renderer& renderer, DoMaRe::DirectInput& dInput, DoMaRe::Timer& timer, DoMaRe::Import& import, DoMaRe::Game& game, DoMaRe::Sound& pkSound){
 	UpdateInputs(dInput,timer,pkSound,renderer);
-
+	
+	if(ds){
+	pkNode->playAnimation("Attack");
+	pkNode->Update(timer.timeBetweenFrames());
+	}
 	//mainLight->setDiffuse(0,128,255,255);
 	//mainLight->setLightIndex(0);
 	//mainLight->enable(true);
@@ -81,7 +86,9 @@ void Scene1::UpdateInputs(DoMaRe::DirectInput& dInput, DoMaRe::Timer& timer, DoM
 	/*if(dInput.keyDown(DoMaRe::Input::KEY_U)){
 		cube->childs()[0]->setPos(cube->childs()[0]->posX() + 1,10,10);
 	}*/
-
+	if(dInput.keyDown(DoMaRe::Input::KEY_M)){
+		ds = !ds;
+	}
 	if(dInput.keyDown(DoMaRe::Input::KEY_1)){
 		pkSound.setMasterVolume(pkSound.getMasterVolume() - 0.1f);
 	}
@@ -111,11 +118,11 @@ void Scene1::UpdateInputs(DoMaRe::DirectInput& dInput, DoMaRe::Timer& timer, DoM
 	}
 
 	if(dInput.keyDown(DoMaRe::Input::KEY_D)){
-		mainCamera->RotateRight(mSpeed / 100 * timer.timeBetweenFrames());
+		mainCamera->RotateRight(mSpeed / 10 * timer.timeBetweenFrames());
 	}
 
 	if(dInput.keyDown(DoMaRe::Input::KEY_A)){
-		mainCamera->RotateRight(-mSpeed  / 100 * timer.timeBetweenFrames());
+		mainCamera->RotateRight(-mSpeed  / 10 * timer.timeBetweenFrames());
 	}
 
 	if(dInput.keyDown(DoMaRe::Input::KEY_W)){
