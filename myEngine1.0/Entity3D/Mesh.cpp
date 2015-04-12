@@ -85,6 +85,10 @@ void Mesh::setData(const MeshVertex* Tex_Vertex, size_t vertexCount, DoMaRe::Pri
 }
 
 void Mesh::Draw(){
+	if(HaveBones()){
+		AnimationMeshDraw();
+		return;
+	}
 	mk_VertexBuffer3D->bind();
 	mk_IndexBuffer->bind();
 	pk_Renderer.setMaterial(pk_Material);
@@ -159,7 +163,11 @@ void Mesh::AnimationMeshDraw(){
 			m_pkVertex[i].nz = VectorNorm[i].z;
 		}
 	//}
+		mk_VertexBuffer3D->bind();
+		mk_IndexBuffer->bind();
 		pk_Renderer.setCurrentTexture(s_Texture);
+		mk_VertexBuffer3D->setVertexData((void *)&m_pkVertex, m_iVertexCount);
+		pk_Renderer.Draw(pkPrimitive);
 		// Aca tengo que llenar los buffers para dibujar esta data generada.
 		
 }
