@@ -12,6 +12,7 @@ struct aiNode;
 struct aiMesh;
 struct aiMaterial;
 struct aiScene;
+struct aiAnimation;
 // - Fin Estructuras de Ayuda de Assimp
 
 #pragma comment(lib, "../ext/assimp/lib/assimp.lib") // link with assimp.dll
@@ -25,6 +26,10 @@ namespace DoMaRe{
 	class Sound;
 	class Mesh;
 	class Node;
+
+	class Animation3D;
+	class Bone;
+	class BoneInfo;
 
 	class MYENGINE_API Import{
 		friend class Engine;
@@ -56,6 +61,11 @@ namespace DoMaRe{
 
 			bool importNode(aiNode* AiNode, const aiScene* AiScene, Node& kNode);
 			bool importMesh(const aiMesh* AiMesh, const aiMaterial* AiMaterial, Mesh& kMesh);
+
+			Animation3D* CreateAnimation3D(aiAnimation* anim);
+			std::map<std::string, Bone*> m_pBoneMap;
+			void addBonesToNode(Node* pkNode);
+
 			std::string getFullPath(std::string);
 
 			// HELPER EXTRAIDO DE WIKI-DEV
