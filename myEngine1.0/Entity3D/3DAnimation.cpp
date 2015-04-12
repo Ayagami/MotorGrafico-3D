@@ -14,7 +14,7 @@ int Animation3D::GetFrameIndex(std::string sNodeName){
 			return i;
 	}
 
-	return -1;	// Devuelvo -1 por que no encontré nada.
+	return -1;	// Devuelvo -1 por que no encontrÃ© nada.
 }
 
 D3DXMATRIX Animation3D::GetInterpolation(double& cTime, KeyFrame* frame){
@@ -52,7 +52,7 @@ D3DXVECTOR3 Animation3D::CalcInterpVec(double& cTime, aiVectorKey* keys, int cKe
 		if(keys[i].mTime == cTime)
 			return D3DXVECTOR3(keys[i].mValue.x, keys[i].mValue.y, keys[i].mValue.z);
 
-		if(cTime <= keys[i].mTime){
+		if(cTime < keys[i].mTime){
 			fIndexAux = i-1;
 			lIndexAux = i;
 			break;
@@ -77,7 +77,7 @@ D3DXQUATERNION Animation3D::CalcInterpRot(double& cTime, aiQuatKey* keys, int cK
 		if(keys[i].mTime == cTime)
 			return D3DXQUATERNION(keys[i].mValue.x, keys[i].mValue.y, keys[i].mValue.z, keys[i].mValue.w);
 
-		if(cTime <= keys[i].mTime){
+		if(cTime < keys[i].mTime){
 			fIndexAux = i-1;
 			lIndexAux = i;
 			break;
