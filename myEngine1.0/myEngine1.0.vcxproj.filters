@@ -180,6 +180,15 @@
     <ClInclude Include="Renderer\Material.h">
       <Filter>Archivos de encabezado\include\Renderer</Filter>
     </ClInclude>
+    <ClInclude Include="Entity3D\3DAnimation.h">
+      <Filter>Archivos de encabezado\include\Entity3D</Filter>
+    </ClInclude>
+    <ClInclude Include="Entity3D\Bones.h">
+      <Filter>Archivos de encabezado\include\Entity3D</Filter>
+    </ClInclude>
+    <ClInclude Include="Entity3D\BoneInfo.h">
+      <Filter>Archivos de encabezado\include\Entity3D</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine.cpp">
@@ -271,6 +280,15 @@
     </ClCompile>
     <ClCompile Include="Renderer\Material.cpp">
       <Filter>Archivos de código fuente\src\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="Entity3D\3DAnimation.cpp">
+      <Filter>Archivos de código fuente\src\Entity3D</Filter>
+    </ClCompile>
+    <ClCompile Include="Entity3D\Bones.cpp">
+      <Filter>Archivos de código fuente\src\Entity3D</Filter>
+    </ClCompile>
+    <ClCompile Include="Entity3D\BoneInfo.cpp">
+      <Filter>Archivos de código fuente\src\Entity3D</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

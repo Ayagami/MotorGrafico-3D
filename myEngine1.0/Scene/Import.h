@@ -54,8 +54,9 @@ namespace DoMaRe{
 
 			static Import* Instance;
 
-			bool importNode(const aiNode* AiNode, const aiScene* AiScene, Node& kNode);
+			bool importNode(aiNode* AiNode, const aiScene* AiScene, Node& kNode);
 			bool importMesh(const aiMesh* AiMesh, const aiMaterial* AiMaterial, Mesh& kMesh);
+			std::string getFullPath(std::string);
 
 			// HELPER EXTRAIDO DE WIKI-DEV
 			/*void quaternionToEulerAngles (float qX, float qY, float qZ, float qW, 

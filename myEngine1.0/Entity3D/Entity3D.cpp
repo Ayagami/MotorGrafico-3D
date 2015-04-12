@@ -3,6 +3,7 @@
 #include <Windows.h>
 #include <iostream>
 #include "Entity3D.h"
+#include "3DAnimation.h"
 #include "..\Renderer\Renderer.h"
 //#include "..\Physics\RigidBody.h"
 #include "Mesh.h"
@@ -101,12 +102,19 @@ void Entity3D::updateLocalTransformation(){
  D3DXMatrixIdentity(_TrLocalMatrix);
 
  D3DXMatrixMultiply(_TrLocalMatrix,_TrLocalMatrix,&translateMatrix);
- D3DXMatrixMultiply(_TrLocalMatrix,_TrLocalMatrix,&rotationMatrixZ);
- D3DXMatrixMultiply(_TrLocalMatrix,_TrLocalMatrix,&rotationMatrixY);
  D3DXMatrixMultiply(_TrLocalMatrix,_TrLocalMatrix,&rotationMatrixX);
+ D3DXMatrixMultiply(_TrLocalMatrix,_TrLocalMatrix,&rotationMatrixY);
+ D3DXMatrixMultiply(_TrLocalMatrix,_TrLocalMatrix,&rotationMatrixZ);
  D3DXMatrixMultiply(_TrLocalMatrix,_TrLocalMatrix,&scaleMatrix);
 
-	// FALTA ACTUALIZAR Y DEVOLVER MATRIZ DE RIGIDBODY
+	const Entity3D* t = this;
+	const Node* pk = dynamic_cast<const Node*>(t) ;
+	if(pk){
+		if(((Node*)this)->isPlaying()){
+			D3DXMATRIX M = ((Node*)this)->m_pCurrentAnimation->GetFrameMatrix(((Node*)this)->FrameIndex);
+			D3DXMatrixMultiply(_TrLocalMatrix, _TrLocalMatrix, &M);
+		}
+	}
 }
 
 const Matrix& Entity3D::transformationMatrix() const{

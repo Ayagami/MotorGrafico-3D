@@ -18,7 +18,7 @@ void Test2(DoMaRe::Entity3D* pk1, DoMaRe::Entity3D* pk2);
 //#include "Sound\Sound.h"
 using namespace MiJuego;
 bool ds = true;
-float mSpeed = 0.3f;
+float mSpeed = 0.1f;
 DoMaRe::Node* cube;
 bool Scene1::Init(DoMaRe::Import& Importer){
 	mainCamera = new DoMaRe::Camera();
@@ -38,14 +38,13 @@ bool Scene1::Init(DoMaRe::Import& Importer){
 	mainLight->setRange(0.3f);
 	mainLight->enable(true);
 
-
-	Importer.importScene("Mesh.obj", *pkNode);
+	Importer.importScene("Consola.obj", *pkNode);
 	pkNode->setPos(0,0,0);
-
+	pkNode->setRotation(0,0,0);
 	//Test2(pkNode->childs()[0],pkNode->childs()[1]);
-	cube = dynamic_cast<DoMaRe::Node*>( getEntity3D("Box001", pkNode) ) ;
+	//cube = dynamic_cast<DoMaRe::Node*>( getEntity3D("Box001", pkNode) ) ;
 	//pkPlaneNode->childs()[0]->rigidBody()->setHavokMotion(DoMaRe::RigidBody::Static);
-	cube->childs()[0]->setPos(10,10,10);
+	//cube->childs()[0]->setPos(10,10,10);
 	pkNode->setCollisionEvent(&Test2);
 	
 	//pkNode->OnCollision(pkNode->childs()[0],pkNode->childs()[1]);
@@ -57,10 +56,9 @@ bool Scene1::Init(DoMaRe::Import& Importer){
 bool Scene1::Frame(DoMaRe::Renderer& renderer, DoMaRe::DirectInput& dInput, DoMaRe::Timer& timer, DoMaRe::Import& import, DoMaRe::Game& game, DoMaRe::Sound& pkSound){
 	UpdateInputs(dInput,timer,pkSound,renderer);
 
-	mainLight->setDiffuse(0,128,255,255);
+	//mainLight->setDiffuse(0,128,255,255);
+	//mainLight->setLightIndex(0);
 	//mainLight->enable(true);
-	mainLight->setLightIndex(0);
-	mainLight->enable(true);
 	/*if( pkNode->childs()[0]->collidesWith(*pkNode->childs()[1]) ) {
 		pkNode->OnCollision(pkNode->childs()[0],pkNode->childs()[1]);
 	}*/
@@ -80,9 +78,9 @@ void Test2(DoMaRe::Entity3D* pk1, DoMaRe::Entity3D* pk2){
 }
 
 void Scene1::UpdateInputs(DoMaRe::DirectInput& dInput, DoMaRe::Timer& timer, DoMaRe::Sound& pkSound, DoMaRe::Renderer& renderer){
-	if(dInput.keyDown(DoMaRe::Input::KEY_U)){
+	/*if(dInput.keyDown(DoMaRe::Input::KEY_U)){
 		cube->childs()[0]->setPos(cube->childs()[0]->posX() + 1,10,10);
-	}
+	}*/
 
 	if(dInput.keyDown(DoMaRe::Input::KEY_1)){
 		pkSound.setMasterVolume(pkSound.getMasterVolume() - 0.1f);

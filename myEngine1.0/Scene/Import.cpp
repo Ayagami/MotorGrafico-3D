@@ -240,7 +240,12 @@ void Import::importMesh(Mesh& theMesh, std::string FileName){
 bool Import::importScene (const std::string& fileName, Node& SceneRoot){
 
 	Assimp::Importer kImporter;
-	const aiScene* AiScene = kImporter.ReadFile(fileName, aiProcess_Triangulate | aiProcess_SortByPType);
+	//const aiScene* AiScene = kImporter.ReadFile(fileName, aiProcess_Triangulate | aiProcess_SortByPType);
+	const aiScene* AiScene = kImporter.ReadFile(fileName,
+        aiPrimitiveType_LINE|aiPrimitiveType_POINT |
+        aiProcess_Triangulate |aiProcess_SortByPType
+        );
+
 	if(AiScene){
 		importNode(AiScene->mRootNode, AiScene, SceneRoot);
 		return true;
@@ -248,7 +253,7 @@ bool Import::importScene (const std::string& fileName, Node& SceneRoot){
 
 	return false;
 }
-bool Import::importNode (const aiNode* AiNode, const aiScene* AiScene, Node& kNode){
+bool Import::importNode (aiNode* AiNode, const aiScene* AiScene, Node& kNode){
 
 	kNode.setName( AiNode->mName.C_Str() );
 
@@ -257,7 +262,7 @@ bool Import::importNode (const aiNode* AiNode, const aiScene* AiScene, Node& kNo
 	aiQuaterniont<float> qAiRotation;
 	aiVector3t<float> v3AiPosition;
 
-	AiNode->mTransformation.Decompose(v3AiScaling, qAiRotation, v3AiPosition);
+	AiNode->mTransformation.Transpose().Decompose(v3AiScaling, qAiRotation, v3AiPosition);	// Remove Transpose()
 
 	kNode.setPos(v3AiPosition.x, v3AiPosition.y, v3AiPosition.z); // Seteo POS
 	kNode.setScale(v3AiScaling.x, v3AiScaling.y, v3AiScaling.z); // Seteo Scale
@@ -412,6 +417,13 @@ bool Import::importMesh(const aiMesh* pkAiMesh, const aiMaterial* pkAiMaterial, 
 		{
 			kTexturePath = "." + kTexturePath;
 		}
+
+		/*std::string basePath = getFullPath(kTexturePath);
+
+		std::string texturePath = "";
+		texturePath.append(basePath);
+		texturePath.append(kTexturePath.c_str());*/
+
 		Texture TheTexture = pk_renderer->loadTexture(kTexturePath);
 		kMesh.setTexture(TheTexture);
 
@@ -449,4 +461,10 @@ bool Import::importMesh(const aiMesh* pkAiMesh, const aiMaterial* pkAiMaterial, 
 	
 	
 	return true;
+}
+std::string Import::getFullPath(std::string fName){
+	std::string tempName = fName;
+	int last = tempName.find_last_of("/\\");
+	tempName = tempName.substr(0, last + 1);
+	return tempName;
 }

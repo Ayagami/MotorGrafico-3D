@@ -8,6 +8,7 @@
 #include <vector>
 
 namespace DoMaRe{
+	class BoneInfo;
 	class Renderer;
 	class Material;
 	class MYENGINE_API Mesh : public Entity3D{
@@ -29,6 +30,9 @@ namespace DoMaRe{
 
 		static int debugedMeshes;
 
+		// ANIMATIONS!
+		void AddBoneInfo(BoneInfo* m_pBoneInfo) { m_vBoneData.push_back(m_pBoneInfo); }
+		bool HaveBones() { return (m_vBoneData.size()); }
 	protected:
 		IndexBuffer* mk_IndexBuffer;
 		Texture s_Texture;
@@ -37,9 +41,21 @@ namespace DoMaRe{
 		Renderer& pk_Renderer;
 		Material* pk_Material;
 
+		size_t m_iVertexCount;
+		size_t m_iIndexCount;
+
 	private:
 		std::vector<MeshVertex> m_pkVertex;
 		std::vector<unsigned short> m_pkIndex;
+		// ------ Anim...
+		friend class Node;
+		D3DXVECTOR3* m_VtxBones;
+		D3DXVECTOR3* m_NormBones;
+		D3DXVECTOR3* VectorDraw;
+		D3DXVECTOR3* VectorNorm;
+		std::vector<BoneInfo*> m_vBoneData;
+
+		void AnimationMeshDraw();
 	};
 
 }
