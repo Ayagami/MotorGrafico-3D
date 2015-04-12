@@ -12,6 +12,11 @@
 #include "../Entity3D/Node.h"
 #include "../Entity3D/Entity3D.h"
 
+
+#include "../Entity3D/3DAnimation.h"
+#include "../Entity3D/BoneInfo.h"
+#include "../Entity3D/Bones.h"
+
 #include "../Renderer/Material.h"
 
 //----- Assimp
@@ -247,11 +252,58 @@ bool Import::importScene (const std::string& fileName, Node& SceneRoot){
         );
 
 	if(AiScene){
+		for(int i=0; i < AiScene->mNumAnimations; i++){
+			SceneRoot.AddAnimation(CreateAnimation3D(AiScene->mAnimations[i]));
+		}
 		importNode(AiScene->mRootNode, AiScene, SceneRoot);
+		addBonesToNode(&SceneRoot);
 		return true;
 	}
 
 	return false;
+}
+void Import::addBonesToNode(Node* fillNode){
+	if( m_pBoneMap.count(fillNode->getName()) ){
+		fillNode->m_pBone = m_pBoneMap[fillNode->getName()];
+	}
+	for(int i=0; i< fillNode->childs().size(); i++){
+		Node* pNode = dynamic_cast<Node*> (fillNode->childs()[i]);
+		if(pNode){	// THEY ARE NODES!
+			addBonesToNode(pNode);
+		}
+	}
+}
+Animation3D* Import::CreateAnimation3D(aiAnimation* aiAnim){
+	Animation3D* newAnim = new Animation3D(aiAnim->mName.C_Str(), aiAnim->mDuration, aiAnim->mTicksPerSecond);
+	for(int i=0; i < aiAnim->mNumChannels; i++){
+		aiNodeAnim* currentChanel = aiAnim->mChannels[i];
+		Animation3D::KeyFrame * keyFrameAux = new Animation3D::KeyFrame();
+		keyFrameAux->name = currentChanel->mNodeName.C_Str();
+
+		keyFrameAux->iPositionKeys = currentChanel->mNumPositionKeys;
+		keyFrameAux->iRotationKeys = currentChanel->mNumRotationKeys;
+		keyFrameAux->iScalingKeys  = currentChanel->mNumScalingKeys;
+
+		keyFrameAux->positionKey = new aiVectorKey[currentChanel->mNumPositionKeys];
+		for(int j=0; j < currentChanel->mNumPositionKeys; j++){
+			keyFrameAux->positionKey[j].mTime = currentChanel->mPositionKeys[j].mTime;
+			keyFrameAux->positionKey[j].mValue = currentChanel->mPositionKeys[j].mValue;
+		}
+		keyFrameAux->rotationKey = new aiQuatKey[currentChanel->mNumRotationKeys];
+		for(int j=0; j < currentChanel->mNumRotationKeys; j++){
+			keyFrameAux->rotationKey[j].mTime  = currentChanel->mRotationKeys[j].mTime;
+			keyFrameAux->rotationKey[j].mValue = currentChanel->mRotationKeys[j].mValue;
+		}
+		keyFrameAux->scalingKey = new aiVectorKey[currentChanel->mNumScalingKeys];
+		for(int j=0; j < currentChanel->mNumScalingKeys; j++){
+			keyFrameAux->scalingKey[j].mTime = currentChanel->mScalingKeys[j].mTime;
+			keyFrameAux->scalingKey[j].mValue = currentChanel->mScalingKeys[j].mValue;
+		}
+
+		newAnim->AddFrame(keyFrameAux);
+	}
+
+	return newAnim;
 }
 bool Import::importNode (aiNode* AiNode, const aiScene* AiScene, Node& kNode){
 
@@ -358,7 +410,7 @@ bool Import::importMesh(const aiMesh* pkAiMesh, const aiMaterial* pkAiMaterial, 
 
 	kMesh.setName( pkAiMesh->mName.C_Str() );
 
-			//Tendria que cargar los AABB para cada Mesh, De Forma Recursiva Quiz·?
+			//Tendria que cargar los AABB para cada Mesh, De Forma Recursiva Quiz√°?
 				float MaxX = std::numeric_limits<float>::lowest();
 				float MaxY = std::numeric_limits<float>::lowest();
 				float MaxZ = std::numeric_limits<float>::lowest();
@@ -452,6 +504,28 @@ bool Import::importMesh(const aiMesh* pkAiMesh, const aiMaterial* pkAiMaterial, 
 		}
 	}
 	
+	if(pkAiMesh->HasBones()){
+		for(int i=0; i < pkAiMesh->mNumBones; i++){
+			aiBone* bone = pkAiMesh->mBones[i];
+			BoneInfo* bInfo = new BoneInfo();
+			for(int j=0; j <  bone->mNumWeights; j++){
+				bInfo->addWeight(bone->mWeights[j].mVertexId, bone->mWeights[j].mWeight);
+			}
+			aiMatrix4x4 m = bone->mOffsetMatrix.Transpose();
+			bInfo->setOffsetMatrix(m.a1, m.a2, m.a3, m.a4, m.b1, m.b2, m.b3, m.b4,
+								   m.c1, m.c2, m.c3, m.c4, m.d1, m.d2, m.d3, m.d4);
+			std::string bName = bone->mName.C_Str();
+			if(!m_pBoneMap.count(bName)){
+				m_pBoneMap[bName] = new Bone();
+				bInfo->setBone(m_pBoneMap[bName]);
+			}
+			else{
+				bInfo->setBone(m_pBoneMap[bName]);
+			}
+			kMesh.AddBoneInfo(bInfo);
+		}
+	}
+
 	delete[] pVertices;
 	pVertices = NULL;
 
