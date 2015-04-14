@@ -17,8 +17,9 @@ void Test2(DoMaRe::Entity3D* pk1, DoMaRe::Entity3D* pk2);
 
 //#include "Sound\Sound.h"
 using namespace MiJuego;
-bool ds = true;
-float mSpeed = 0.01f;
+bool ds = false;
+int Anim = 0;
+float mSpeed = 0.1f;
 DoMaRe::Node* cube;
 bool Scene1::Init(DoMaRe::Import& Importer){
 	mainCamera = new DoMaRe::Camera();
@@ -38,17 +39,10 @@ bool Scene1::Init(DoMaRe::Import& Importer){
 	mainLight->setRange(0.3f);
 	mainLight->enable(true);
 
-	Importer.importScene("bones_all.x", *pkNode);
-	pkNode->setPos(0,0,0);
-	pkNode->setRotation(0,0,0);
-	pkNode->setScale(20,20,20);
-	//Test2(pkNode->childs()[0],pkNode->childs()[1]);
-	//cube = dynamic_cast<DoMaRe::Node*>( getEntity3D("Box001", pkNode) ) ;
-	//pkPlaneNode->childs()[0]->rigidBody()->setHavokMotion(DoMaRe::RigidBody::Static);
-	//cube->childs()[0]->setPos(10,10,10);
+	Importer.importScene("tank.x", *pkNode);
+	//pkNode->setPos(0,0,0);
+	pkNode->setScale(10,10,10);
 	pkNode->setCollisionEvent(&Test2);
-	
-	//pkNode->OnCollision(pkNode->childs()[0],pkNode->childs()[1]);
 
 	Importer.GetSound().playSoundFile("sound.mp3",false);
 	return true;
@@ -58,12 +52,23 @@ bool Scene1::Frame(DoMaRe::Renderer& renderer, DoMaRe::DirectInput& dInput, DoMa
 	UpdateInputs(dInput,timer,pkSound,renderer);
 	
 	if(ds){
-	pkNode->playAnimation("Attack");
-	pkNode->Update(timer.timeBetweenFrames());
+		switch (Anim){
+		case 0:
+			pkNode->playAnimation("Attack");
+			break;
+		case 1:
+			pkNode->playAnimation("Impact");
+			break;
+		case 2:
+			pkNode->playAnimation("Move");
+			break;
+
+		}
+		pkNode->Update(timer.timeBetweenFrames());
 	}
-	//mainLight->setDiffuse(0,128,255,255);
-	//mainLight->setLightIndex(0);
-	//mainLight->enable(true);
+
+	mainLight->setLightIndex(0);
+	mainLight->enable(true);
 	/*if( pkNode->childs()[0]->collidesWith(*pkNode->childs()[1]) ) {
 		pkNode->OnCollision(pkNode->childs()[0],pkNode->childs()[1]);
 	}*/
@@ -83,22 +88,32 @@ void Test2(DoMaRe::Entity3D* pk1, DoMaRe::Entity3D* pk2){
 }
 
 void Scene1::UpdateInputs(DoMaRe::DirectInput& dInput, DoMaRe::Timer& timer, DoMaRe::Sound& pkSound, DoMaRe::Renderer& renderer){
-	/*if(dInput.keyDown(DoMaRe::Input::KEY_U)){
-		cube->childs()[0]->setPos(cube->childs()[0]->posX() + 1,10,10);
-	}*/
-	if(dInput.keyDown(DoMaRe::Input::KEY_M)){
+	if (dInput.keyDown(DoMaRe::Input::KEY_7)){
+		Anim = 0;
+	}
+	if (dInput.keyDown(DoMaRe::Input::KEY_8)){
+		Anim = 1;
+	}
+	if (dInput.keyDown(DoMaRe::Input::KEY_9)){
+		Anim = 2;
+	}
+	if (dInput.keyDown(DoMaRe::Input::KEY_M)){
 		ds = !ds;
 	}
-	if(dInput.keyDown(DoMaRe::Input::KEY_1)){
+	if (dInput.keyDown(DoMaRe::Input::KEY_1)){
 		pkSound.setMasterVolume(pkSound.getMasterVolume() - 0.1f);
 	}
 
-	if(dInput.keyDown(DoMaRe::Input::KEY_2)){
+	if (dInput.keyDown(DoMaRe::Input::KEY_2)){
 		pkSound.setMasterVolume(pkSound.getMasterVolume() + 0.1f);
 	}
 
-	if(dInput.keyDown(DoMaRe::Input::KEY_F1)){
-			renderer.setWireFrameMode(!renderer.getWireFrameMode());	
+	if (dInput.keyDown(DoMaRe::Input::KEY_F1)){
+		renderer.setWireFrameMode(!renderer.getWireFrameMode());
+	}
+
+	if (dInput.keyDown(DoMaRe::Input::KEY_F2)){
+		ds = !ds;
 	}
 
 	if(dInput.keyDown(DoMaRe::Input::KEY_UP)){
@@ -118,11 +133,11 @@ void Scene1::UpdateInputs(DoMaRe::DirectInput& dInput, DoMaRe::Timer& timer, DoM
 	}
 
 	if(dInput.keyDown(DoMaRe::Input::KEY_D)){
-		mainCamera->RotateRight(mSpeed / 10 * timer.timeBetweenFrames());
+		mainCamera->RotateRight(mSpeed / 100 * timer.timeBetweenFrames());
 	}
 
 	if(dInput.keyDown(DoMaRe::Input::KEY_A)){
-		mainCamera->RotateRight(-mSpeed  / 10 * timer.timeBetweenFrames());
+		mainCamera->RotateRight(-mSpeed  / 100 * timer.timeBetweenFrames());
 	}
 
 	if(dInput.keyDown(DoMaRe::Input::KEY_W)){
@@ -147,10 +162,6 @@ void Scene1::UpdateInputs(DoMaRe::DirectInput& dInput, DoMaRe::Timer& timer, DoM
 
 	if(dInput.keyDown(DoMaRe::Input::KEY_K)){
 		pkNode->setPos(pkNode->posX() - (mSpeed * timer.timeBetweenFrames()), pkNode->posY(), pkNode->posZ());
-	}
-
-	if(dInput.keyDown(DoMaRe::Input::KEY_9)){
-		pkNode->childs()[0]->setPos(pkNode->childs()[0]->posX() + (mSpeed*timer.timeBetweenFrames()), pkNode->childs()[0]->posY(), pkNode->childs()[0]->posZ() );
 	}
 
 	if(dInput.keyDown(DoMaRe::Input::KEY_B)){

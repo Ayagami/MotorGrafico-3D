@@ -95,20 +95,37 @@ void Entity3D::updateLocalTransformation(){
  D3DXMatrixRotationZ(&rotationMatrixZ, _RotZ);
  D3DXMatrixRotationY(&rotationMatrixY, _RotY);
  D3DXMatrixRotationX(&rotationMatrixX, _RotX);
+ 
+ D3DXMATRIX finalRotMatrix;
+ D3DXMatrixIdentity(&finalRotMatrix);
+ 
+ D3DXMatrixMultiply(&finalRotMatrix, &finalRotMatrix, &rotationMatrixX);
+ D3DXMatrixMultiply(&finalRotMatrix, &finalRotMatrix, &rotationMatrixY);
+ D3DXMatrixMultiply(&finalRotMatrix, &finalRotMatrix, &rotationMatrixZ);
 
+ const Entity3D* t = this;
+ const Node* pk = dynamic_cast<const Node*>(t);
+ D3DXQUATERNION* bq = NULL;
+ if (pk){
+	 bq = new D3DXQUATERNION(pk->baseRot->x, pk->baseRot->y, pk->baseRot->z, pk->baseRot->w);
+	 D3DXMATRIX bqToMTX;
+	 D3DXMatrixRotationQuaternion(&bqToMTX, bq);
+	 D3DXMatrixMultiply(&finalRotMatrix, &finalRotMatrix, &bqToMTX);
+ }
+ 
  D3DXMATRIX scaleMatrix;
  D3DXMatrixScaling(&scaleMatrix, _ScaleX, _ScaleY, _ScaleZ);
 
  D3DXMatrixIdentity(_TrLocalMatrix);
 
- D3DXMatrixMultiply(_TrLocalMatrix,_TrLocalMatrix,&translateMatrix);
- D3DXMatrixMultiply(_TrLocalMatrix,_TrLocalMatrix,&rotationMatrixX);
- D3DXMatrixMultiply(_TrLocalMatrix,_TrLocalMatrix,&rotationMatrixY);
- D3DXMatrixMultiply(_TrLocalMatrix,_TrLocalMatrix,&rotationMatrixZ);
- D3DXMatrixMultiply(_TrLocalMatrix,_TrLocalMatrix,&scaleMatrix);
+ D3DXMatrixTransformation(_TrLocalMatrix, NULL, NULL, new D3DXVECTOR3(_ScaleX, _ScaleY, _ScaleZ), NULL, bq, new D3DXVECTOR3(_PosX, _PosY, _PosZ));
+	 
 
-	const Entity3D* t = this;
-	const Node* pk = dynamic_cast<const Node*>(t) ;
+ //D3DXMatrixMultiply(_TrLocalMatrix, _TrLocalMatrix, &translateMatrix);
+ //D3DXMatrixMultiply(_TrLocalMatrix,_TrLocalMatrix,&finalRotMatrix);
+ //D3DXMatrixMultiply(_TrLocalMatrix,_TrLocalMatrix, &scaleMatrix);
+
+
 	if(pk){
 		if(((Node*)this)->isPlaying()){
 			D3DXMATRIX M = ((Node*)this)->m_pCurrentAnimation->GetFrameMatrix(((Node*)this)->FrameIndex);
@@ -296,6 +313,16 @@ void Entity3D::updateTransformation(){
 	updateLocalTransformation();
 
 	if(m_pkParent){
+		
+		/*const Entity3D* t = this;
+		const Node* pk = dynamic_cast<const Node*>(t);
+		if (pk){
+			D3DXMatrixIdentity(_TrMatrix);
+			D3DXMatrixMultiply(_TrMatrix, m_pkParent->_TrMatrix, _TrLocalMatrix);
+		}
+		else{
+			(*_TrMatrix) = (*m_pkParent->_TrMatrix);
+		}*/
 		D3DXMatrixIdentity(_TrMatrix);
 		D3DXMatrixMultiply(_TrMatrix, m_pkParent->_TrMatrix, _TrLocalMatrix);
 	}else{

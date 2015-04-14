@@ -247,7 +247,7 @@ bool Import::importScene (const std::string& fileName, Node& SceneRoot){
 	Assimp::Importer kImporter;
 	//const aiScene* AiScene = kImporter.ReadFile(fileName, aiProcess_Triangulate | aiProcess_SortByPType);
 	const aiScene* AiScene = kImporter.ReadFile(fileName,
-        aiPrimitiveType_LINE|aiPrimitiveType_POINT |
+        aiPrimitiveType_POINT|aiPrimitiveType_POINT |
         aiProcess_Triangulate |aiProcess_SortByPType
         );
 
@@ -305,23 +305,66 @@ Animation3D* Import::CreateAnimation3D(aiAnimation* aiAnim){
 
 	return newAnim;
 }
-bool Import::importNode (aiNode* AiNode, const aiScene* AiScene, Node& kNode){
+bool Import::importNode(aiNode* AiNode, const aiScene* AiScene, Node& kNode){
 
-	kNode.setName( AiNode->mName.C_Str() );
+	kNode.setName(AiNode->mName.C_Str());
 
 	// import transformation
 	aiVector3t<float> v3AiScaling;
 	aiQuaterniont<float> qAiRotation;
 	aiVector3t<float> v3AiPosition;
 
-	AiNode->mTransformation.Transpose().Decompose(v3AiScaling, qAiRotation, v3AiPosition);	// Remove Transpose()
+	//AiNode->mTransformation.Transpose();
+		// Remove Transpose()
+	
+	AiNode->mTransformation.Decompose(v3AiScaling, qAiRotation, v3AiPosition);
 
 	kNode.setPos(v3AiPosition.x, v3AiPosition.y, v3AiPosition.z); // Seteo POS
 	kNode.setScale(v3AiScaling.x, v3AiScaling.y, v3AiScaling.z); // Seteo Scale
-	float fRotX, fRotY, fRotZ;
-	MATHF::quaternionToEulerAngles(qAiRotation.x, qAiRotation.y, qAiRotation.z, qAiRotation.w, fRotX, fRotY, fRotZ); // Uso QuaternionToEuler :)
+	kNode.setBaseRotation(qAiRotation.x, qAiRotation.y, qAiRotation.z, qAiRotation.w);
 	
-	kNode.setRotation(fRotX, fRotY, fRotZ); // Seteo Rotation
+	/*
+	D3DXMATRIX mat;
+	D3DXMatrixIdentity(&mat);
+	//aiMatrix4x4 assmat= 
+	//for (int i = 0; i < 16; i++)
+	//{
+	//	mat[i] = *(assmat[i]);
+	//}
+
+	mat._11 = AiNode->mTransformation.a1;
+	mat._21 = AiNode->mTransformation.b1;
+	mat._31 = AiNode->mTransformation.c1;
+	mat._41 = AiNode->mTransformation.d1;
+
+	mat._12 = AiNode->mTransformation.a2;
+	mat._22 = AiNode->mTransformation.b2;
+	mat._32 = AiNode->mTransformation.c2;
+	mat._42 = AiNode->mTransformation.d2;
+
+	mat._13 = AiNode->mTransformation.a3;
+	mat._23 = AiNode->mTransformation.b3;
+	mat._33 = AiNode->mTransformation.c3;
+	mat._43 = AiNode->mTransformation.d3;
+
+	mat._14 = AiNode->mTransformation.a4;
+	mat._24 = AiNode->mTransformation.b4;
+	mat._34 = AiNode->mTransformation.c4;
+	mat._44 = AiNode->mTransformation.d4;
+
+	// import transformation
+	D3DXVECTOR3 v3AiScaling2;
+	D3DXQUATERNION qAiRotation2;
+	D3DXVECTOR3 v3AiPosition2;
+	D3DXMatrixDecompose(&v3AiScaling2, &qAiRotation2, &v3AiPosition2, &mat);
+	
+	kNode.setPos(v3AiPosition2.x, v3AiPosition2.y, v3AiPosition2.z); // Seteo POS
+	kNode.setScale(v3AiScaling2.x, v3AiScaling2.y, v3AiScaling2.z); // Seteo Scale
+	kNode.setBaseRotation(qAiRotation2.x, qAiRotation2.y, qAiRotation2.z, qAiRotation2.w);
+	*/
+	//float fRotX, fRotY, fRotZ;
+	//MATHF::quaternionToEulerAngles(qAiRotation.x, qAiRotation.y, qAiRotation.z, qAiRotation.w, fRotX, fRotY, fRotZ); // Uso QuaternionToEuler :)
+	//kNode.setRotation(fRotX, fRotY, fRotZ); // Seteo Rotation
 
 	
 	

@@ -10,7 +10,7 @@ using namespace DoMaRe;
 
 int Mesh::debugedMeshes = 0;
 
-Mesh::Mesh(Renderer & p_Renderer): pk_Renderer(p_Renderer) , s_Texture(NoTexture), pk_Material(Material::Default_Material), m_VtxBones(NULL), VectorDraw(NULL), m_NormBones(NULL), VectorNorm(NULL){
+Mesh::Mesh(Renderer & p_Renderer) : Entity3D(),  pk_Renderer(p_Renderer) , s_Texture(NoTexture), pk_Material(Material::Default_Material), m_VtxBones(NULL), VectorDraw(NULL), m_NormBones(NULL), VectorNorm(NULL){
 	mk_VertexBuffer3D = pk_Renderer.createVB(sizeof(DoMaRe::MeshVertex), DoMaRe::MeshVertexType);
 	mk_IndexBuffer = pk_Renderer.createIB();
 }
@@ -93,7 +93,7 @@ void Mesh::Draw(){
 	mk_IndexBuffer->bind();
 	pk_Renderer.setMaterial(pk_Material);
 	pk_Renderer.setCurrentTexture(s_Texture);
-	pk_Renderer.setMatrix(World, _TrMatrix );
+	//pk_Renderer.setMatrix(World, _TrMatrix );
 	pk_Renderer.Draw(pkPrimitive);
 
 	debugedMeshes ++ ;

@@ -6,8 +6,7 @@
 #include <algorithm>
 using namespace DoMaRe;
 
-Node::Node() : Entity3D(), m_pBone(NULL), m_pCurrentAnimation(NULL), FrameIndex(-1) {
-
+Node::Node() : Entity3D(), m_pBone(NULL), m_pCurrentAnimation(NULL), FrameIndex(-1), baseRot( new DoMaReQuat() ){
 }
 
 Node::~Node() {
@@ -22,6 +21,11 @@ Node::~Node() {
 	if(m_pBone != NULL){
 		delete m_pBone;
 		m_pBone = NULL;
+	}
+
+	if (baseRot != NULL){
+		delete baseRot;
+		baseRot = NULL;
 	}
 }
 
