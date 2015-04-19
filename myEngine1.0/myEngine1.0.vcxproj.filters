@@ -162,9 +162,6 @@
     <ClInclude Include="Entity3D\Node.h">
       <Filter>Archivos de encabezado\include\Entity3D</Filter>
     </ClInclude>
-    <ClInclude Include="Renderer\AABB.h">
-      <Filter>Archivos de encabezado\include\Renderer</Filter>
-    </ClInclude>
     <ClInclude Include="Physics\Physics.h">
       <Filter>Archivos de encabezado\include\Physics</Filter>
     </ClInclude>
@@ -188,6 +185,12 @@
     </ClInclude>
     <ClInclude Include="Entity3D\BoneInfo.h">
       <Filter>Archivos de encabezado\include\Entity3D</Filter>
+    </ClInclude>
+    <ClInclude Include="Entity3D\Vector3.h">
+      <Filter>Archivos de encabezado\include\Entity3D</Filter>
+    </ClInclude>
+    <ClInclude Include="Renderer\Frustrum.h">
+      <Filter>Archivos de encabezado\include\Renderer</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -260,9 +263,6 @@
     <ClCompile Include="Entity3D\Node.cpp">
       <Filter>Archivos de código fuente\src\Entity3D</Filter>
     </ClCompile>
-    <ClCompile Include="Renderer\AABB.cpp">
-      <Filter>Archivos de código fuente\src\Renderer</Filter>
-    </ClCompile>
     <ClCompile Include="Physics\Physics.cpp">
       <Filter>Archivos de código fuente\src\Physics</Filter>
     </ClCompile>
@@ -289,6 +289,12 @@
     </ClCompile>
     <ClCompile Include="Entity3D\BoneInfo.cpp">
       <Filter>Archivos de código fuente\src\Entity3D</Filter>
+    </ClCompile>
+    <ClCompile Include="Entity3D\Vector3.cpp">
+      <Filter>Archivos de código fuente\src\Entity3D</Filter>
+    </ClCompile>
+    <ClCompile Include="Renderer\Frustrum.cpp">
+      <Filter>Archivos de código fuente\src\Renderer</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

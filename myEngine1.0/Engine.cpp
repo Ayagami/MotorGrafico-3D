@@ -63,7 +63,6 @@ void Engine::run(){
 	#ifdef _DEBUG
 	RedirectIOToConsole();
 	#endif
-	Log("Starting Engine");
 	if(!G) return;
 	if(!G->Init(*Rendr, *Importer)) return;
 	if(!G->currentScene()->Init(*Importer)) return;

@@ -2,8 +2,8 @@
 #include <iostream>
 #include <string>
 #include "../Renderer/EMath.h"
-#include "../Renderer/AABB.h"
 #include "../Renderer/RenderTypes.h"
+#include "Vector3.h"
 
 //#include "../Physics/RigidBody.h"
 #include "../../ext/irrKlang/include/irrKlang.h"
@@ -12,111 +12,98 @@ namespace DoMaRe{
 	class Renderer;
 	class Timer;
 	class Node;
-	class AABB;
-	class RigidBody;
-	//class Physics;
+	class Vector3;
 	class MYENGINE_API Entity3D{
 
 		friend class Node;
 
 	public:
-		Entity3D();
-		virtual ~Entity3D();
+public:
+        Entity3D(float posX, float posY, std::string name);
+ 
+        Entity3D();
+ 
+        void SetPos(const Vector3& vPosition);//para nodo
+ 
+        void SetPos(const float &x,const float &y, const float &z);//para nodo
+ 
+        void SetPos(const float &x,const float &y);
+ 
+		void setName(std::string s) { m_Name = s; }
+ 
+        void SetScale(const Vector3& vScaling);
+ 
+        void SetScale(const float &x,const float &y);
+ 
+        void SetScale(const float &x,const float &y, const float&z);
+ 
+        void SetScaleX(const float &x);
+ 
+        void SetScaleY(const float &y);
+ 
 
-	public:
+ 
+        void Rotate(const Vector3& vRotation);
+ 
+        void Rotate(const float &degree);
+ 
+        void FlipH(bool bFlip);
+ 
+        void FlipV(bool bFlip);
+ 
 
-		//const RigidBody* rigidbody() const { return pk_RigidBody; };
-		//RigidBody* rigidBody(){ return pk_RigidBody; };
+ 
+        Vector3 GetScale() { return m_vScale;}
+ 
+        Vector3 GetPos(){return m_vPos;}
+ 
+        Vector3 GetRot(){return m_vRot;}
+ 
+        float GetRotationX();
+ 
+        float GetRotationY();
+ 
+        float GetRotationZ();   
+ 
+        std::string GetName();
+ 
+        std::string GetCollisionGroup();
+ 
+        void CollisionEnabled(bool bEnable){m_bCollisionEnabled = bEnable;}
+ 
 
-		void setPos(float fPosX, float fPosY);
-		void setPos(float fPosX,float fPosY, float fPosZ);
-		void setRotation(float fRotationX, float fRotationY, float fRotationZ);
-		void setScale(float fScaleX, float fScaleY, float fScaleZ);
-		void setName(std::string _name);
+ 
+        friend class Scene;
+ 
+        //------------------------------------
+ 
+private:
+        std::string m_sCollisionGroupName;
+ 
+        void SetCollisionGroup(std::string sGroup);
+protected:
+        virtual void Draw(Renderer * pRenderer) = 0;
+ 
+        virtual void Update(const double& dDeltaTime);
+ 
+        virtual void OnCollide(Entity3D* pkEntity, float px, float py);
+ 
+        virtual void OnUpdate(const double& dDeltaTime);
+ 
+        virtual std::string GiveName();
+ 
+        std::string m_Name;
+ 
+        bool m_bVisible;
+ 
+        bool m_bCollisionEnabled;
+ 
+        Vector3 m_vPos;
+ 
+        Vector3 m_vScale;
+ 
+        Vector3 m_vRot; 
+ 
 
-		//irrklang::ISound&	getSound()const{ return *_theSound; }
-		//void				setSound(irrklang::ISound& theSound){	_theSound = &theSound; }
-		std::string getName() const;
-
-
-		virtual void Draw() = 0;
-
-		void UseGravity(bool _T);
-		void SetGravity(float _G);
-		
-		float posX() const;
-		float posY() const;
-		float posZ() const;
-
-		float rotationX() const { return _RotX;}
-		float rotationY() const { return _RotY;}
-		float rotationZ() const { return _RotZ;}
-
-		float scale() const;
-		float scaleX() const;
-		float scaleY() const;
-		float scaleZ() const;
-/*
-		float previousPosX() const;
-		float previousPosY() const;
-		float previousPosZ() const;
-		*/
-		//float getGravity() const;
-		//bool isUsingGravity() const;
-
-		enum CollisionResult{
-			CollisionVertical,
-			CollisionHorizontal,
-			NoCollision
-		};
-
-		//CollisionResult checkCollision(Entity2D& rkEntity2D) const;
-		bool collidesWith(Entity3D&) const;
-		//void drawAABB (Renderer& rkRenderer) const;
-
-		virtual void OnCollision(Entity3D* pkCollider, Entity3D* Owner) { 
-			if(this->CollisionEvent != NULL){
-				CollisionEvent(Owner, pkCollider);
-			}
-		}
-		void setCollisionEvent(void (*collEvent)(Entity3D*, Entity3D*) );
-		void drawAABB(Renderer& pkRenderer) const;
-		//void UpdateGravityPos();
-		
-		virtual void updateTransformation();
-
-		void updateLocalTransformation();
-		//void returnToPos(float fPosX, float fPosY, float fPosZ);
-		const Matrix& transformationMatrix() const;
-
-		void setParent (Node* pkParent);
-
-		const AABB& aabb() const;
-		AABB& aabb();
-	private:
-
-		AABB* m_kAABB;
-
-
-		float _PosX, _PosY, _PosZ;
-		float _RotX, _RotY, _RotZ;
-		float _ScaleX,_ScaleY, _ScaleZ;
-		//float _PreviousPosX, _PreviousPosY, _PreviousPosZ;
-		//float _Gravity;
-		//bool _UseGravity;
-		std::string _Name;
-
-		Node* m_pkParent;
-
-		//RigidBody* pk_RigidBody;
-
-		void (*CollisionEvent)(Entity3D*,Entity3D*);
-
-	protected:
-
-		Matrix _TrMatrix;
-		Matrix _TrLocalMatrix;
-
-	//	irrklang::ISound * _theSound;
 	};
 }

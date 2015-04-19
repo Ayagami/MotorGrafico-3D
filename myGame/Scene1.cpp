@@ -17,7 +17,7 @@ void Test2(DoMaRe::Entity3D* pk1, DoMaRe::Entity3D* pk2);
 
 //#include "Sound\Sound.h"
 using namespace MiJuego;
-bool ds = false;
+bool ds = true;
 int Anim = 0;
 float mSpeed = 0.1f;
 DoMaRe::Node* cube;
@@ -27,7 +27,7 @@ bool Scene1::Init(DoMaRe::Import& Importer){
 	mainCamera->Init(&Importer.GetRenderer());
 	mainCamera->SetPosition(0,30,-10);
  
-	pkNode = new DoMaRe::Node();
+	pkNode = new DoMaRe::Node("Bones");
 
 	mainLight = new DoMaRe::Light(&Importer.GetRenderer());
 	mainLight->setLightType(DoMaRe::Light::DIRECTIONAL_LIGHT);
@@ -39,13 +39,13 @@ bool Scene1::Init(DoMaRe::Import& Importer){
 	mainLight->setRange(0.3f);
 	mainLight->enable(true);
 
-	Importer.importScene("tank.x", *pkNode);
+	Importer.importScene("bones_all.x", *pkNode);
 	//Importer.importMesh(*mesh,"Mesh.obj");
 
 	
 	//pkNode->setPos(0,0,0);
 	//pkNode->setScale(5,5,5);
-	pkNode->setCollisionEvent(&Test2);
+	pkNode->SetScale(10,10,10);
 
 	Importer.GetSound().playSoundFile("sound.mp3",false);
 	return true;
@@ -57,13 +57,13 @@ bool Scene1::Frame(DoMaRe::Renderer& renderer, DoMaRe::DirectInput& dInput, DoMa
 	if(ds){
 		switch (Anim){
 		case 0:
-			pkNode->playAnimation("Attack");
+			pkNode->PlayAnim("Attack");
 			break;
 		case 1:
-			pkNode->playAnimation("Impact");
+			pkNode->PlayAnim("Impact");
 			break;
 		case 2:
-			pkNode->playAnimation("Move");
+			pkNode->PlayAnim("Move");
 			break;
 
 		}
@@ -87,10 +87,6 @@ bool Scene1::deInit(){
 	delete mainLight;
 
 	return true;
-}
-
-void Test2(DoMaRe::Entity3D* pk1, DoMaRe::Entity3D* pk2){
-	std::cout << pk1->getName().c_str() << " COLLIDES WITH " << pk2->getName().c_str() << "\n";
 }
 
 void Scene1::UpdateInputs(DoMaRe::DirectInput& dInput, DoMaRe::Timer& timer, DoMaRe::Sound& pkSound, DoMaRe::Renderer& renderer){
@@ -168,13 +164,13 @@ void Scene1::UpdateInputs(DoMaRe::DirectInput& dInput, DoMaRe::Timer& timer, DoM
 		mainCamera->MoveUp(mSpeed * timer.timeBetweenFrames());
 	}
 
-	if(dInput.keyDown(DoMaRe::Input::KEY_L)){
+	/*if(dInput.keyDown(DoMaRe::Input::KEY_L)){
 		pkNode->setPos(pkNode->posX() + (mSpeed * timer.timeBetweenFrames()) , pkNode->posY(), pkNode->posZ());
 	}
 
 	if(dInput.keyDown(DoMaRe::Input::KEY_K)){
 		pkNode->setPos(pkNode->posX() - (mSpeed * timer.timeBetweenFrames()), pkNode->posY(), pkNode->posZ());
-	}
+	}*/
 
 	if(dInput.keyDown(DoMaRe::Input::KEY_B)){
 		mainLight->enable(!mainLight->isEnabled());

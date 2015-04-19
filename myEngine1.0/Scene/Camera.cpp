@@ -181,7 +181,7 @@ void Camera::BuildFrustum(){
 
 }
 int Camera::AABBinFrustum(Entity3D& pkNode){
-	AABB& b = pkNode.aabb();
+	/*AABB& b = pkNode.aabb();
 	D3DXVECTOR3 aabbSize = D3DXVECTOR3(b.width() * 0.5f,b.height() * 0.5f,b.depth() * 0.5f);
 	D3DXVECTOR3 aabbCenter = D3DXVECTOR3(b.offset()->x + pkNode.transformationMatrix()->_41 ,b.offset()->y + pkNode.transformationMatrix()->_42 ,b.offset()->z + pkNode.transformationMatrix()->_43);
 
@@ -205,6 +205,8 @@ int Camera::AABBinFrustum(Entity3D& pkNode){
 		}else if(d_m_r < -frustumPlane->d)
 			result = INTERSECT;
 	}
-
+	
 	return result;
+	*/
+	return 1;
 }

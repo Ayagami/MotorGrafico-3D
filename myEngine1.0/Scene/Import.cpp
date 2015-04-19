@@ -257,8 +257,9 @@ bool Import::importScene (const std::string& fileName, Node& SceneRoot){
                 |aiProcess_MakeLeftHanded);
 
 	if(AiScene){
+		SceneRoot.setName(AiScene->mRootNode->mName.C_Str());
 		for(int i=0; i < AiScene->mNumAnimations; i++){
-			SceneRoot.AddAnimation(CreateAnimation3D(AiScene->mAnimations[i]));
+			SceneRoot.AddAnim(CreateAnimation3D(AiScene->mAnimations[i]));
 		}
 		importNode(AiScene->mRootNode, AiScene, SceneRoot);
 		addBonesToNode(&SceneRoot);
@@ -268,14 +269,11 @@ bool Import::importScene (const std::string& fileName, Node& SceneRoot){
 	return false;
 }
 void Import::addBonesToNode(Node* fillNode){
-	if( m_pBoneMap.count(fillNode->getName()) ){
-		fillNode->m_pBone = m_pBoneMap[fillNode->getName()];
+	if( m_pBoneMap.count(fillNode->GetName()) ){
+		fillNode->m_pHueso = m_pBoneMap[fillNode->GetName()];
 	}
-	for(int i=0; i< fillNode->childs().size(); i++){
-		Node* pNode = dynamic_cast<Node*> (fillNode->childs()[i]);
-		if(pNode){	// THEY ARE NODES!
-			addBonesToNode(pNode);
-		}
+	for(int i=0; i< fillNode->m_nHijos; i++){
+		addBonesToNode(fillNode->m_vNodosHijos[i]);
 	}
 }
 Animation3D* Import::CreateAnimation3D(aiAnimation* aiAnim){
@@ -313,162 +311,33 @@ Animation3D* Import::CreateAnimation3D(aiAnimation* aiAnim){
 bool Import::importNode(aiNode* AiNode, const aiScene* AiScene, Node& kNode){
 
 	kNode.setName(AiNode->mName.C_Str());
-
-	// import transformation
-	//aiVector3t<float> v3AiScaling;
-	//aiQuaterniont<float> qAiRotation;
-	//aiVector3t<float> v3AiPosition;
-
-	//AiNode->mTransformation.Transpose();
-		// Remove Transpose()
 	
 	aiMatrix4x4 m = AiNode->mTransformation.Transpose();
-	kNode.setBaseTransform(m.a1, m.a2, m.a3, m.a4,
+	kNode.SetFirstTransform(m.a1, m.a2, m.a3, m.a4,
 						   m.b1, m.b2, m.b3, m.b4,
 						   m.c1, m.c2, m.c3, m.c4,
 						   m.d1, m.d2, m.d3, m.d4);
-	//kNode.setPos(v3AiPosition.x, v3AiPosition.y, v3AiPosition.z); // Seteo POS
-	//kNode.setScale(v3AiScaling.x, v3AiScaling.y, v3AiScaling.z); // Seteo Scale
-	//kNode.setBaseRotation(qAiRotation.x, qAiRotation.y, qAiRotation.z, qAiRotation.w);
-	
-	/*
-	D3DXMATRIX mat;
-	D3DXMatrixIdentity(&mat);
-	//aiMatrix4x4 assmat= 
-	//for (int i = 0; i < 16; i++)
-	//{
-	//	mat[i] = *(assmat[i]);
-	//}
-
-	mat._11 = AiNode->mTransformation.a1;
-	mat._21 = AiNode->mTransformation.b1;
-	mat._31 = AiNode->mTransformation.c1;
-	mat._41 = AiNode->mTransformation.d1;
-
-	mat._12 = AiNode->mTransformation.a2;
-	mat._22 = AiNode->mTransformation.b2;
-	mat._32 = AiNode->mTransformation.c2;
-	mat._42 = AiNode->mTransformation.d2;
-
-	mat._13 = AiNode->mTransformation.a3;
-	mat._23 = AiNode->mTransformation.b3;
-	mat._33 = AiNode->mTransformation.c3;
-	mat._43 = AiNode->mTransformation.d3;
-
-	mat._14 = AiNode->mTransformation.a4;
-	mat._24 = AiNode->mTransformation.b4;
-	mat._34 = AiNode->mTransformation.c4;
-	mat._44 = AiNode->mTransformation.d4;
-
-	// import transformation
-	D3DXVECTOR3 v3AiScaling2;
-	D3DXQUATERNION qAiRotation2;
-	D3DXVECTOR3 v3AiPosition2;
-	D3DXMatrixDecompose(&v3AiScaling2, &qAiRotation2, &v3AiPosition2, &mat);
-	
-	kNode.setPos(v3AiPosition2.x, v3AiPosition2.y, v3AiPosition2.z); // Seteo POS
-	kNode.setScale(v3AiScaling2.x, v3AiScaling2.y, v3AiScaling2.z); // Seteo Scale
-	kNode.setBaseRotation(qAiRotation2.x, qAiRotation2.y, qAiRotation2.z, qAiRotation2.w);
-	*/
-	//float fRotX, fRotY, fRotZ;
-	//MATHF::quaternionToEulerAngles(qAiRotation.x, qAiRotation.y, qAiRotation.z, qAiRotation.w, fRotX, fRotY, fRotZ); // Uso QuaternionToEuler :)
-	//kNode.setRotation(fRotX, fRotY, fRotZ); // Seteo Rotation
-
-	
-	
-	//INTENTO crear AABB.
-	float MaxX = std::numeric_limits<float>::lowest();
-	float MaxY = std::numeric_limits<float>::lowest();
-	float MaxZ = std::numeric_limits<float>::lowest();
-
-	float MinX = std::numeric_limits<float>::max();
-	float MinY = std::numeric_limits<float>::max();
-	float MinZ = std::numeric_limits<float>::max();
-	
-	
-	// Importo Child Nodes
 
 	for(unsigned int i=0; i<AiNode->mNumChildren; i++){
-		Node* pkNode = new Node();
-		kNode.addChild(pkNode);
-
-		pkNode->setParent(&kNode);
+		Node* pkNode = new Node(AiNode->mChildren[i]->mName.C_Str());
+		kNode.AddHijo(pkNode);
 
 		importNode(AiNode->mChildren[i], AiScene, *pkNode);
-
-		
-
-		//Ajusto AABB ?
-		float AabbMx = pkNode->posX() + ( pkNode->aabb().offset()->x + ( pkNode->aabb().width() / 2 ) );
-		float AabbMy = pkNode->posY() + ( pkNode->aabb().offset()->y + ( pkNode->aabb().height() / 2 ) );
-		float AabbMz = pkNode->posZ() + ( pkNode->aabb().offset()->z + ( pkNode->aabb().depth() / 2 ) );
-
-		float Aabbmx = pkNode->posX() + ( pkNode->aabb().offset()->x - ( pkNode->aabb().width() / 2 ) );
-		float Aabbmy = pkNode->posY() + ( pkNode->aabb().offset()->y - ( pkNode->aabb().height() / 2 ) );
-		float Aabbmz = pkNode->posZ() + ( pkNode->aabb().offset()->z - ( pkNode->aabb().depth() / 2 ) );
-
-		if(MaxX < AabbMx) MaxX = AabbMx;
-		if(MaxY < AabbMy) MaxY = AabbMy;
-		if(MaxZ < AabbMz) MaxZ = AabbMz;
-
-		if(MinX > Aabbmx) MinX = Aabbmx;
-		if(MinY > Aabbmy) MinY = Aabbmy;
-		if(MinZ > Aabbmz) MinZ = Aabbmz;
-
-		
 	}
-
-	// Importo Child Meshes
-
 	for(unsigned int i=0; i<AiNode->mNumMeshes; i++){
 		Mesh* pkMesh = new Mesh(this->GetRenderer());
-		kNode.addChild(pkMesh);
-
-		pkMesh->setParent(&kNode);
+		kNode.AddMesh(pkMesh);
 
 		aiMesh* pkAiMesh = AiScene->mMeshes[ AiNode->mMeshes[i] ];
 		aiMaterial* pkAiMaterial = AiScene->mMaterials[pkAiMesh->mMaterialIndex];
 
 		importMesh(pkAiMesh, pkAiMaterial, *pkMesh);
-
-		//	Actualizo nuevamente los AABB (Pero para meshes!)
-		float AabbMx = pkMesh->posX() + ( pkMesh->aabb().offset()->x + ( pkMesh->aabb().width() / 2 ) );
-		float AabbMy = pkMesh->posY() + ( pkMesh->aabb().offset()->y + ( pkMesh->aabb().height() / 2 ) );
-		float AabbMz = pkMesh->posZ() + ( pkMesh->aabb().offset()->z + ( pkMesh->aabb().depth() / 2 ) );
-
-		float Aabbmx = pkMesh->posX() + ( pkMesh->aabb().offset()->x - ( pkMesh->aabb().width() / 2 ) );
-		float Aabbmy = pkMesh->posY() + ( pkMesh->aabb().offset()->y - ( pkMesh->aabb().height() / 2 ) );
-		float Aabbmz = pkMesh->posZ() + ( pkMesh->aabb().offset()->z - ( pkMesh->aabb().depth() / 2 ) );
-
-		if(MaxX < AabbMx) MaxX = AabbMx;
-		if(MaxY < AabbMy) MaxY = AabbMy;
-		if(MaxZ < AabbMz) MaxZ = AabbMz;
-
-		if(MinX > Aabbmx) MinX = Aabbmx;
-		if(MinY > Aabbmy) MinY = Aabbmy;
-		if(MinZ > Aabbmz) MinZ = Aabbmz;
-		
 	}
-
-		//Deberia cargar aca la data...
-		kNode.aabb().setData( fabs(MaxX - MinX), fabs(MaxY - MinY), fabs(MaxZ - MinZ), (MinX + MaxX) / 2 - kNode.posX(), (MinY + MaxY) / 2 - kNode.posY(), (MinZ + MaxZ) / 2 - kNode.posZ());
-	
-	
-
 	return true;
 }
 bool Import::importMesh(const aiMesh* pkAiMesh, const aiMaterial* pkAiMaterial, Mesh& kMesh){
 
 	kMesh.setName( pkAiMesh->mName.C_Str() );
-
-			//Tendria que cargar los AABB para cada Mesh, De Forma Recursiva Quizá?
-				float MaxX = std::numeric_limits<float>::lowest();
-				float MaxY = std::numeric_limits<float>::lowest();
-				float MaxZ = std::numeric_limits<float>::lowest();
-
-				float MinX = std::numeric_limits<float>::max();
-				float MinY = std::numeric_limits<float>::max();
-				float MinZ = std::numeric_limits<float>::max(); 
 	
 	MeshVertex* pVertices = new MeshVertex[pkAiMesh->mNumVertices];
 	for(unsigned int i=0; i<pkAiMesh->mNumVertices; i++){
@@ -480,16 +349,6 @@ bool Import::importMesh(const aiMesh* pkAiMesh, const aiMaterial* pkAiMaterial, 
 			pVertices[i].v = pkAiMesh->mTextureCoords[0][i].y;
 		}
 		
-		
-		// Actualizo AABB
-			if( MaxX < pVertices[i].x ) MaxX = pVertices[i].x;
-			if( MaxY < pVertices[i].y ) MaxY = pVertices[i].y;
-			if( MaxZ < pVertices[i].z ) MaxZ = pVertices[i].z;
-
-			if( MinX > pVertices[i].x ) MinX = pVertices[i].x;
-			if( MinY > pVertices[i].y ) MinY = pVertices[i].y;
-			if( MinZ > pVertices[i].z ) MinZ = pVertices[i].z;
-			
 		
 		if(pkAiMesh->HasNormals()){
 			pVertices[i].nx = pkAiMesh->mNormals[i].x;
@@ -581,10 +440,6 @@ bool Import::importMesh(const aiMesh* pkAiMesh, const aiMaterial* pkAiMaterial, 
 	pVertices = NULL;
 
 		//Cargo Termino de Actualizar los AABB Seteando Data...
-
-	kMesh.aabb().setData( fabs(MaxX - MinX), fabs(MaxY - MinY), fabs(MaxZ - MinZ),(MinX + MaxX) / 2, (MinY + MaxY) / 2, (MinZ + MaxZ) / 2);
-	
-	
 	return true;
 }
 std::string Import::getFullPath(std::string fName){

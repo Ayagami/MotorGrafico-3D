@@ -122,7 +122,21 @@ bool Renderer::Init(HWND _HwnD){
 	}
 	return false;
 }
-
+void Renderer::CalculateFrustrum(){
+        D3DXMATRIX MatrizProy;
+ 
+        D3DXMATRIX MatrizVista;
+ 
+		d3d_dev->GetTransform(D3DTS_VIEW, &MatrizVista);
+ 
+        d3d_dev->GetTransform(D3DTS_PROJECTION, &MatrizProy);
+ 
+        m_Frustrum.Calculate(&MatrizVista,&MatrizProy);
+}
+//--------------------------------------------------------------------------------
+bool Renderer::CheckFrustumCulling(D3DXVECTOR3 * pVertices){
+        return m_Frustrum.isIn(pVertices);
+} 
 void Renderer::setWireFrameMode(bool theMode){
 	if(theMode == true){
 		d3d_dev->SetRenderState(D3DRS_FILLMODE,D3DFILL_WIREFRAME);

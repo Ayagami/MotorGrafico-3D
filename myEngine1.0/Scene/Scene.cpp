@@ -43,20 +43,18 @@ bool Scene::draw(DoMaRe::Renderer& r, DoMaRe::DirectInput& directInput,Timer& ti
 	}
 
 	for(int i=0; i < m_pkEntidades3D.size(); i++){
-		m_pkEntidades3D[i]->updateTransformation();
-		ifNeededtoDraw(*m_pkEntidades3D[i]);
+		m_pkEntidades3D[i]->Draw(&r);
 	}
 
 	if(pkNode != NULL){
-		pkNode->updateTransformation();
-		ifNeededtoDraw(*pkNode);
+		pkNode->Draw(&r);
 	}
 
 	return true;
 }
 void Scene::ifNeededtoDraw(Entity3D& pkNode){
 
-	int Result = getCamera()->AABBinFrustum(pkNode);
+	/*int Result = getCamera()->AABBinFrustum(pkNode);
 
 	switch(Result){
 	
@@ -82,10 +80,8 @@ void Scene::ifNeededtoDraw(Entity3D& pkNode){
 
 			break;
 			}
-		/*case Camera::OUTSIDE:		// FOR DEBUG
-			OutputDebugString("NO NEED TO DRAW");
-			break;*/
-	}
+
+	}*/
 }
 bool Scene::deinit(){
 	if(m_pkEntidades.empty() && m_pkEntidades3D.empty()) return true;
@@ -130,7 +126,7 @@ bool Scene::addEntity(Entity3D* Entity){
 }
 
 Entity3D* Scene::getEntity3D (const std::string& rkName, const DoMaRe::Node* pkParent){
-        for( std::vector<DoMaRe::Entity3D*>::const_iterator it = pkParent->childs().begin(); it != pkParent->childs().end(); it++){
+     /*   for( std::vector<DoMaRe::Entity3D*>::const_iterator it = pkParent->childs().begin(); it != pkParent->childs().end(); it++){
 				if( (*it)->getName() == rkName ){
                         return (*it);
                 }
@@ -146,7 +142,7 @@ Entity3D* Scene::getEntity3D (const std::string& rkName, const DoMaRe::Node* pkP
                         }
                 }
         }
-        
+        */
         return NULL;
 }
 
