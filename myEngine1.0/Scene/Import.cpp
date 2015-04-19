@@ -95,7 +95,7 @@ void Import::importSprite(Scene &scene,tinyxml2::XMLElement* root)
 				float rotation = instance->FloatAttribute("rotation");
 				float scaleX = instance->FloatAttribute("scaleX");
 				float scaleY = instance->FloatAttribute("scaleY");
-				
+
 				//GRABAMOS SPRITE			
 				ent_sprite->setPos(posX,posY,posZ);
 				ent_sprite->setName(name);
@@ -167,7 +167,7 @@ void Import::importAnimation(std::vector<Animation> ** list_animations,tinyxml2:
 		tinyxml2::XMLElement *frame = animations->FirstChildElement("FRAME");
 		while(frame != NULL)
 		{
-			
+
 			float posX = frame->FloatAttribute("posX");
 			float posY = frame->FloatAttribute("posY");
 			float width = frame->FloatAttribute("width");
@@ -188,9 +188,9 @@ void Import::importMesh(Mesh& theMesh, std::string FileName){
 	Assimp::Importer importer;
 	//const aiScene* scene = importer.ReadFile( FileName, aiProcess_CalcTangentSpace | aiProcess_Triangulate | aiProcess_JoinIdenticalVertices | aiProcess_SortByPType);
 	const aiScene* scene = importer.ReadFile(FileName,
-                aiPrimitiveType_LINE|aiPrimitiveType_POINT |
-                aiProcess_Triangulate |aiProcess_SortByPType
-                |aiProcess_MakeLeftHanded);
+		aiPrimitiveType_LINE|aiPrimitiveType_POINT |
+		aiProcess_Triangulate |aiProcess_SortByPType
+		|aiProcess_MakeLeftHanded);
 
 	if(!scene) return;
 	int nIndices;
@@ -238,7 +238,7 @@ void Import::importMesh(Mesh& theMesh, std::string FileName){
 					pVertices[i].v = pAIMesh->mTextureCoords[0][i].y;
 				}
 			}
-			
+
 			theMesh.setData(pVertices,nVertices,DoMaRe::Primitive::TriangleList,pIndices,nIndices);
 			theMesh.setName(pAIMesh->mName.C_Str());
 			delete pVertices;
@@ -252,9 +252,9 @@ bool Import::importScene (const std::string& fileName, Node& SceneRoot){
 	Assimp::Importer kImporter;
 	//const aiScene* AiScene = kImporter.ReadFile(fileName, aiProcess_Triangulate | aiProcess_SortByPType);
 	const aiScene* AiScene = kImporter.ReadFile(fileName,
-                aiPrimitiveType_LINE|aiPrimitiveType_POINT |
-                aiProcess_Triangulate |aiProcess_SortByPType
-                |aiProcess_MakeLeftHanded);
+		aiPrimitiveType_LINE|aiPrimitiveType_POINT |
+		aiProcess_Triangulate |aiProcess_SortByPType
+		|aiProcess_MakeLeftHanded);
 
 	if(AiScene){
 		SceneRoot.setName(AiScene->mRootNode->mName.C_Str());
@@ -311,12 +311,12 @@ Animation3D* Import::CreateAnimation3D(aiAnimation* aiAnim){
 bool Import::importNode(aiNode* AiNode, const aiScene* AiScene, Node& kNode){
 
 	kNode.setName(AiNode->mName.C_Str());
-	
+
 	aiMatrix4x4 m = AiNode->mTransformation.Transpose();
 	kNode.SetFirstTransform(m.a1, m.a2, m.a3, m.a4,
-						   m.b1, m.b2, m.b3, m.b4,
-						   m.c1, m.c2, m.c3, m.c4,
-						   m.d1, m.d2, m.d3, m.d4);
+		m.b1, m.b2, m.b3, m.b4,
+		m.c1, m.c2, m.c3, m.c4,
+		m.d1, m.d2, m.d3, m.d4);
 
 	for(unsigned int i=0; i<AiNode->mNumChildren; i++){
 		Node* pkNode = new Node(AiNode->mChildren[i]->mName.C_Str());
@@ -338,7 +338,7 @@ bool Import::importNode(aiNode* AiNode, const aiScene* AiScene, Node& kNode){
 bool Import::importMesh(const aiMesh* pkAiMesh, const aiMaterial* pkAiMaterial, Mesh& kMesh){
 
 	kMesh.setName( pkAiMesh->mName.C_Str() );
-	
+
 	MeshVertex* pVertices = new MeshVertex[pkAiMesh->mNumVertices];
 	for(unsigned int i=0; i<pkAiMesh->mNumVertices; i++){
 		pVertices[i].x = pkAiMesh->mVertices[i].x;
@@ -348,8 +348,8 @@ bool Import::importMesh(const aiMesh* pkAiMesh, const aiMaterial* pkAiMaterial, 
 			pVertices[i].u = pkAiMesh->mTextureCoords[0][i].x;
 			pVertices[i].v = pkAiMesh->mTextureCoords[0][i].y;
 		}
-		
-		
+
+
 		if(pkAiMesh->HasNormals()){
 			pVertices[i].nx = pkAiMesh->mNormals[i].x;
 			pVertices[i].ny = pkAiMesh->mNormals[i].y;
@@ -392,7 +392,7 @@ bool Import::importMesh(const aiMesh* pkAiMesh, const aiMaterial* pkAiMaterial, 
 		// Loading Material...
 		aiColor4D diffuse;
 		aiReturn di = aiGetMaterialColor(pkAiMaterial, AI_MATKEY_COLOR_DIFFUSE, &diffuse);
-		
+
 		aiColor4D ambient;
 		aiReturn am = aiGetMaterialColor(pkAiMaterial, AI_MATKEY_COLOR_AMBIENT, &ambient);
 
@@ -413,7 +413,7 @@ bool Import::importMesh(const aiMesh* pkAiMesh, const aiMaterial* pkAiMaterial, 
 			kMesh.setMaterial(*pkMaterial);
 		}
 	}
-	
+
 	if(pkAiMesh->HasBones()){
 		for(int i=0; i < pkAiMesh->mNumBones; i++){
 			aiBone* bone = pkAiMesh->mBones[i];
@@ -423,7 +423,7 @@ bool Import::importMesh(const aiMesh* pkAiMesh, const aiMaterial* pkAiMaterial, 
 			}
 			aiMatrix4x4 m = bone->mOffsetMatrix.Transpose();
 			bInfo->setOffsetMatrix(m.a1, m.a2, m.a3, m.a4, m.b1, m.b2, m.b3, m.b4,
-								   m.c1, m.c2, m.c3, m.c4, m.d1, m.d2, m.d3, m.d4);
+				m.c1, m.c2, m.c3, m.c4, m.d1, m.d2, m.d3, m.d4);
 			std::string bName = bone->mName.C_Str();
 			if(!m_pBoneMap.count(bName)){
 				m_pBoneMap[bName] = new Bone();
@@ -439,7 +439,6 @@ bool Import::importMesh(const aiMesh* pkAiMesh, const aiMaterial* pkAiMaterial, 
 	delete[] pVertices;
 	pVertices = NULL;
 
-		//Cargo Termino de Actualizar los AABB Seteando Data...
 	return true;
 }
 std::string Import::getFullPath(std::string fName){

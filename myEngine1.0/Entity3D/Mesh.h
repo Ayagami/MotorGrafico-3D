@@ -33,10 +33,10 @@ namespace DoMaRe{
 		// ANIMATIONS!
 		void AddBoneInfo(BoneInfo* m_pBoneInfo) { m_vBoneData.push_back(m_pBoneInfo); }
 		bool HaveBones() { return (m_vBoneData.size()); }
-		
+
 		void GetBounding(Vector3* v_MaxBound, Vector3* v_MinBound);     
-        void CalculateBB();
-        void GetTransformedBox(D3DXMATRIX * pMatrizMundo, D3DXVECTOR3 * pOut); 
+		void CalculateBB();
+		void GetTransformedBox(D3DXMATRIX * pMatrizMundo, D3DXVECTOR3 * pOut); 
 
 	protected:
 		IndexBuffer* mk_IndexBuffer;

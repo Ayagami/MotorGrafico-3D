@@ -15,7 +15,7 @@ Mesh::Mesh(Renderer & p_Renderer) : Entity3D(),  pk_Renderer(p_Renderer) , s_Tex
 }
 
 Mesh::~Mesh(){
-	
+
 	m_pkVertex.clear();
 	m_pkIndex.clear();
 
@@ -41,7 +41,7 @@ Mesh::~Mesh(){
 		delete m_VtxBones;
 	if(m_pvBB)
 		delete m_pvBB;
-	
+
 }
 
 void Mesh::setData(const MeshVertex* Tex_Vertex, size_t vertexCount, DoMaRe::Primitive Prim, const unsigned short* pInt, size_t indexCount){
@@ -111,170 +111,170 @@ void Mesh::setMaterial(Material& m_cMaterial) {
 }
 
 void Mesh::GetBounding(Vector3* v_MaxBound, Vector3* v_MinBound){
-		if(s_Texture){
- 
-                v_MaxBound->x = m_pkVertex[0].x;
- 
-                v_MaxBound->y = m_pkVertex[0].y;
- 
-                v_MaxBound->z = m_pkVertex[0].z;
- 
+	if(s_Texture){
 
- 
-                v_MinBound->x = m_pkVertex[0].x;
- 
-                v_MinBound->y = m_pkVertex[0].y;
- 
-                v_MinBound->z = m_pkVertex[0].z;
- 
+		v_MaxBound->x = m_pkVertex[0].x;
 
- 
-				for(int i = 1; i < m_pkVertex.size();i++)
- 
-                {
- 
-                        if(m_pkVertex[i].x > v_MaxBound->x) 
- 
-                                v_MaxBound->x = m_pkVertex[i].x;
- 
-                        else if(m_pkVertex[i].x < v_MinBound->x)
- 
-                                v_MinBound->x = m_pkVertex[i].x;
- 
+		v_MaxBound->y = m_pkVertex[0].y;
 
- 
-                        if(m_pkVertex[i].y > v_MaxBound->y) 
- 
-                                v_MaxBound->y = m_pkVertex[i].y;
- 
-                        else if(m_pkVertex[i].y < v_MinBound->y)
- 
-                                v_MinBound->y = m_pkVertex[i].y;
- 
+		v_MaxBound->z = m_pkVertex[0].z;
 
- 
-                        if(m_pkVertex[i].z > v_MaxBound->z) 
- 
-                                v_MaxBound->z = m_pkVertex[i].z;
- 
-                        else if(m_pkVertex[i].z < v_MinBound->z)
- 
-                                v_MinBound->z = m_pkVertex[i].z;
- 
-                }
- 
-        }
+
+
+		v_MinBound->x = m_pkVertex[0].x;
+
+		v_MinBound->y = m_pkVertex[0].y;
+
+		v_MinBound->z = m_pkVertex[0].z;
+
+
+
+		for(int i = 1; i < m_pkVertex.size();i++)
+
+		{
+
+			if(m_pkVertex[i].x > v_MaxBound->x) 
+
+				v_MaxBound->x = m_pkVertex[i].x;
+
+			else if(m_pkVertex[i].x < v_MinBound->x)
+
+				v_MinBound->x = m_pkVertex[i].x;
+
+
+
+			if(m_pkVertex[i].y > v_MaxBound->y) 
+
+				v_MaxBound->y = m_pkVertex[i].y;
+
+			else if(m_pkVertex[i].y < v_MinBound->y)
+
+				v_MinBound->y = m_pkVertex[i].y;
+
+
+
+			if(m_pkVertex[i].z > v_MaxBound->z) 
+
+				v_MaxBound->z = m_pkVertex[i].z;
+
+			else if(m_pkVertex[i].z < v_MinBound->z)
+
+				v_MinBound->z = m_pkVertex[i].z;
+
+		}
+
+	}
 }
 void Mesh::GetTransformedBox(D3DXMATRIX * pMatrizMundo, D3DXVECTOR3* pOut){
-        for(int i = 0; i < 8;i++){
- 
-                D3DXVec3TransformCoord(&pOut[i],&m_pvBB[i],pMatrizMundo);
- 
-        }
- 
+	for(int i = 0; i < 8;i++){
+
+		D3DXVec3TransformCoord(&pOut[i],&m_pvBB[i],pMatrizMundo);
+
+	}
+
 } 
 
 void Mesh::CalculateBB(){
- 
-        Vector3 v_MaxBound;
- 
-        Vector3 v_MinBound;
- 
-        v_MaxBound.x = m_pkVertex[0].x;
- 
-                v_MaxBound.y = m_pkVertex[0].y;
- 
-                v_MaxBound.z = m_pkVertex[0].z;
- 
 
- 
-                v_MinBound.x = m_pkVertex[0].x;
- 
-                v_MinBound.y = m_pkVertex[0].y;
- 
-                v_MinBound.z = m_pkVertex[0].z;
- 
+	Vector3 v_MaxBound;
 
- 
-		for(int i = 1; i < m_pkVertex.size();i++){
- 
-                        if(m_pkVertex[i].x > v_MaxBound.x) 
- 
-                                v_MaxBound.x = m_pkVertex[i].x;
- 
-                        else if(m_pkVertex[i].x < v_MinBound.x)
- 
-                                v_MinBound.x = m_pkVertex[i].x;
- 
+	Vector3 v_MinBound;
 
- 
-                        if(m_pkVertex[i].y > v_MaxBound.y) 
- 
-                                v_MaxBound.y = m_pkVertex[i].y;
- 
-                        else if(m_pkVertex[i].y < v_MinBound.y)
- 
-                                v_MinBound.y = m_pkVertex[i].y;
- 
+	v_MaxBound.x = m_pkVertex[0].x;
 
- 
-                        if(m_pkVertex[i].z > v_MaxBound.z) 
- 
-                                v_MaxBound.z = m_pkVertex[i].z;
- 
-                        else if(m_pkVertex[i].z < v_MinBound.z)
- 
-                                v_MinBound.z = m_pkVertex[i].z;
- 
-        }
-        m_pvBB[0].x = v_MaxBound.x;
- 
-        m_pvBB[0].y = v_MaxBound.y;
- 
-        m_pvBB[0].z = v_MaxBound.z;
- 
-        m_pvBB[1].x = v_MaxBound.x;
- 
-        m_pvBB[1].y = v_MinBound.y;
- 
-        m_pvBB[1].z = v_MaxBound.z;
- 
-        m_pvBB[2].x = v_MinBound.x;
- 
-        m_pvBB[2].y = v_MinBound.y;
- 
-        m_pvBB[2].z = v_MaxBound.z;
- 
-        m_pvBB[3].x = v_MinBound.x;
- 
-        m_pvBB[3].y = v_MaxBound.y;
- 
-        m_pvBB[3].z = v_MaxBound.z;
- 
-        m_pvBB[4].x = v_MaxBound.x;
- 
-        m_pvBB[4].y = v_MaxBound.y;
- 
-        m_pvBB[4].z = v_MinBound.z;
- 
-        m_pvBB[5].x = v_MaxBound.x;
- 
-        m_pvBB[5].y = v_MinBound.y;
- 
-        m_pvBB[5].z = v_MinBound.z;
- 
-        m_pvBB[6].x = v_MinBound.x;
- 
-        m_pvBB[6].y = v_MinBound.y;
- 
-        m_pvBB[6].z = v_MinBound.z;
- 
-        m_pvBB[7].x = v_MinBound.x;
- 
-        m_pvBB[7].y = v_MaxBound.y;
- 
-        m_pvBB[7].z = v_MinBound.z;
- 
+	v_MaxBound.y = m_pkVertex[0].y;
+
+	v_MaxBound.z = m_pkVertex[0].z;
+
+
+
+	v_MinBound.x = m_pkVertex[0].x;
+
+	v_MinBound.y = m_pkVertex[0].y;
+
+	v_MinBound.z = m_pkVertex[0].z;
+
+
+
+	for(int i = 1; i < m_pkVertex.size();i++){
+
+		if(m_pkVertex[i].x > v_MaxBound.x) 
+
+			v_MaxBound.x = m_pkVertex[i].x;
+
+		else if(m_pkVertex[i].x < v_MinBound.x)
+
+			v_MinBound.x = m_pkVertex[i].x;
+
+
+
+		if(m_pkVertex[i].y > v_MaxBound.y) 
+
+			v_MaxBound.y = m_pkVertex[i].y;
+
+		else if(m_pkVertex[i].y < v_MinBound.y)
+
+			v_MinBound.y = m_pkVertex[i].y;
+
+
+
+		if(m_pkVertex[i].z > v_MaxBound.z) 
+
+			v_MaxBound.z = m_pkVertex[i].z;
+
+		else if(m_pkVertex[i].z < v_MinBound.z)
+
+			v_MinBound.z = m_pkVertex[i].z;
+
+	}
+	m_pvBB[0].x = v_MaxBound.x;
+
+	m_pvBB[0].y = v_MaxBound.y;
+
+	m_pvBB[0].z = v_MaxBound.z;
+
+	m_pvBB[1].x = v_MaxBound.x;
+
+	m_pvBB[1].y = v_MinBound.y;
+
+	m_pvBB[1].z = v_MaxBound.z;
+
+	m_pvBB[2].x = v_MinBound.x;
+
+	m_pvBB[2].y = v_MinBound.y;
+
+	m_pvBB[2].z = v_MaxBound.z;
+
+	m_pvBB[3].x = v_MinBound.x;
+
+	m_pvBB[3].y = v_MaxBound.y;
+
+	m_pvBB[3].z = v_MaxBound.z;
+
+	m_pvBB[4].x = v_MaxBound.x;
+
+	m_pvBB[4].y = v_MaxBound.y;
+
+	m_pvBB[4].z = v_MinBound.z;
+
+	m_pvBB[5].x = v_MaxBound.x;
+
+	m_pvBB[5].y = v_MinBound.y;
+
+	m_pvBB[5].z = v_MinBound.z;
+
+	m_pvBB[6].x = v_MinBound.x;
+
+	m_pvBB[6].y = v_MinBound.y;
+
+	m_pvBB[6].z = v_MinBound.z;
+
+	m_pvBB[7].x = v_MinBound.x;
+
+	m_pvBB[7].y = v_MaxBound.y;
+
+	m_pvBB[7].z = v_MinBound.z;
+
 }
 void Mesh::AnimationMeshDraw(Renderer* pRenderer){
 	ZeroMemory((void*) VectorDraw, sizeof(D3DXVECTOR3) * m_iVertexCount);
@@ -306,21 +306,21 @@ void Mesh::AnimationMeshDraw(Renderer* pRenderer){
 	pk_Renderer.setTransformMatrix(&identity);
 	pk_Renderer.setMaterial(pk_Material);
 	//if(s_Texture != NULL){
-		for(int i=0; i < m_iVertexCount; i++){
-			m_pkVertex[i].x = VectorDraw[i].x;
-			m_pkVertex[i].y = VectorDraw[i].y;
-			m_pkVertex[i].z = VectorDraw[i].z;
+	for(int i=0; i < m_iVertexCount; i++){
+		m_pkVertex[i].x = VectorDraw[i].x;
+		m_pkVertex[i].y = VectorDraw[i].y;
+		m_pkVertex[i].z = VectorDraw[i].z;
 
-			m_pkVertex[i].nx = VectorNorm[i].x;
-			m_pkVertex[i].ny = VectorNorm[i].y;
-			m_pkVertex[i].nz = VectorNorm[i].z;
-		}
+		m_pkVertex[i].nx = VectorNorm[i].x;
+		m_pkVertex[i].ny = VectorNorm[i].y;
+		m_pkVertex[i].nz = VectorNorm[i].z;
+	}
 	//}
-		mk_VertexBuffer3D->bind();
-		mk_IndexBuffer->bind();
-		pk_Renderer.setCurrentTexture(s_Texture);
-		mk_VertexBuffer3D->setVertexData((void *)&m_pkVertex, m_iVertexCount);
-		pk_Renderer.Draw(pkPrimitive);
-		// Aca tengo que llenar los buffers para dibujar esta data generada.
-		
+	mk_VertexBuffer3D->bind();
+	mk_IndexBuffer->bind();
+	pk_Renderer.setCurrentTexture(s_Texture);
+	mk_VertexBuffer3D->setVertexData((void *)&m_pkVertex, m_iVertexCount);
+	pk_Renderer.Draw(pkPrimitive);
+	// Aca tengo que llenar los buffers para dibujar esta data generada.
+
 }
