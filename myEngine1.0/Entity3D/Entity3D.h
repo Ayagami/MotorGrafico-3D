@@ -48,9 +48,9 @@ namespace DoMaRe{
 		float posY() const;
 		float posZ() const;
 
-		/*float rotationX() const { return pk_RigidBody->rotationX();}
-		float rotationY() const { return pk_RigidBody->rotationY();}
-		float rotationZ() const { return pk_RigidBody->rotationZ();}*/
+		float rotationX() const { return _RotX;}
+		float rotationY() const { return _RotY;}
+		float rotationZ() const { return _RotZ;}
 
 		float scale() const;
 		float scaleX() const;

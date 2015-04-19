@@ -14,21 +14,6 @@ namespace DoMaRe{
 			Node();
 			~Node();
 		public:
-			class MYENGINE_API DoMaReQuat{
-				private:
-					float x, y, z, w;
-				public:
-					void setQuaternion(float a, float b, float c, float d){
-						x = a;
-						y = b;
-						z = c;
-						w = d;
-					}
-					DoMaReQuat(){
-						x = y = z = w = 0;
-					}
-				friend class Entity3D;
-			};
 			const std::vector<Entity3D*>& childs () const{ return m_pkChilds; }
 			void addChild (Entity3D* pkChild);
 			void removeChild(Entity3D* pkChild);
@@ -44,19 +29,21 @@ namespace DoMaRe{
 			void Update(const double&);
 			bool isPlaying();
 
-			void setBaseRotation(float a, float b, float c, float d){ 
-				baseRot->setQuaternion(a, b, c, d);
-			}
+			void setBaseTransform(float a1, float a2,float a3, float a4, 
+								  float b1, float b2, float b3,float b4,
+								  float c1, float c2, float c3,float c4,
+								  float d1, float d2, float d3,float d4);
 
 		private:
 			std::vector<Entity3D*> m_pkChilds;
-			DoMaReQuat* baseRot;
 			// Animaciones!
 			std::map<std::string, Animation3D*> m_Animations;
 			Animation3D* m_pCurrentAnimation;
 			Bone*		 m_pBone;
 			void setAnimation(Animation3D*);
 			int  FrameIndex;
+
+			D3DXMATRIX m_mOriginalTransform;
 
 			friend class Import;
 			friend class Entity3D;

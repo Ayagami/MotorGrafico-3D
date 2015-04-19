@@ -21,13 +21,13 @@ bool ds = false;
 int Anim = 0;
 float mSpeed = 0.1f;
 DoMaRe::Node* cube;
+DoMaRe::Mesh* mesh;
 bool Scene1::Init(DoMaRe::Import& Importer){
 	mainCamera = new DoMaRe::Camera();
 	mainCamera->Init(&Importer.GetRenderer());
 	mainCamera->SetPosition(0,30,-10);
  
 	pkNode = new DoMaRe::Node();
-	
 
 	mainLight = new DoMaRe::Light(&Importer.GetRenderer());
 	mainLight->setLightType(DoMaRe::Light::DIRECTIONAL_LIGHT);
@@ -40,8 +40,11 @@ bool Scene1::Init(DoMaRe::Import& Importer){
 	mainLight->enable(true);
 
 	Importer.importScene("tank.x", *pkNode);
+	//Importer.importMesh(*mesh,"Mesh.obj");
+
+	
 	//pkNode->setPos(0,0,0);
-	pkNode->setScale(10,10,10);
+	//pkNode->setScale(5,5,5);
 	pkNode->setCollisionEvent(&Test2);
 
 	Importer.GetSound().playSoundFile("sound.mp3",false);
@@ -73,6 +76,9 @@ bool Scene1::Frame(DoMaRe::Renderer& renderer, DoMaRe::DirectInput& dInput, DoMa
 		pkNode->OnCollision(pkNode->childs()[0],pkNode->childs()[1]);
 	}*/
 	
+	//mesh->updateTransformation();
+	//mesh->Draw();
+
 	return true;
 }
 
@@ -88,6 +94,12 @@ void Test2(DoMaRe::Entity3D* pk1, DoMaRe::Entity3D* pk2){
 }
 
 void Scene1::UpdateInputs(DoMaRe::DirectInput& dInput, DoMaRe::Timer& timer, DoMaRe::Sound& pkSound, DoMaRe::Renderer& renderer){
+	/*if (dInput.keyDown(DoMaRe::Input::KEY_J)){
+		cube->setRotation(cube->rotationX() - 1  , cube->rotationY() , cube->rotationZ() ); 
+	}
+	if (dInput.keyDown(DoMaRe::Input::KEY_K)){
+		cube->setRotation(cube->rotationX() + 1 , cube->rotationY() , cube->rotationZ() );
+	}*/
 	if (dInput.keyDown(DoMaRe::Input::KEY_7)){
 		Anim = 0;
 	}

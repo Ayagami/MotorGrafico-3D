@@ -6,7 +6,7 @@
 #include <algorithm>
 using namespace DoMaRe;
 
-Node::Node() : Entity3D(), m_pBone(NULL), m_pCurrentAnimation(NULL), FrameIndex(-1), baseRot( new DoMaReQuat() ){
+Node::Node() : Entity3D(), m_pBone(NULL), m_pCurrentAnimation(NULL), FrameIndex(-1){
 }
 
 Node::~Node() {
@@ -22,17 +22,36 @@ Node::~Node() {
 		delete m_pBone;
 		m_pBone = NULL;
 	}
-
-	if (baseRot != NULL){
-		delete baseRot;
-		baseRot = NULL;
-	}
 }
 
 void Node::addChild(Entity3D* pkChild){
 	m_pkChilds.push_back(pkChild);
 }
+void Node::setBaseTransform(float a1, float a2,float a3, float a4, 
+								  float b1, float b2, float b3,float b4,
+								  float c1, float c2, float c3,float c4,
+								  float d1, float d2, float d3,float d4){
 
+	m_mOriginalTransform._11 = a1;
+	m_mOriginalTransform._12 = a2;
+	m_mOriginalTransform._13 = a3;
+	m_mOriginalTransform._14 = a4;
+
+	m_mOriginalTransform._21 = b1;
+	m_mOriginalTransform._22 = b2;
+	m_mOriginalTransform._23 = b3;
+	m_mOriginalTransform._24 = b4;
+
+	m_mOriginalTransform._31 = c1;
+	m_mOriginalTransform._32 = c2;
+	m_mOriginalTransform._33 = c3;
+	m_mOriginalTransform._34 = c4;
+
+	m_mOriginalTransform._41 = d1;
+	m_mOriginalTransform._42 = d2;
+	m_mOriginalTransform._43 = d3;
+	m_mOriginalTransform._44 = d4;
+}
 void Node::removeChild(Entity3D* pkChild){
 	m_pkChilds.erase( std::find( m_pkChilds.begin(), m_pkChilds.end(), pkChild ) );
 }

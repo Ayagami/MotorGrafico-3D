@@ -186,7 +186,12 @@ void Import::importAnimation(std::vector<Animation> ** list_animations,tinyxml2:
 }
 void Import::importMesh(Mesh& theMesh, std::string FileName){
 	Assimp::Importer importer;
-	const aiScene* scene = importer.ReadFile( FileName, aiProcess_CalcTangentSpace | aiProcess_Triangulate | aiProcess_JoinIdenticalVertices | aiProcess_SortByPType);
+	//const aiScene* scene = importer.ReadFile( FileName, aiProcess_CalcTangentSpace | aiProcess_Triangulate | aiProcess_JoinIdenticalVertices | aiProcess_SortByPType);
+	const aiScene* scene = importer.ReadFile(FileName,
+                aiPrimitiveType_LINE|aiPrimitiveType_POINT |
+                aiProcess_Triangulate |aiProcess_SortByPType
+                |aiProcess_MakeLeftHanded);
+
 	if(!scene) return;
 	int nIndices;
 	unsigned short *pIndices;
@@ -247,9 +252,9 @@ bool Import::importScene (const std::string& fileName, Node& SceneRoot){
 	Assimp::Importer kImporter;
 	//const aiScene* AiScene = kImporter.ReadFile(fileName, aiProcess_Triangulate | aiProcess_SortByPType);
 	const aiScene* AiScene = kImporter.ReadFile(fileName,
-        aiPrimitiveType_POINT|aiPrimitiveType_POINT |
-        aiProcess_Triangulate |aiProcess_SortByPType
-        );
+                aiPrimitiveType_LINE|aiPrimitiveType_POINT |
+                aiProcess_Triangulate |aiProcess_SortByPType
+                |aiProcess_MakeLeftHanded);
 
 	if(AiScene){
 		for(int i=0; i < AiScene->mNumAnimations; i++){
@@ -310,18 +315,21 @@ bool Import::importNode(aiNode* AiNode, const aiScene* AiScene, Node& kNode){
 	kNode.setName(AiNode->mName.C_Str());
 
 	// import transformation
-	aiVector3t<float> v3AiScaling;
-	aiQuaterniont<float> qAiRotation;
-	aiVector3t<float> v3AiPosition;
+	//aiVector3t<float> v3AiScaling;
+	//aiQuaterniont<float> qAiRotation;
+	//aiVector3t<float> v3AiPosition;
 
 	//AiNode->mTransformation.Transpose();
 		// Remove Transpose()
 	
-	AiNode->mTransformation.Decompose(v3AiScaling, qAiRotation, v3AiPosition);
-
-	kNode.setPos(v3AiPosition.x, v3AiPosition.y, v3AiPosition.z); // Seteo POS
-	kNode.setScale(v3AiScaling.x, v3AiScaling.y, v3AiScaling.z); // Seteo Scale
-	kNode.setBaseRotation(qAiRotation.x, qAiRotation.y, qAiRotation.z, qAiRotation.w);
+	aiMatrix4x4 m = AiNode->mTransformation.Transpose();
+	kNode.setBaseTransform(m.a1, m.a2, m.a3, m.a4,
+						   m.b1, m.b2, m.b3, m.b4,
+						   m.c1, m.c2, m.c3, m.c4,
+						   m.d1, m.d2, m.d3, m.d4);
+	//kNode.setPos(v3AiPosition.x, v3AiPosition.y, v3AiPosition.z); // Seteo POS
+	//kNode.setScale(v3AiScaling.x, v3AiScaling.y, v3AiScaling.z); // Seteo Scale
+	//kNode.setBaseRotation(qAiRotation.x, qAiRotation.y, qAiRotation.z, qAiRotation.w);
 	
 	/*
 	D3DXMATRIX mat;
