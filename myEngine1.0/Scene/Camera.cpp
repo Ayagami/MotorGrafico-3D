@@ -14,9 +14,9 @@ Camera::Camera()
 	m_RotateAroundRight(0.0f),
 	m_RotateAroundLookAt(0.0f)
 {
-	for(unsigned int i=0; i < 6; i++)
+	/*for(unsigned int i=0; i < 6; i++)
 		m_FrustumPlane[i] = new D3DXPLANE();
-
+		*/
 	D3DXMatrixIdentity(&m_MatView);
 	//BuildFrustum();
 }
@@ -29,10 +29,10 @@ bool Camera::Init(Renderer* pkRenderer){
 Camera::~Camera()
 {
 	// Delete Frustum Planes...
-	for(unsigned int i=0; i < 6; i++){
+	/*for(unsigned int i=0; i < 6; i++){
 		delete m_FrustumPlane[i];
 		m_FrustumPlane[i] = NULL;
-	}
+	}*/
 }
 //----------------------------------------------------------------
 void Camera::SetPosition(float fX, float fY, float fZ)
@@ -124,7 +124,7 @@ void Camera::Update()
 			m_Right.y, m_Up.y, m_LookAt.y, 0.0f,
 			m_Right.z, m_Up.z, m_LookAt.z, 0.0f,
 			fView41, fView42, fView43, 1.0f);
-		BuildFrustum();
+		//BuildFrustum();
 	}
 	//Set view transform
 	m_pkRenderer->loadIdentity();
@@ -135,6 +135,7 @@ void Camera::Update()
 }
 
 void Camera::BuildFrustum(){
+	/*
 	D3DXMATRIX FrustumProjectionMatrix;
 	D3DXMatrixMultiply( &FrustumProjectionMatrix, &m_MatView, m_pkRenderer->projectionMatrix() );
 
@@ -178,10 +179,10 @@ void Camera::BuildFrustum(){
 	for (unsigned int i=0; i<6; i++){
 		D3DXPlaneNormalize( m_FrustumPlane[i], m_FrustumPlane[i] );
 	}
-
+	*/
 }
-int Camera::AABBinFrustum(Entity3D& pkNode){
-	/*AABB& b = pkNode.aabb();
+/*int Camera::AABBinFrustum(Entity3D& pkNode){
+	AABB& b = pkNode.aabb();
 	D3DXVECTOR3 aabbSize = D3DXVECTOR3(b.width() * 0.5f,b.height() * 0.5f,b.depth() * 0.5f);
 	D3DXVECTOR3 aabbCenter = D3DXVECTOR3(b.offset()->x + pkNode.transformationMatrix()->_41 ,b.offset()->y + pkNode.transformationMatrix()->_42 ,b.offset()->z + pkNode.transformationMatrix()->_43);
 
@@ -207,6 +208,4 @@ int Camera::AABBinFrustum(Entity3D& pkNode){
 	}
 
 	return result;
-	*/
-	return 1;
-}
+} */

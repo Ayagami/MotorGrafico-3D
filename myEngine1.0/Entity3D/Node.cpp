@@ -229,10 +229,9 @@ void Node::NodeDraw(Renderer * pRenderer){
 
 	{
 
-		if(true)/*pRenderer->CheckFrustumCulling(m_vBB)*/
-
+		if( true ) //  pRenderer->CheckFrustumCulling(*this) != DoMaRe::Frustrum::OUTSIDE
 		{
-
+			
 			drawCalls = 1;
 
 			if(m_nMeshes)

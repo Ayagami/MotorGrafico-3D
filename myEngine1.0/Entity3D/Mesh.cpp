@@ -303,7 +303,7 @@ void Mesh::AnimationMeshDraw(Renderer* pRenderer){
 	D3DXMATRIX identity;
 	D3DXMatrixIdentity(&identity);
 
-	pk_Renderer.setTransformMatrix(&identity);
+	pk_Renderer.setMatrix(World, &identity);
 	pk_Renderer.setMaterial(pk_Material);
 	//if(s_Texture != NULL){
 	for(int i=0; i < m_iVertexCount; i++){

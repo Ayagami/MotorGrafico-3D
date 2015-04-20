@@ -97,5 +97,6 @@ namespace DoMaRe{
 
 		friend class Import;
 		friend class Scene;
+		friend class Frustrum;
 	};
 }

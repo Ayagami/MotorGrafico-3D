@@ -49,7 +49,7 @@ namespace DoMaRe{
 		void enableLight(bool, unsigned long);
 
 		void CalculateFrustrum(); 
-		bool CheckFrustumCulling(D3DXVECTOR3 * pVertices); 
+		int CheckFrustumCulling(Node& pVertices); 
 	private:
 		bool wireFrameMode;
 		IDirect3D9  * d3d;
@@ -61,9 +61,10 @@ namespace DoMaRe{
 		DoMaRe::IndexBuffer * p_ib;
 
 		Matrix	m_pkProjectionMatrix;
+		Matrix  m_pkViewMatrix;
 
 		std::vector<Texture> r_vTextures;
 
-		Frustrum m_Frustrum;
+		Frustrum* m_Frustrum;
 	};
 }

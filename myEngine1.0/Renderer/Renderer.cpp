@@ -10,7 +10,8 @@ Renderer::Renderer():
 	p_vb3D(NULL),
 	wireFrameMode(false),
 	m_pkProjectionMatrix( new D3DXMATRIX() ),
-	p_ib(NULL)
+	p_ib(NULL),
+	m_Frustrum( new Frustrum() )
 {
 	// Again, Nothing to do.
 }
@@ -47,6 +48,10 @@ Renderer::~Renderer(){
 		Material::Default_Material = NULL;
 	}
 
+	if(m_Frustrum){
+		delete m_Frustrum;
+		m_Frustrum = NULL;
+	}
 	Clear();
 }
 void Renderer::Clear(){
@@ -123,19 +128,19 @@ bool Renderer::Init(HWND _HwnD){
 	return false;
 }
 void Renderer::CalculateFrustrum(){
-	D3DXMATRIX MatrizProy;
+	/*D3DXMATRIX MatrizProy;
 
 	D3DXMATRIX MatrizVista;
 
 	d3d_dev->GetTransform(D3DTS_VIEW, &MatrizVista);
 
-	d3d_dev->GetTransform(D3DTS_PROJECTION, &MatrizProy);
+	d3d_dev->GetTransform(D3DTS_PROJECTION, &MatrizProy);*/
 
-	m_Frustrum.Calculate(&MatrizVista,&MatrizProy);
+	m_Frustrum->Calculate(m_pkViewMatrix, projectionMatrix() );
 }
 //--------------------------------------------------------------------------------
-bool Renderer::CheckFrustumCulling(D3DXVECTOR3 * pVertices){
-	return m_Frustrum.isIn(pVertices);
+int Renderer::CheckFrustumCulling(Node& pkNode){
+	return m_Frustrum->isIn(pkNode);
 } 
 void Renderer::setWireFrameMode(bool theMode){
 	if(theMode == true){
@@ -168,6 +173,7 @@ void Renderer::SetCamera(D3DXMATRIX * matrix){
 
 void Renderer::setTransformMatrix(D3DXMATRIX* kMatrix){
 	// set the matrix
+	m_pkViewMatrix = kMatrix;
 	d3d_dev->MultiplyTransform(D3DTS_VIEW, kMatrix);
 }
 
