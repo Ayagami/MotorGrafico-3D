@@ -10,7 +10,9 @@ Timer::Timer ()
 m_dTimeBetweenFrames(0),
 m_dMeasureFpsSample(0),
 m_uiFPS(0),
-m_uiFrameCounter(0)
+m_uiFrameCounter(0),
+m_dTime(0),
+m_dDeltaTime(1)
 {
 	// nothing to do
 }
@@ -24,6 +26,8 @@ void Timer::firstMeasure ()
 	m_dMeasureFpsSample = 0;
 	m_uiFPS = 0;
 	m_uiFrameCounter = 0;
+	m_dTime = 0;
+	m_dDeltaTime = 1;
 }
 //---------------------------------------------------------------------------
 void Timer::measure ()
@@ -33,6 +37,8 @@ void Timer::measure ()
 	m_dTimeBetweenFrames = static_cast<double>
 		((m_kPerfCount2.QuadPart - m_kPerfCount1.QuadPart) * 1000.0f / m_kFrequency.QuadPart);
 	
+	m_dTime += m_dTimeBetweenFrames * m_dDeltaTime;
+
 	m_dMeasureFpsSample += m_dTimeBetweenFrames;
 
 	m_uiFrameCounter++;
@@ -46,3 +52,6 @@ void Timer::measure ()
 	}
 }
 //---------------------------------------------------------------------------
+void Timer::setdeltaTime(float deltaTime){
+	m_dDeltaTime = deltaTime;
+}

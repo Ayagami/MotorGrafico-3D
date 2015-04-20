@@ -162,11 +162,35 @@
     <ClInclude Include="Entity3D\Node.h">
       <Filter>Archivos de encabezado\include\Entity3D</Filter>
     </ClInclude>
-    <ClInclude Include="Renderer\AABB.h">
-      <Filter>Archivos de encabezado\include\Renderer</Filter>
-    </ClInclude>
     <ClInclude Include="Physics\Physics.h">
       <Filter>Archivos de encabezado\include\Physics</Filter>
+    </ClInclude>
+    <ClInclude Include="Physics\Collider.h">
+      <Filter>Archivos de encabezado\include\Physics</Filter>
+    </ClInclude>
+    <ClInclude Include="Physics\RigidBody.h">
+      <Filter>Archivos de encabezado\include\Physics</Filter>
+    </ClInclude>
+    <ClInclude Include="Renderer\Light.h">
+      <Filter>Archivos de encabezado\include\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="Renderer\Material.h">
+      <Filter>Archivos de encabezado\include\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="Entity3D\3DAnimation.h">
+      <Filter>Archivos de encabezado\include\Entity3D</Filter>
+    </ClInclude>
+    <ClInclude Include="Entity3D\Bones.h">
+      <Filter>Archivos de encabezado\include\Entity3D</Filter>
+    </ClInclude>
+    <ClInclude Include="Entity3D\BoneInfo.h">
+      <Filter>Archivos de encabezado\include\Entity3D</Filter>
+    </ClInclude>
+    <ClInclude Include="Entity3D\Vector3.h">
+      <Filter>Archivos de encabezado\include\Entity3D</Filter>
+    </ClInclude>
+    <ClInclude Include="Renderer\Frustrum.h">
+      <Filter>Archivos de encabezado\include\Renderer</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -239,11 +263,38 @@
     <ClCompile Include="Entity3D\Node.cpp">
       <Filter>Archivos de código fuente\src\Entity3D</Filter>
     </ClCompile>
-    <ClCompile Include="Renderer\AABB.cpp">
-      <Filter>Archivos de código fuente\src\Renderer</Filter>
-    </ClCompile>
     <ClCompile Include="Physics\Physics.cpp">
       <Filter>Archivos de código fuente\src\Physics</Filter>
+    </ClCompile>
+    <ClCompile Include="Physics\Collider.cpp">
+      <Filter>Archivos de código fuente\src\Physics</Filter>
+    </ClCompile>
+    <ClCompile Include="Physics\RigidBody.cpp">
+      <Filter>Archivos de código fuente\src\Physics</Filter>
+    </ClCompile>
+    <ClCompile Include="Renderer\EMath.cpp">
+      <Filter>Archivos de código fuente\src\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="Renderer\Light.cpp">
+      <Filter>Archivos de código fuente\src\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="Renderer\Material.cpp">
+      <Filter>Archivos de código fuente\src\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="Entity3D\3DAnimation.cpp">
+      <Filter>Archivos de código fuente\src\Entity3D</Filter>
+    </ClCompile>
+    <ClCompile Include="Entity3D\Bones.cpp">
+      <Filter>Archivos de código fuente\src\Entity3D</Filter>
+    </ClCompile>
+    <ClCompile Include="Entity3D\BoneInfo.cpp">
+      <Filter>Archivos de código fuente\src\Entity3D</Filter>
+    </ClCompile>
+    <ClCompile Include="Entity3D\Vector3.cpp">
+      <Filter>Archivos de código fuente\src\Entity3D</Filter>
+    </ClCompile>
+    <ClCompile Include="Renderer\Frustrum.cpp">
+      <Filter>Archivos de código fuente\src\Renderer</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

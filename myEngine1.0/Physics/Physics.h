@@ -1,7 +1,11 @@
-#pragma once
+/*#pragma once
 #include "../myEngine_API.h"
-#include <iostream>
-#include <Windows.h>
+
+
+//#include "RigidBody.h"
+
+//#include <Physics2012/Dynamics/Entity/hkpRigidBody.h>
+
 class hkVisualDebugger;
 class hkpPhysicsContext;
 class hkpWorld;
@@ -14,15 +18,15 @@ class hkpWorld;
 class hkpRigidBody;
 
 namespace DoMaRe{
+	class RigidBody;
 	class MYENGINE_API Physics{
 		friend class Engine;
 	public:
 		void update(float fk_DeltaTime);
-		void test() {
-			OutputDebugString("Testing from Physics::Object");
-		}
+
 		static Physics* getInstance();
 
+		static void addEntity(RigidBody* pkR);
 	protected:
 		Physics();
 		~Physics();
@@ -36,10 +40,5 @@ namespace DoMaRe{
 		static hkpWorld* s_HvkWorld;
 
 		static bool s_HavokIsStarted;
-
-		// Escena de Ejemplo!
-		static hkpRigidBody* s_RigidBody1;
-		static hkpRigidBody* s_RigidBody2;
-		static hkpRigidBody* s_RigidBody3;
 	};
-}
+}*/

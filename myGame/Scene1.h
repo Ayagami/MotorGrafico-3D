@@ -12,10 +12,15 @@
 #include "Scene\Import.h"
 #include "Scene\Camera.h"
 #include "Sound\Sound.h"
+
+#include "Renderer\Light.h"
 #include <string>
+
 namespace MiJuego{
 	class Camera;
 	class Mesh;
+	class RigidBody;
+	class Physics;
 	class Sound;
 	class Scene1 : public DoMaRe::Scene{
 
@@ -25,11 +30,7 @@ namespace MiJuego{
 		bool deInit();
 	private:
 		void UpdateInputs(DoMaRe::DirectInput& dInput, DoMaRe::Timer& timer, DoMaRe::Sound& pkSound, DoMaRe::Renderer& renderer);
-		DoMaRe::Quad * _Cubo1;
-
-		DoMaRe::Sprite * _Sprite2;
-
-		DoMaRe::Mesh * _theMesh;
-		DoMaRe::Mesh * _theMesh2;
+		DoMaRe::Light * mainLight;
+		DoMaRe::Mesh  * testMesh;
 	};
 }

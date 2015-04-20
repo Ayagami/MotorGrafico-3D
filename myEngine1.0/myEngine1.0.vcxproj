@@ -20,12 +20,14 @@
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v110</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v110</PlatformToolset>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
@@ -54,7 +56,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>MYENGINE_EXPORTS;_WINDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir)ext\havok\Source;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -69,7 +71,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>MYENGINE_EXPORTS;_WINDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir)ext\havok\Source;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -87,16 +89,24 @@
     <ClInclude Include="Entity2D\Entity2D.h" />
     <ClInclude Include="Entity2D\Quad.h" />
     <ClInclude Include="Entity2D\Sprite.h" />
+    <ClInclude Include="Entity3D\3DAnimation.h" />
+    <ClInclude Include="Entity3D\BoneInfo.h" />
+    <ClInclude Include="Entity3D\Bones.h" />
     <ClInclude Include="Entity3D\Entity3D.h" />
     <ClInclude Include="Entity3D\Mesh.h" />
     <ClInclude Include="Entity3D\Node.h" />
+    <ClInclude Include="Entity3D\Vector3.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="input\pg1_directinput.h" />
     <ClInclude Include="input\pg1_input.h" />
     <ClInclude Include="myEngine_API.h" />
+    <ClInclude Include="Physics\Collider.h" />
     <ClInclude Include="Physics\Physics.h" />
-    <ClInclude Include="Renderer\AABB.h" />
+    <ClInclude Include="Physics\RigidBody.h" />
     <ClInclude Include="Renderer\EMath.h" />
+    <ClInclude Include="Renderer\Frustrum.h" />
+    <ClInclude Include="Renderer\Light.h" />
+    <ClInclude Include="Renderer\Material.h" />
     <ClInclude Include="Renderer\Renderer.h" />
     <ClInclude Include="Renderer\RenderTypes.h" />
     <ClInclude Include="Renderer\Window.h" />
@@ -116,14 +126,23 @@
     <ClCompile Include="Entity2D\Entity2D.cpp" />
     <ClCompile Include="Entity2D\Quad.cpp" />
     <ClCompile Include="Entity2D\Sprite.cpp" />
+    <ClCompile Include="Entity3D\3DAnimation.cpp" />
+    <ClCompile Include="Entity3D\BoneInfo.cpp" />
+    <ClCompile Include="Entity3D\Bones.cpp" />
     <ClCompile Include="Entity3D\Entity3D.cpp" />
     <ClCompile Include="Entity3D\Mesh.cpp" />
     <ClCompile Include="Entity3D\Node.cpp" />
+    <ClCompile Include="Entity3D\Vector3.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="input\pg1_directinput.cpp" />
     <ClCompile Include="input\pg1_input.cpp" />
+    <ClCompile Include="Physics\Collider.cpp" />
     <ClCompile Include="Physics\Physics.cpp" />
-    <ClCompile Include="Renderer\AABB.cpp" />
+    <ClCompile Include="Physics\RigidBody.cpp" />
+    <ClCompile Include="Renderer\EMath.cpp" />
+    <ClCompile Include="Renderer\Frustrum.cpp" />
+    <ClCompile Include="Renderer\Light.cpp" />
+    <ClCompile Include="Renderer\Material.cpp" />
     <ClCompile Include="Renderer\Renderer.cpp" />
     <ClCompile Include="Renderer\RenderTypes.cpp" />
     <ClCompile Include="Renderer\Window.cpp" />

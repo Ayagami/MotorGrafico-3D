@@ -12,6 +12,13 @@
 #include "../Entity3D/Node.h"
 #include "../Entity3D/Entity3D.h"
 
+
+#include "../Entity3D/3DAnimation.h"
+#include "../Entity3D/BoneInfo.h"
+#include "../Entity3D/Bones.h"
+
+#include "../Renderer/Material.h"
+
 //----- Assimp
 #include "../../ext/assimp/include/Importer.hpp"
 #include "../../ext/assimp/include/scene.h"
@@ -27,16 +34,13 @@ using namespace DoMaRe;
 Import* Import::Instance = NULL;
 Import::Import(){
 	//*pk_renderer = *pkRenderer;
+	Instance = this;
 }
 Import::~Import(){
 	// Fin MAP de Meshes
 }
 
 Import* Import::getInstance(){
-	if(Instance == NULL){
-		Instance = new Import();
-	}
-
 	return Instance;
 }
 
@@ -91,7 +95,7 @@ void Import::importSprite(Scene &scene,tinyxml2::XMLElement* root)
 				float rotation = instance->FloatAttribute("rotation");
 				float scaleX = instance->FloatAttribute("scaleX");
 				float scaleY = instance->FloatAttribute("scaleY");
-				
+
 				//GRABAMOS SPRITE			
 				ent_sprite->setPos(posX,posY,posZ);
 				ent_sprite->setName(name);
@@ -163,7 +167,7 @@ void Import::importAnimation(std::vector<Animation> ** list_animations,tinyxml2:
 		tinyxml2::XMLElement *frame = animations->FirstChildElement("FRAME");
 		while(frame != NULL)
 		{
-			
+
 			float posX = frame->FloatAttribute("posX");
 			float posY = frame->FloatAttribute("posY");
 			float width = frame->FloatAttribute("width");
@@ -182,7 +186,12 @@ void Import::importAnimation(std::vector<Animation> ** list_animations,tinyxml2:
 }
 void Import::importMesh(Mesh& theMesh, std::string FileName){
 	Assimp::Importer importer;
-	const aiScene* scene = importer.ReadFile( FileName, aiProcess_CalcTangentSpace | aiProcess_Triangulate | aiProcess_JoinIdenticalVertices | aiProcess_SortByPType);
+	//const aiScene* scene = importer.ReadFile( FileName, aiProcess_CalcTangentSpace | aiProcess_Triangulate | aiProcess_JoinIdenticalVertices | aiProcess_SortByPType);
+	const aiScene* scene = importer.ReadFile(FileName,
+		aiPrimitiveType_LINE|aiPrimitiveType_POINT |
+		aiProcess_Triangulate |aiProcess_SortByPType
+		|aiProcess_MakeLeftHanded);
+
 	if(!scene) return;
 	int nIndices;
 	unsigned short *pIndices;
@@ -229,7 +238,7 @@ void Import::importMesh(Mesh& theMesh, std::string FileName){
 					pVertices[i].v = pAIMesh->mTextureCoords[0][i].y;
 				}
 			}
-			
+
 			theMesh.setData(pVertices,nVertices,DoMaRe::Primitive::TriangleList,pIndices,nIndices);
 			theMesh.setName(pAIMesh->mName.C_Str());
 			delete pVertices;
@@ -238,153 +247,113 @@ void Import::importMesh(Mesh& theMesh, std::string FileName){
 	}
 	return;
 }
-bool Import::importScene (const std::string& rkFilename, Node& orkSceneRoot){
+bool Import::importScene (const std::string& fileName, Node& SceneRoot){
 
 	Assimp::Importer kImporter;
-	const aiScene* pkAiScene = kImporter.ReadFile(rkFilename, aiProcess_Triangulate | aiProcess_SortByPType);
-	importNode(pkAiScene->mRootNode, pkAiScene, orkSceneRoot);
-	
-	return true;
-}
-bool Import::importNode (const aiNode* pkAiNode, const aiScene* pkAiScene, Node& orkNode){
-	// import transformation
-	aiVector3t<float> v3AiScaling;
-	aiQuaterniont<float> qAiRotation;
-	aiVector3t<float> v3AiPosition;
+	//const aiScene* AiScene = kImporter.ReadFile(fileName, aiProcess_Triangulate | aiProcess_SortByPType);
+	const aiScene* AiScene = kImporter.ReadFile(fileName,
+		aiPrimitiveType_LINE|aiPrimitiveType_POINT |
+		aiProcess_Triangulate |aiProcess_SortByPType
+		|aiProcess_MakeLeftHanded);
 
-	pkAiNode->mTransformation.Decompose(v3AiScaling, qAiRotation, v3AiPosition);
-
-	orkNode.setPos(v3AiPosition.x, v3AiPosition.y, v3AiPosition.z); // Seteo POS
-	orkNode.setScale(v3AiScaling.x, v3AiScaling.y, v3AiScaling.z); // Seteo Scale
-	float fRotX, fRotY, fRotZ;
-	quaternionToEulerAngles(qAiRotation.x, qAiRotation.y, qAiRotation.z, qAiRotation.w, fRotX, fRotY, fRotZ); // Uso QuaternionToEuler :)
-	
-	orkNode.setRotation(fRotX, fRotY, fRotZ); // Seteo Rotation
-
-	
-
-	//INTENTO crear AABB.
-	float fMaxX = std::numeric_limits<float>::lowest();
-	float fMaxY = std::numeric_limits<float>::lowest();
-	float fMaxZ = std::numeric_limits<float>::lowest();
-
-	float fMinX = std::numeric_limits<float>::max();
-	float fMinY = std::numeric_limits<float>::max();
-	float fMinZ = std::numeric_limits<float>::max();
-	
-
-	// Importo Child Nodes
-
-	for(unsigned int i=0; i<pkAiNode->mNumChildren; i++){
-		Node* pkNode = new Node();
-		orkNode.addChild(pkNode);
-
-		pkNode->setParent(&orkNode);
-
-		importNode(pkAiNode->mChildren[i], pkAiScene, *pkNode);
-
-		
-
-		//Ajusto AABB ?
-		float fAabbMaxX = pkNode->posX() + ( pkNode->aabb().offset()->x + ( pkNode->aabb().width() / 2 ) );
-		float fAabbMaxY = pkNode->posY() + ( pkNode->aabb().offset()->y + ( pkNode->aabb().height() / 2 ) );
-		float fAabbMaxZ = pkNode->posZ() + ( pkNode->aabb().offset()->z + ( pkNode->aabb().depth() / 2 ) );
-
-		float fAabbMinX = pkNode->posX() + ( pkNode->aabb().offset()->x - ( pkNode->aabb().width() / 2 ) );
-		float fAabbMinY = pkNode->posY() + ( pkNode->aabb().offset()->y - ( pkNode->aabb().height() / 2 ) );
-		float fAabbMinZ = pkNode->posZ() + ( pkNode->aabb().offset()->z - ( pkNode->aabb().depth() / 2 ) );
-
-		if(fMaxX < fAabbMaxX) fMaxX = fAabbMaxX;
-		if(fMaxY < fAabbMaxY) fMaxY = fAabbMaxY;
-		if(fMaxZ < fAabbMaxZ) fMaxZ = fAabbMaxZ;
-
-		if(fMinX > fAabbMinX) fMinX = fAabbMinX;
-		if(fMinY > fAabbMinY) fMinY = fAabbMinY;
-		if(fMinZ > fAabbMinZ) fMinZ = fAabbMinZ;
-
-		
+	if(AiScene){
+		SceneRoot.setName(AiScene->mRootNode->mName.C_Str());
+		for(int i=0; i < AiScene->mNumAnimations; i++){
+			SceneRoot.AddAnim(CreateAnimation3D(AiScene->mAnimations[i]));
+		}
+		importNode(AiScene->mRootNode, AiScene, SceneRoot);
+		addBonesToNode(&SceneRoot);
+		return true;
 	}
 
-	// Importo Child Meshes
-
-	for(unsigned int i=0; i<pkAiNode->mNumMeshes; i++){
-		Mesh* pkMesh = new Mesh(this->GetRenderer());
-		orkNode.addChild(pkMesh);
-
-		pkMesh->setParent(&orkNode);
-
-		aiMesh* pkAiMesh = pkAiScene->mMeshes[ pkAiNode->mMeshes[i] ];
-		aiMaterial* pkAiMaterial = pkAiScene->mMaterials[pkAiMesh->mMaterialIndex];
-		importMesh(pkAiMesh, pkAiMaterial, *pkMesh);
-
-		//	Actualizo nuevamente los AABB (Pero para meshes!)
-		float fAabbMaxX = pkMesh->posX() + ( pkMesh->aabb().offset()->x + ( pkMesh->aabb().width() / 2 ) );
-		float fAabbMaxY = pkMesh->posY() + ( pkMesh->aabb().offset()->y + ( pkMesh->aabb().height() / 2 ) );
-		float fAabbMaxZ = pkMesh->posZ() + ( pkMesh->aabb().offset()->z + ( pkMesh->aabb().depth() / 2 ) );
-
-		float fAabbMinX = pkMesh->posX() + ( pkMesh->aabb().offset()->x - ( pkMesh->aabb().width() / 2 ) );
-		float fAabbMinY = pkMesh->posY() + ( pkMesh->aabb().offset()->y - ( pkMesh->aabb().height() / 2 ) );
-		float fAabbMinZ = pkMesh->posZ() + ( pkMesh->aabb().offset()->z - ( pkMesh->aabb().depth() / 2 ) );
-
-		if(fMaxX < fAabbMaxX) fMaxX = fAabbMaxX;
-		if(fMaxY < fAabbMaxY) fMaxY = fAabbMaxY;
-		if(fMaxZ < fAabbMaxZ) fMaxZ = fAabbMaxZ;
-
-		if(fMinX > fAabbMinX) fMinX = fAabbMinX;
-		if(fMinY > fAabbMinY) fMinY = fAabbMinY;
-		if(fMinZ > fAabbMinZ) fMinZ = fAabbMinZ;
-		
-	}
-
-		//Deberia cargar aca la data...
-		orkNode.aabb().setData( fabs(fMaxX - fMinX), 
-								fabs(fMaxY - fMinY), 
-								fabs(fMaxZ - fMinZ), 
-								
-								(fMinX + fMaxX) / 2 - orkNode.posX(), 
-								(fMinY + fMaxY) / 2 - orkNode.posY(), 
-								(fMinZ + fMaxZ) / 2 - orkNode.posZ());
-	
-
-
-	return true;
+	return false;
 }
-bool Import::importMesh(const aiMesh* pkAiMesh, const aiMaterial* pkAiMaterial, Mesh& orkMesh){
-	
-			//Tendria que cargar los AABB para cada Mesh, De Forma Recursiva Quizá?
-				float fMaxX = std::numeric_limits<float>::lowest();
-				float fMaxY = std::numeric_limits<float>::lowest();
-				float fMaxZ = std::numeric_limits<float>::lowest();
+void Import::addBonesToNode(Node* fillNode){
+	if( m_pBoneMap.count(fillNode->GetName()) ){
+		fillNode->m_pHueso = m_pBoneMap[fillNode->GetName()];
+	}
+	for(int i=0; i< fillNode->m_nHijos; i++){
+		addBonesToNode(fillNode->m_vNodosHijos[i]);
+	}
+}
+Animation3D* Import::CreateAnimation3D(aiAnimation* aiAnim){
+	Animation3D* newAnim = new Animation3D(aiAnim->mName.C_Str(), aiAnim->mDuration, aiAnim->mTicksPerSecond);
+	for(int i=0; i < aiAnim->mNumChannels; i++){
+		aiNodeAnim* currentChanel = aiAnim->mChannels[i];
+		Animation3D::KeyFrame * keyFrameAux = new Animation3D::KeyFrame();
+		keyFrameAux->name = currentChanel->mNodeName.C_Str();
 
-				float fMinX = std::numeric_limits<float>::max();
-				float fMinY = std::numeric_limits<float>::max();
-				float fMinZ = std::numeric_limits<float>::max();
-	
-	MeshVertex* pakVertices = new MeshVertex[pkAiMesh->mNumVertices];
-	for(unsigned int i=0; i<pkAiMesh->mNumVertices; i++){
-		pakVertices[i].x = pkAiMesh->mVertices[i].x;
-		pakVertices[i].y = pkAiMesh->mVertices[i].y;
-		pakVertices[i].z = pkAiMesh->mVertices[i].z;
-		if( pkAiMesh->mTextureCoords[0] != NULL ) {
-			pakVertices[i].u = pkAiMesh->mTextureCoords[0][i].x;
-			pakVertices[i].v = pkAiMesh->mTextureCoords[0][i].y;
+		keyFrameAux->iPositionKeys = currentChanel->mNumPositionKeys;
+		keyFrameAux->iRotationKeys = currentChanel->mNumRotationKeys;
+		keyFrameAux->iScalingKeys  = currentChanel->mNumScalingKeys;
+
+		keyFrameAux->positionKey = new aiVectorKey[currentChanel->mNumPositionKeys];
+		for(int j=0; j < currentChanel->mNumPositionKeys; j++){
+			keyFrameAux->positionKey[j].mTime = currentChanel->mPositionKeys[j].mTime;
+			keyFrameAux->positionKey[j].mValue = currentChanel->mPositionKeys[j].mValue;
+		}
+		keyFrameAux->rotationKey = new aiQuatKey[currentChanel->mNumRotationKeys];
+		for(int j=0; j < currentChanel->mNumRotationKeys; j++){
+			keyFrameAux->rotationKey[j].mTime  = currentChanel->mRotationKeys[j].mTime;
+			keyFrameAux->rotationKey[j].mValue = currentChanel->mRotationKeys[j].mValue;
+		}
+		keyFrameAux->scalingKey = new aiVectorKey[currentChanel->mNumScalingKeys];
+		for(int j=0; j < currentChanel->mNumScalingKeys; j++){
+			keyFrameAux->scalingKey[j].mTime = currentChanel->mScalingKeys[j].mTime;
+			keyFrameAux->scalingKey[j].mValue = currentChanel->mScalingKeys[j].mValue;
 		}
 
-		
-		// Actualizo AABB
-			if( fMaxX < pakVertices[i].x ) fMaxX = pakVertices[i].x;
-			if( fMaxY < pakVertices[i].y ) fMaxY = pakVertices[i].y;
-			if( fMaxZ < pakVertices[i].z ) fMaxZ = pakVertices[i].z;
+		newAnim->AddFrame(keyFrameAux);
+	}
 
-			if( fMinX > pakVertices[i].x ) fMinX = pakVertices[i].x;
-			if( fMinY > pakVertices[i].y ) fMinY = pakVertices[i].y;
-			if( fMinZ > pakVertices[i].z ) fMinZ = pakVertices[i].z;
+	return newAnim;
+}
+bool Import::importNode(aiNode* AiNode, const aiScene* AiScene, Node& kNode){
 
-		
+	kNode.setName(AiNode->mName.C_Str());
+
+	aiMatrix4x4 m = AiNode->mTransformation.Transpose();
+	kNode.SetFirstTransform(m.a1, m.a2, m.a3, m.a4,
+		m.b1, m.b2, m.b3, m.b4,
+		m.c1, m.c2, m.c3, m.c4,
+		m.d1, m.d2, m.d3, m.d4);
+
+	for(unsigned int i=0; i<AiNode->mNumChildren; i++){
+		Node* pkNode = new Node(AiNode->mChildren[i]->mName.C_Str());
+		kNode.AddHijo(pkNode);
+
+		importNode(AiNode->mChildren[i], AiScene, *pkNode);
+	}
+	for(unsigned int i=0; i<AiNode->mNumMeshes; i++){
+		Mesh* pkMesh = new Mesh(this->GetRenderer());
+		kNode.AddMesh(pkMesh);
+
+		aiMesh* pkAiMesh = AiScene->mMeshes[ AiNode->mMeshes[i] ];
+		aiMaterial* pkAiMaterial = AiScene->mMaterials[pkAiMesh->mMaterialIndex];
+
+		importMesh(pkAiMesh, pkAiMaterial, *pkMesh);
+	}
+	return true;
+}
+bool Import::importMesh(const aiMesh* pkAiMesh, const aiMaterial* pkAiMaterial, Mesh& kMesh){
+
+	kMesh.setName( pkAiMesh->mName.C_Str() );
+
+	MeshVertex* pVertices = new MeshVertex[pkAiMesh->mNumVertices];
+	for(unsigned int i=0; i<pkAiMesh->mNumVertices; i++){
+		pVertices[i].x = pkAiMesh->mVertices[i].x;
+		pVertices[i].y = pkAiMesh->mVertices[i].y;
+		pVertices[i].z = pkAiMesh->mVertices[i].z;
+		if( pkAiMesh->mTextureCoords[0] != NULL ) {
+			pVertices[i].u = pkAiMesh->mTextureCoords[0][i].x;
+			pVertices[i].v = pkAiMesh->mTextureCoords[0][i].y;
+		}
+
+
 		if(pkAiMesh->HasNormals()){
-			pakVertices[i].nx = pkAiMesh->mNormals[i].x;
-			pakVertices[i].ny = pkAiMesh->mNormals[i].y;
-			pakVertices[i].nz = pkAiMesh->mNormals[i].z;
+			pVertices[i].nx = pkAiMesh->mNormals[i].x;
+			pVertices[i].ny = pkAiMesh->mNormals[i].y;
+			pVertices[i].nz = pkAiMesh->mNormals[i].z;
 		}
 	}
 	size_t uiIndexCount = pkAiMesh->mNumFaces * 3;
@@ -395,8 +364,8 @@ bool Import::importMesh(const aiMesh* pkAiMesh, const aiMaterial* pkAiMaterial, 
 		pausIndices[i * 3 + 1] = pkAiMesh->mFaces[i].mIndices[1];
 		pausIndices[i * 3 + 2] = pkAiMesh->mFaces[i].mIndices[2];
 	}
-	orkMesh.setData(pakVertices, pkAiMesh->mNumVertices, DoMaRe::Primitive::TriangleList, pausIndices, uiIndexCount);
-	orkMesh.setName(pkAiMesh->mName.C_Str());
+	kMesh.setData(pVertices, pkAiMesh->mNumVertices, DoMaRe::Primitive::TriangleList, pausIndices, uiIndexCount);
+	kMesh.setName(pkAiMesh->mName.C_Str());
 
 	if(pkAiMaterial){
 		// diffuse texture
@@ -410,47 +379,71 @@ bool Import::importMesh(const aiMesh* pkAiMesh, const aiMaterial* pkAiMaterial, 
 		{
 			kTexturePath = "." + kTexturePath;
 		}
+
+		/*std::string basePath = getFullPath(kTexturePath);
+
+		std::string texturePath = "";
+		texturePath.append(basePath);
+		texturePath.append(kTexturePath.c_str());*/
+
 		Texture TheTexture = pk_renderer->loadTexture(kTexturePath);
-		orkMesh.setTexture(TheTexture);
+		kMesh.setTexture(TheTexture);
+
+		// Loading Material...
+		aiColor4D diffuse;
+		aiReturn di = aiGetMaterialColor(pkAiMaterial, AI_MATKEY_COLOR_DIFFUSE, &diffuse);
+
+		aiColor4D ambient;
+		aiReturn am = aiGetMaterialColor(pkAiMaterial, AI_MATKEY_COLOR_AMBIENT, &ambient);
+
+		aiColor4D specular;
+		aiReturn sp = aiGetMaterialColor(pkAiMaterial, AI_MATKEY_COLOR_SPECULAR, &specular);
+
+		aiColor4D emissive;
+		aiReturn em = aiGetMaterialColor(pkAiMaterial, AI_MATKEY_COLOR_EMISSIVE, &emissive);
+
+		if(di == aiReturn_SUCCESS && am == aiReturn_SUCCESS && sp == aiReturn_SUCCESS && em == aiReturn_SUCCESS){
+
+			Material* pkMaterial = new Material();
+			pkMaterial->setDiffuse(diffuse.r,diffuse.g,diffuse.b,diffuse.a);
+			pkMaterial->setAmbient(ambient.r,ambient.g,ambient.b,ambient.a);
+			pkMaterial->setSpecular(specular.r,specular.g,specular.b,specular.a);
+			pkMaterial->setEmissive(emissive.r,emissive.g,emissive.b,emissive.a);
+
+			kMesh.setMaterial(*pkMaterial);
+		}
 	}
-	
-	delete[] pakVertices;
-	pakVertices = NULL;
 
-		//Cargo Termino de Actualizar los AABB Seteando Data...
+	if(pkAiMesh->HasBones()){
+		for(int i=0; i < pkAiMesh->mNumBones; i++){
+			aiBone* bone = pkAiMesh->mBones[i];
+			BoneInfo* bInfo = new BoneInfo();
+			for(int j=0; j <  bone->mNumWeights; j++){
+				bInfo->addWeight(bone->mWeights[j].mVertexId, bone->mWeights[j].mWeight);
+			}
+			aiMatrix4x4 m = bone->mOffsetMatrix.Transpose();
+			bInfo->setOffsetMatrix(m.a1, m.a2, m.a3, m.a4, m.b1, m.b2, m.b3, m.b4,
+				m.c1, m.c2, m.c3, m.c4, m.d1, m.d2, m.d3, m.d4);
+			std::string bName = bone->mName.C_Str();
+			if(!m_pBoneMap.count(bName)){
+				m_pBoneMap[bName] = new Bone();
+				bInfo->setBone(m_pBoneMap[bName]);
+			}
+			else{
+				bInfo->setBone(m_pBoneMap[bName]);
+			}
+			kMesh.AddBoneInfo(bInfo);
+		}
+	}
 
-		orkMesh.aabb().setData( fabs(fMaxX - fMinX), fabs(fMaxY - fMinY), fabs(fMaxZ - fMinZ),(fMinX + fMaxX) / 2, (fMinY + fMaxY) / 2, (fMinZ + fMaxZ) / 2);
-	
-	
+	delete[] pVertices;
+	pVertices = NULL;
+
 	return true;
 }
-void Import::quaternionToEulerAngles (float qX, float qY, float qZ, float qW, float& orfRotX, float& orfRotY, float& orfRotZ){
-	double test = qX * qY + qZ * qW;
-	if(test > 0.499f){
-		// singularity at north pole
-		orfRotX = 2.0f * atan2(qX, qW);
-		orfRotY = AI_MATH_PI_F / 2.0f;
-		orfRotZ = 0.0f;
-		return;
-	}
-
-	if (test < -0.499f){
-		// singularity at south pole
-		orfRotX = -2.0f * atan2(qX, qW);
-		orfRotY = - AI_MATH_PI_F / 2.0f;
-		orfRotZ = 0.0f;
-		return;
-	}
-
-    float sqx = qX * qX;
-    float sqy = qY * qY;
-    float sqz = qZ * qZ;
-    
-	orfRotX = atan2(2.0f * qY * qW - 2.0f * qX * qZ, 
-					1.0f - 2.0f * sqy - 2.0f * sqz);
-	
-	orfRotY = static_cast<float>( asin(2.0f * test) );
-
-	orfRotZ = atan2(2.0f * qX * qW - 2.0f * qY * qZ, 
-					1.0f - 2.0f * sqx - 2.0f * sqz);
+std::string Import::getFullPath(std::string fName){
+	std::string tempName = fName;
+	int last = tempName.find_last_of("/\\");
+	tempName = tempName.substr(0, last + 1);
+	return tempName;
 }

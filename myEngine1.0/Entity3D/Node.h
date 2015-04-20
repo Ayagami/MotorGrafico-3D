@@ -5,23 +5,98 @@
 //-----------------------
 #include <string>
 #include <vector>
-
+#include <iostream>
+#include <map>
 namespace DoMaRe{
+	class Animation3D;
+	class Bone;
+	class Mesh;
+	class Vector3;
 	class MYENGINE_API Node : public Entity3D{
-		public:
-			Node();
-			~Node();
-		public:
+	public:
 
-			const std::vector<Entity3D*>& childs () const{ return m_pkChilds; }
-			void addChild (Entity3D* pkChild);
-			void removeChild(Entity3D* pkChild);
+		Node(std::string name);
 
-			void updateTransformation();
-			void Draw();
+		~Node();
 
-		private:
-			std::vector<Entity3D*> m_pkChilds;
+		void AddMesh(Mesh* pMeshAux);
 
+		void AddHijo(Node* hijo);
+
+		Mesh* GetMesh() {return m_vMeshes[0];}
+
+		Node* GetHijo(unsigned int index);
+
+		Node* FindChildByName(std::string sName);
+
+		void SetFirstTransform(float a1,float a2,float a3, float a4, 
+
+			float b1, float b2,float b3, float b4,
+
+			float c1,float c2,float c3,float c4,
+
+			float d1,float d2, float d3, float d4);
+
+		unsigned int GetHijoCount();
+
+		unsigned int GetMeshCount();
+
+		void PlayAnim(std::string sName);
+
+		void AddAnim(Animation3D* pAnimation);
+
+		Animation3D* GetAnim(std::string sName);
+
+		void SetAnim(std::string sName);
+
+		virtual void Update(const double& dDeltaTime);
+
+		bool IsPlaying();
+
+		int drawCalls;
+
+	private:
+
+		std::vector<Node*> m_vNodosHijos;
+
+		std::vector<Mesh*> m_vMeshes;
+
+		D3DXMATRIX m_mGlobalTransform;
+
+		D3DXMATRIX m_mOriginalTransform;
+
+		unsigned int m_nHijos;
+
+		unsigned int m_nMeshes;
+
+		virtual void Draw(Renderer * pRenderer);
+
+		void PreDraw(D3DXMATRIX transformation, Renderer * pRenderer);
+
+		void NodeDraw(Renderer * pRenderer);
+
+		void CalculateBB();
+
+		void GetBoundings(Vector3* pOutMin, Vector3* pOutMax);
+
+		std::map<std::string, Animation3D*> m_mAnimations;
+
+		Animation3D* m_pCurrentAnim;
+
+		Bone* m_pHueso;       
+
+		void SetAnim(Animation3D* pAnimation);
+
+		int KeyFrameIndex;
+
+		D3DXVECTOR3* m_vBB;
+
+		Vector3 v_MinBound;
+
+		Vector3 v_MaxBound;
+
+		friend class Import;
+		friend class Scene;
+		friend class Frustrum;
 	};
 }

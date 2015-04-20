@@ -2,103 +2,108 @@
 #include <iostream>
 #include <string>
 #include "../Renderer/EMath.h"
-#include "../Renderer/AABB.h"
 #include "../Renderer/RenderTypes.h"
+#include "Vector3.h"
+
+//#include "../Physics/RigidBody.h"
 #include "../../ext/irrKlang/include/irrKlang.h"
 
 namespace DoMaRe{
 	class Renderer;
 	class Timer;
 	class Node;
-	class AABB;
+	class Vector3;
 	class MYENGINE_API Entity3D{
 
 		friend class Node;
 
 	public:
-		Entity3D();
-		virtual ~Entity3D();
-
 	public:
+		Entity3D(float posX, float posY, std::string name);
 
-		void setPos(float fPosX, float fPosY);
-		void setPos(float fPosX,float fPosY, float fPosZ);
-		void setRotation(float fRotationX, float fRotationY, float fRotationZ);
-		void setScale(float fScaleX, float fScaleY, float fScaleZ);
-		void setName(std::string _name);
+		Entity3D();
 
-		//irrklang::ISound&	getSound()const{ return *_theSound; }
-		//void				setSound(irrklang::ISound& theSound){	_theSound = &theSound; }
-		std::string getName() const;
+		void SetPos(const Vector3& vPosition);//para nodo
+
+		void SetPos(const float &x,const float &y, const float &z);//para nodo
+
+		void SetPos(const float &x,const float &y);
+
+		void setName(std::string s) { m_Name = s; }
+
+		void SetScale(const Vector3& vScaling);
+
+		void SetScale(const float &x,const float &y);
+
+		void SetScale(const float &x,const float &y, const float&z);
+
+		void SetScaleX(const float &x);
+
+		void SetScaleY(const float &y);
 
 
-		virtual void Draw() = 0;
 
-		void UseGravity(bool _T);
-		void SetGravity(float _G);
-		
-		float posX() const;
-		float posY() const;
-		float posZ() const;
+		void Rotate(const Vector3& vRotation);
 
-		float rotationX() const { return _RotX;}
-		float rotationY() const { return _RotY;}
-		float rotationZ() const { return _RotZ;}
+		void Rotate(const float &degree);
 
-		float scale() const;
-		float scaleX() const;
-		float scaleY() const;
-		float scaleZ() const;
+		void FlipH(bool bFlip);
 
-		float previousPosX() const;
-		float previousPosY() const;
-		float previousPosZ() const;
+		void FlipV(bool bFlip);
 
-		float getGravity() const;
-		bool isUsingGravity() const;
 
-		enum CollisionResult{
-			CollisionVertical,
-			CollisionHorizontal,
-			NoCollision
-		};
 
-		//CollisionResult checkCollision(Entity2D& rkEntity2D) const;
-		//void drawAABB (Renderer& rkRenderer) const;
+		Vector3 GetScale() { return m_vScale;}
 
-		void drawAABB(Renderer& pkRenderer) const;
-		void UpdateGravityPos();
-		
-		virtual void updateTransformation();
+		Vector3 GetPos(){return m_vPos;}
 
-		void updateLocalTransformation();
-		void returnToPos(float fPosX, float fPosY, float fPosZ);
-		const Matrix& transformationMatrix() const;
+		Vector3 GetRot(){return m_vRot;}
 
-		void setParent (Node* pkParent);
+		float GetRotationX();
 
-		const AABB& aabb() const;
-		AABB& aabb();
+		float GetRotationY();
+
+		float GetRotationZ();   
+
+		std::string GetName();
+
+		std::string GetCollisionGroup();
+
+		void CollisionEnabled(bool bEnable){m_bCollisionEnabled = bEnable;}
+
+
+
+		friend class Scene;
+
+		//------------------------------------
+
 	private:
+		std::string m_sCollisionGroupName;
 
-		AABB* m_kAABB;
-
-
-		float _PosX, _PosY, _PosZ;
-		float _RotX, _RotY, _RotZ;
-		float _ScaleX,_ScaleY, _ScaleZ;
-		float _PreviousPosX, _PreviousPosY, _PreviousPosZ;
-		float _Gravity;
-		bool _UseGravity;
-		std::string _Name;
-
-		Node* m_pkParent;
-
+		void SetCollisionGroup(std::string sGroup);
 	protected:
+		virtual void Draw(Renderer * pRenderer) = 0;
 
-		Matrix _TrMatrix;
-		Matrix _TrLocalMatrix;
+		virtual void Update(const double& dDeltaTime);
 
-	//	irrklang::ISound * _theSound;
+		virtual void OnCollide(Entity3D* pkEntity, float px, float py);
+
+		virtual void OnUpdate(const double& dDeltaTime);
+
+		virtual std::string GiveName();
+
+		std::string m_Name;
+
+		bool m_bVisible;
+
+		bool m_bCollisionEnabled;
+
+		Vector3 m_vPos;
+
+		Vector3 m_vScale;
+
+		Vector3 m_vRot; 
+
+
 	};
 }

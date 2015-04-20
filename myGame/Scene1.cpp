@@ -1,22 +1,51 @@
 #include "Scene1.h"
+
+#include "Entity3D\Entity3D.h"
 #include "Entity3D\Mesh.h"
 #include "Entity3D\Node.h"
 
+
+#include "Physics\Collider.h"
 #include "Physics\Physics.h"
+#include "Physics\RigidBody.h"
+
+#include <iostream>
+#include <vector>
+#include <math.h>
+
+void Test2(DoMaRe::Entity3D* pk1, DoMaRe::Entity3D* pk2);
+
 //#include "Sound\Sound.h"
 using namespace MiJuego;
 bool ds = true;
-float mSpeed = 0.3f;
-
+int Anim = 0;
+float mSpeed = 0.1f;
+DoMaRe::Node* cube;
+DoMaRe::Mesh* mesh;
 bool Scene1::Init(DoMaRe::Import& Importer){
 	mainCamera = new DoMaRe::Camera();
 	mainCamera->Init(&Importer.GetRenderer());
 	mainCamera->SetPosition(0,30,-10);
+ 
+	pkNode = new DoMaRe::Node("Bones");
 
-	pkNode = new DoMaRe::Node();
+	mainLight = new DoMaRe::Light(&Importer.GetRenderer());
+	mainLight->setLightType(DoMaRe::Light::DIRECTIONAL_LIGHT);
+	mainLight->setPosition (0, 0, 0);
+	mainLight->setDirection(0, 0, 1);
+	mainLight->setAmbient (0, 0, 0, 0);
+	mainLight->setSpecular(0, 0, 0, 0);
+	mainLight->setLightIndex(0);
+	mainLight->setRange(0.3f);
+	mainLight->enable(true);
+
+	Importer.importScene("bones_all.x", *pkNode);
+	//Importer.importMesh(*mesh,"Mesh.obj");
+
 	
-	Importer.importScene("Mesh.obj", *pkNode);
-	pkNode->setPos(0,0,0);
+	//pkNode->setPos(0,0,0);
+	//pkNode->setScale(5,5,5);
+	pkNode->SetScale(10,10,10);
 
 	Importer.GetSound().playSoundFile("sound.mp3",false);
 	return true;
@@ -24,25 +53,75 @@ bool Scene1::Init(DoMaRe::Import& Importer){
 
 bool Scene1::Frame(DoMaRe::Renderer& renderer, DoMaRe::DirectInput& dInput, DoMaRe::Timer& timer, DoMaRe::Import& import, DoMaRe::Game& game, DoMaRe::Sound& pkSound){
 	UpdateInputs(dInput,timer,pkSound,renderer);
+	
+	if(ds){
+		switch (Anim){
+		case 0:
+			pkNode->PlayAnim("Attack");
+			break;
+		case 1:
+			pkNode->PlayAnim("Impact");
+			break;
+		case 2:
+			pkNode->PlayAnim("Move");
+			break;
+
+		}
+		pkNode->Update(timer.timeBetweenFrames());
+	}
+
+	mainLight->setLightIndex(0);
+	mainLight->enable(true);
+	/*if( pkNode->childs()[0]->collidesWith(*pkNode->childs()[1]) ) {
+		pkNode->OnCollision(pkNode->childs()[0],pkNode->childs()[1]);
+	}*/
+	
+	//mesh->updateTransformation();
+	//mesh->Draw();
+
 	return true;
 }
 
 bool Scene1::deInit(){
-	OutputDebugString("Salí Scene1");
+
+	delete mainLight;
+
 	return true;
 }
 
 void Scene1::UpdateInputs(DoMaRe::DirectInput& dInput, DoMaRe::Timer& timer, DoMaRe::Sound& pkSound, DoMaRe::Renderer& renderer){
-	if(dInput.keyDown(DoMaRe::Input::KEY_1)){
+	/*if (dInput.keyDown(DoMaRe::Input::KEY_J)){
+		cube->setRotation(cube->rotationX() - 1  , cube->rotationY() , cube->rotationZ() ); 
+	}
+	if (dInput.keyDown(DoMaRe::Input::KEY_K)){
+		cube->setRotation(cube->rotationX() + 1 , cube->rotationY() , cube->rotationZ() );
+	}*/
+	if (dInput.keyDown(DoMaRe::Input::KEY_7)){
+		Anim = 0;
+	}
+	if (dInput.keyDown(DoMaRe::Input::KEY_8)){
+		Anim = 1;
+	}
+	if (dInput.keyDown(DoMaRe::Input::KEY_9)){
+		Anim = 2;
+	}
+	if (dInput.keyDown(DoMaRe::Input::KEY_M)){
+		ds = !ds;
+	}
+	if (dInput.keyDown(DoMaRe::Input::KEY_1)){
 		pkSound.setMasterVolume(pkSound.getMasterVolume() - 0.1f);
 	}
 
-	if(dInput.keyDown(DoMaRe::Input::KEY_2)){
+	if (dInput.keyDown(DoMaRe::Input::KEY_2)){
 		pkSound.setMasterVolume(pkSound.getMasterVolume() + 0.1f);
 	}
 
-	if(dInput.keyDown(DoMaRe::Input::KEY_F1)){
-		renderer.setWireFrameMode(!renderer.getWireFrameMode());	
+	if (dInput.keyDown(DoMaRe::Input::KEY_F1)){
+		renderer.setWireFrameMode(!renderer.getWireFrameMode());
+	}
+
+	if (dInput.keyDown(DoMaRe::Input::KEY_F2)){
+		ds = !ds;
 	}
 
 	if(dInput.keyDown(DoMaRe::Input::KEY_UP)){
@@ -60,7 +139,6 @@ void Scene1::UpdateInputs(DoMaRe::DirectInput& dInput, DoMaRe::Timer& timer, DoM
 	if(dInput.keyDown(DoMaRe::Input::KEY_RIGHT)){
 		mainCamera->MoveRight(mSpeed * timer.timeBetweenFrames());
 	}
-
 
 	if(dInput.keyDown(DoMaRe::Input::KEY_D)){
 		mainCamera->RotateRight(mSpeed / 100 * timer.timeBetweenFrames());
@@ -86,20 +164,20 @@ void Scene1::UpdateInputs(DoMaRe::DirectInput& dInput, DoMaRe::Timer& timer, DoM
 		mainCamera->MoveUp(mSpeed * timer.timeBetweenFrames());
 	}
 
-	if(dInput.keyDown(DoMaRe::Input::KEY_L)){
+	/*if(dInput.keyDown(DoMaRe::Input::KEY_L)){
 		pkNode->setPos(pkNode->posX() + (mSpeed * timer.timeBetweenFrames()) , pkNode->posY(), pkNode->posZ());
 	}
 
 	if(dInput.keyDown(DoMaRe::Input::KEY_K)){
 		pkNode->setPos(pkNode->posX() - (mSpeed * timer.timeBetweenFrames()), pkNode->posY(), pkNode->posZ());
+	}*/
+
+	if(dInput.keyDown(DoMaRe::Input::KEY_B)){
+		mainLight->enable(!mainLight->isEnabled());
 	}
 
-	if(dInput.keyDown(DoMaRe::Input::KEY_9)){
-		pkNode->childs()[0]->setPos(pkNode->childs()[0]->posX() + (mSpeed*timer.timeBetweenFrames()), pkNode->childs()[0]->posY(), pkNode->childs()[0]->posZ() );
-	}
-
-	if(dInput.keyDown(DoMaRe::Input::KEY_SPACE)){
-		DoMaRe::Physics* P = DoMaRe::Physics::getInstance();
-		P->test();
+	if(dInput.keyDown(DoMaRe::Input::KEY_V)){
+		float newDT = timer.deltaTime() == 1.0f ? 0.0f : 1.0f;
+		timer.setdeltaTime(newDT);
 	}
 }

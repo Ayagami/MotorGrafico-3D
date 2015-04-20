@@ -10,14 +10,14 @@
 
 #include "../myEngine_API.h"
 #include "RenderTypes.h"
+#include "Frustrum.h"
 #include "EMath.h"
 #include <d3d9.h>
 #include <d3dx9.h>
-namespace DoMaRe{/*
-class VertexBuffer;
-struct ColorVertex;
-struct TexCoordVertex;*/
-class MYENGINE_API Renderer{
+namespace DoMaRe{
+	class Material;
+	class Frustrum;
+	class MYENGINE_API Renderer{
 	public:
 		Renderer();
 		~Renderer();
@@ -28,6 +28,7 @@ class MYENGINE_API Renderer{
 		void SetCamera(D3DXMATRIX * matrix);
 		void setCurrentVertexBuffer(VertexBuffer3D * p);
 		void setCurrentIndexBuffer(IndexBuffer * p);
+		void setMaterial(Material* pkMaterial = NULL);
 		void loadIdentity();
 		void setTransformMatrix(D3DXMATRIX * matrix);
 		void setMatrix(MatrixType, const Matrix&);
@@ -43,6 +44,12 @@ class MYENGINE_API Renderer{
 		VertexBuffer3D* createVB(size_t vSize, unsigned int FVF);
 		IndexBuffer* createIB();
 		const Matrix&	projectionMatrix	() const;
+
+		void setLight(D3DLIGHT9*, unsigned long);
+		void enableLight(bool, unsigned long);
+
+		void CalculateFrustrum(); 
+		int CheckFrustumCulling(Node& pVertices); 
 	private:
 		bool wireFrameMode;
 		IDirect3D9  * d3d;
@@ -54,7 +61,10 @@ class MYENGINE_API Renderer{
 		DoMaRe::IndexBuffer * p_ib;
 
 		Matrix	m_pkProjectionMatrix;
+		Matrix  m_pkViewMatrix;
 
 		std::vector<Texture> r_vTextures;
-};
+
+		Frustrum* m_Frustrum;
+	};
 }

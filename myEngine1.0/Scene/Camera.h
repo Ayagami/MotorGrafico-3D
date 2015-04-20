@@ -9,6 +9,7 @@
 namespace DoMaRe{
 	class Renderer;
 	class AABB;
+	class Entity3D;
 	class MYENGINE_API Camera{
 public:
         Camera();
@@ -26,10 +27,10 @@ protected:
         float m_RotateAroundLookAt;
         
 		D3DXMATRIX m_MatView; // View Matrix from Camera.
-		Plane	m_FrustumPlane[6];
+		//Plane	m_FrustumPlane[6];
 
 public:
-		static enum {OUTSIDE, INTERSECT, INSIDE};
+		
         void SetPosition(float fX, float fY, float fZ);
 		D3DXVECTOR3	GetPosition() { return m_Position; }
         void MoveForward(float Dist);
@@ -40,7 +41,7 @@ public:
         void RotateRight(float Angle);
         void Roll(float Angle);
 
-		int AABBinFrustum(AABB& b);
+		//int AABBinFrustum(Entity3D& b);
 
 protected:
         void Update();

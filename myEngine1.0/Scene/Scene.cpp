@@ -43,33 +43,46 @@ bool Scene::draw(DoMaRe::Renderer& r, DoMaRe::DirectInput& directInput,Timer& ti
 	}
 
 	for(int i=0; i < m_pkEntidades3D.size(); i++){
-		m_pkEntidades3D[i]->Draw();
+		m_pkEntidades3D[i]->Draw(&r);
 	}
 
 	if(pkNode != NULL){
-		pkNode->updateTransformation();
-
-		//int r = mainCamera->AABBinFrustum(pkNode->aabb());
-
-		/*
-		if( r == Camera::OUTSIDE )
-			OutputDebugString("OUTSIDE");
-		else if(r == Camera::INTERSECT)
-			OutputDebugString("INTERSECT");
-		else if(r == Camera::INSIDE)
-			OutputDebugString("INSIDE");
-		*/
-		//int R = mainCamera->AABBinFrustum(pkNode->aabb());
-	//	if(R != Camera::OUTSIDE/* && R != Camera::INTERSECT */){
-		//	pkNode->Draw();
-	//	}
-
-		pkNode->Draw();
+		pkNode->Draw(&r);
 	}
 
 	return true;
 }
+void Scene::ifNeededtoDraw(Entity3D& pkNode){
 
+	/*int Result = getCamera()->AABBinFrustum(pkNode);
+
+	switch(Result){
+	
+		case Camera::INSIDE :
+
+			pkNode.Draw();
+			break;
+
+		case Camera::INTERSECT:
+			{
+			DoMaRe::Node* pkChild = dynamic_cast<DoMaRe::Node*>(&pkNode);
+			if(pkChild){ // its a node...
+			
+				for( std::vector<Entity3D*>::const_iterator it = pkChild->childs().begin(); it != pkChild->childs().end(); it++){
+				
+					ifNeededtoDraw( *(*it) );
+
+				}
+
+			}else{
+				pkNode.Draw();
+			}
+
+			break;
+			}
+
+	}*/
+}
 bool Scene::deinit(){
 	if(m_pkEntidades.empty() && m_pkEntidades3D.empty()) return true;
 
@@ -112,15 +125,25 @@ bool Scene::addEntity(Entity3D* Entity){
 	return true;
 }
 
-bool Scene::getEntity(Mesh** Entity, std::string Name){
-	if(m_pkEntidades3D.empty()) return false;
-	for(int i=0; i < m_pkEntidades3D.size(); i++){
-		if(m_pkEntidades3D[i]->getName() == Name){
-			*Entity = (Mesh*)m_pkEntidades3D[i];
-			return true;
-		}
-	}
-	return false;
+Entity3D* Scene::getEntity3D (const std::string& rkName, const DoMaRe::Node* pkParent){
+     /*   for( std::vector<DoMaRe::Entity3D*>::const_iterator it = pkParent->childs().begin(); it != pkParent->childs().end(); it++){
+				if( (*it)->getName() == rkName ){
+                        return (*it);
+                }
+                
+                DoMaRe::Node* pkChild = dynamic_cast<DoMaRe::Node*>(*it);
+
+                if(pkChild){
+                        for( std::vector<DoMaRe::Entity3D*>::const_iterator it = pkChild->childs().begin(); it != pkChild->childs().end();  it++){
+								DoMaRe::Entity3D* pkResult = getEntity3D(rkName, pkChild);
+                                if(pkResult){
+                                        return pkResult;
+                                }
+                        }
+                }
+        }
+        */
+        return NULL;
 }
 
 bool Scene::getEntity(Sprite** Entity, std::string Name){
