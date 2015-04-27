@@ -23,10 +23,7 @@ float mSpeed = 0.1f;
 DoMaRe::Node* cube;
 DoMaRe::Mesh* mesh;
 bool Scene1::Init(DoMaRe::Import& Importer){
-	mainCamera = new DoMaRe::Camera();
-	mainCamera->Init(&Importer.GetRenderer());
-	mainCamera->SetPosition(0,30,-10);
- 
+
 	pkNode = new DoMaRe::Node("Bones");
 
 	mainLight = new DoMaRe::Light(&Importer.GetRenderer());
@@ -40,12 +37,11 @@ bool Scene1::Init(DoMaRe::Import& Importer){
 	mainLight->enable(true);
 
 	Importer.importScene("bones_all.x", *pkNode);
-	//Importer.importMesh(*mesh,"Mesh.obj");
-
 	
-	//pkNode->setPos(0,0,0);
-	//pkNode->setScale(5,5,5);
+	pkNode->SetPos(0,0,0);
 	pkNode->SetScale(10,10,10);
+
+	mainCamera->SetPosition(0, 0, -20);
 
 	Importer.GetSound().playSoundFile("sound.mp3",false);
 	return true;

@@ -66,6 +66,7 @@ void Engine::run(){
 	if(!G) return;
 	if(!G->Init(*Rendr, *Importer)) return;
 	if(!G->currentScene()->Init(*Importer)) return;
+	if (G->currentScene()->getCamera() == NULL) return;
 	m_pkTimer->firstMeasure();
 
 	while(G->getGame()){

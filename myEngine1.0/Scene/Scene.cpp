@@ -18,11 +18,10 @@
 
 using namespace DoMaRe;
 
-Scene::Scene() : pkNode(NULL){
-
+Scene::Scene() : pkNode(NULL), mainCamera( new Camera() ){
+	mainCamera->Init(&Import::getInstance()->GetRenderer());
 }
 Scene::~Scene(){
-
 }
 bool Scene::Init(DoMaRe::Import&){
 	return true;
@@ -105,6 +104,11 @@ bool Scene::deinit(){
 	if(pkNode != NULL){
 		delete pkNode;
 		pkNode = NULL;
+	}
+
+	if (mainCamera != NULL){
+		delete mainCamera;
+		mainCamera = NULL;
 	}
 
 	return true;

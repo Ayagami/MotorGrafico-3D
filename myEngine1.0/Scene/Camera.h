@@ -14,7 +14,7 @@ namespace DoMaRe{
 public:
         Camera();
 		bool Init(Renderer* pkRenderer);
-        ~Camera();
+
 protected:
         Renderer* m_pkRenderer;
         D3DXVECTOR3 m_Position;
@@ -47,5 +47,9 @@ protected:
         void Update();
 		void BuildFrustum();
 		friend class Engine;
+private:
+		~Camera();
+		friend class Scene;
+		friend class Game;
 	};
 }
