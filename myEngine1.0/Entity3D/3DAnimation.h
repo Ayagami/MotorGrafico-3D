@@ -35,7 +35,8 @@ namespace DoMaRe{
 			State GetState()							 { return m_stState; }
 			void AddFrame(KeyFrame* frame)				 { m_vKeyFrames.push_back(frame); }
 			void Update(const double&);
-			void Stop()									 { m_stState = STOP; /* m_dDuration = 0; */}			void Play()									 { m_stState = PLAY; }
+			void Stop()									 { m_stState = STOP; m_dCTime = 0; }
+			void Play()									 { m_stState = PLAY; }
 			void Pause()								 { m_stState = PAUSE;}
 			void setSpeed(float speed)					 { m_fSpeed  = speed;}
 			float getSpeed()						     { return m_fSpeed; }
