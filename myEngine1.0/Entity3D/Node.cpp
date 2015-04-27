@@ -9,13 +9,13 @@
 using namespace DoMaRe;
 Node::Node(std::string name) 
 	: Entity3D(0,0,name),
-	m_nHijos(0),
+	m_nChilds(0),
 
 	m_nMeshes(0),
 
 	m_vBB(new D3DXVECTOR3[8]),
 
-	m_pHueso(NULL),
+	m_pBone(NULL),
 
 	m_pCurrentAnim(NULL),
 
@@ -31,9 +31,9 @@ Node::~Node(){
 
 	}
 
-	for(int i = 0; i < m_nHijos;i++) {
+	for(int i = 0; i < m_nChilds;i++) {
 
-		delete m_vNodosHijos[i];
+		delete m_vChildNodes[i];
 
 	}
 
@@ -43,9 +43,9 @@ Node::~Node(){
 
 	}
 
-	if(m_pHueso) {
+	if(m_pBone) {
 
-		delete m_pHueso;
+		delete m_pBone;
 
 	}
 
@@ -59,11 +59,11 @@ void Node::AddMesh(Mesh* pMeshAux){
 
 }
 //---------------------------------------------------------------
-void Node::AddHijo(Node* hijo){
+void Node::AddChild(Node* child){
 
-	m_vNodosHijos.push_back(hijo);
+	m_vChildNodes.push_back(child);
 
-	m_nHijos++;
+	m_nChilds++;
 
 }
 //---------------------------------------------------------------
@@ -121,47 +121,28 @@ void Node::PreDraw(D3DXMATRIX transformation, Renderer * pRenderer){
 
 	D3DXMatrixMultiply(&LocalTransform, &scaling, &LocalTransform); 
 
-	if(!IsPlaying())
-
-	{
-
-		//uso la local
-
+	if(!IsPlaying()){
 		D3DXMatrixMultiply(&LocalTransform, &LocalTransform,&m_mOriginalTransform);
-
 	}
-
-	else
-
-	{
-
-		//uso la del keyframe
-
+	else{
 		D3DXMATRIX frameTransform = m_pCurrentAnim->GetFrameMatrix(KeyFrameIndex);
 
 		D3DXMatrixMultiply(&LocalTransform, &LocalTransform,&frameTransform);
-
 	}
 
 	D3DXMatrixMultiply(&m_mGlobalTransform, &LocalTransform,&transformation);
 
-	if(m_pHueso != NULL)
+	if(m_pBone != NULL){
 
-	{
-
-		m_pHueso->setTransformation(m_mGlobalTransform);
+		m_pBone->setTransformation(m_mGlobalTransform);
 
 	}
 
-	if(m_nHijos)
+	if(m_nChilds){
 
-	{
-
-		for(int i = 0; i <m_nHijos; i++)
-
-		{
-
-			m_vNodosHijos[i]->PreDraw(m_mGlobalTransform,pRenderer);
+		for(int i = 0; i <m_nChilds; i++){
+	
+			m_vChildNodes[i]->PreDraw(m_mGlobalTransform,pRenderer);
 
 		}
 
@@ -170,30 +151,22 @@ void Node::PreDraw(D3DXMATRIX transformation, Renderer * pRenderer){
 	CalculateBB();
 
 }
-
 //---------------------------------------------------------------
+Node* Node::GetChild(unsigned int index){
 
-Node* Node::GetHijo(unsigned int index)
-
-{
-
-	if(index>= m_nHijos)
-
-	{
+	if(index>= m_nChilds){
 
 		return NULL;
 
 	}
 
-	return m_vNodosHijos[index];
+	return m_vChildNodes[index];
 
 }
 //---------------------------------------------------------------
 Node* Node::FindChildByName(std::string sName){
 
-	if(this->m_Name == sName)
-
-	{
+	if(this->m_Name == sName){
 
 		return this;
 
@@ -203,15 +176,11 @@ Node* Node::FindChildByName(std::string sName){
 
 
 
-	for(int i = 0; i < m_nHijos; i++)
+	for(int i = 0; i < m_nChilds; i++){
 
-	{
+		if (hijo == NULL){
 
-		if (hijo == NULL)
-
-		{
-
-			hijo = m_vNodosHijos[i]->FindChildByName(sName);
+			hijo = m_vChildNodes[i]->FindChildByName(sName);
 
 		}
 
@@ -225,26 +194,17 @@ void Node::NodeDraw(Renderer * pRenderer){
 
 	drawCalls=0;
 
-	if(m_pHueso == NULL)
+	if(m_pBone == NULL) {
 
-	{
-
-		if( true ) //  pRenderer->CheckFrustumCulling(*this) != DoMaRe::Frustrum::OUTSIDE
-		{
+		if( true ) { //  pRenderer->CheckFrustumCulling(*this) != DoMaRe::Frustrum::OUTSIDE 
 			
 			drawCalls = 1;
 
-			if(m_nMeshes)
+			if(m_nMeshes) {
 
-			{
+				for(int i = 0; i < m_nMeshes; i++) {                                       
 
-				for(int i = 0; i < m_nMeshes; i++)
-
-				{                                       
-
-					if(!m_vMeshes[i]->HaveBones())
-
-					{
+					if(!m_vMeshes[i]->HaveBones()) {
 
 						pRenderer->setMatrix(World, &m_mGlobalTransform);
 
@@ -252,9 +212,7 @@ void Node::NodeDraw(Renderer * pRenderer){
 
 					}
 
-					else
-
-					{
+					else {
 
 						m_vMeshes[i]->AnimationMeshDraw(pRenderer);
 
@@ -264,17 +222,13 @@ void Node::NodeDraw(Renderer * pRenderer){
 
 			}
 
-			if(m_nHijos)
+			if(m_nChilds) {
 
-			{
+				for(int i = 0; i < m_nChilds;i++) {
 
-				for(int i = 0; i < m_nHijos;i++)
+					m_vChildNodes[i]->NodeDraw(pRenderer);
 
-				{
-
-					m_vNodosHijos[i]->NodeDraw(pRenderer);
-
-					drawCalls+=m_vNodosHijos[i]->drawCalls;
+					drawCalls+=m_vChildNodes[i]->drawCalls;
 
 				}
 
@@ -332,20 +286,12 @@ void Node::SetFirstTransform(float a1,float a2,float a3, float a4, float b1, flo
 //---------------------------------------------------------------
 void Node::PlayAnim(std::string sName){
 
-	if (m_mAnimations.count(sName))
+	if (m_mAnimations.count(sName)) {
 
-	{
+		if(m_pCurrentAnim != m_mAnimations[sName]) {
 
-		if(m_pCurrentAnim != m_mAnimations[sName])
-
-		{
-
-			if (m_pCurrentAnim != NULL)
-
-			{
-
+			if (m_pCurrentAnim != NULL) {
 				m_pCurrentAnim->Stop();
-
 			}
 
 			SetAnim(sName);
@@ -360,9 +306,7 @@ void Node::PlayAnim(std::string sName){
 //---------------------------------------------------------------
 void Node::CalculateBB() {
 
-	if(m_nMeshes)
-
-	{
+	if(m_nMeshes){
 
 		D3DXVECTOR3 vMeshVertices[8];
 
@@ -382,9 +326,7 @@ void Node::CalculateBB() {
 
 		v_MinBound.z = vMeshVertices[0].z;
 
-		for(int i = 1; i<8;i++)
-
-		{
+		for(int i = 1; i<8;i++) {
 
 			if(vMeshVertices[i].x > v_MaxBound.x) 
 
@@ -418,72 +360,44 @@ void Node::CalculateBB() {
 
 	}
 
-	else if(m_nHijos)
+	else if(m_nChilds) {
 
-	{
-
-		m_vNodosHijos[0]->GetBoundings(&v_MinBound,&v_MaxBound);
+		m_vChildNodes[0]->GetBoundings(&v_MinBound,&v_MaxBound);
 
 	}
 
-	for(int i = 0; i < m_nHijos; i++)
-
-	{
+	for(int i = 0; i < m_nChilds; i++) {
 
 		Vector3 vChildMax; 
 
 		Vector3 vChildMin;
 
-		m_vNodosHijos[i]->GetBoundings(&vChildMin,&vChildMax);
+		m_vChildNodes[i]->GetBoundings(&vChildMin,&vChildMax);
 
 
 
-		if(vChildMax.x > v_MaxBound.x)
-
-		{
-
+		if(vChildMax.x > v_MaxBound.x) {
 			v_MaxBound.x = vChildMax.x;
-
 		}
 
-		if(vChildMax.y > v_MaxBound.y)
-
-		{
-
+		if(vChildMax.y > v_MaxBound.y) {
 			v_MaxBound.y = vChildMax.y;
-
 		}
 
-		if(vChildMax.z > v_MaxBound.z)
-
-		{
-
+		if(vChildMax.z > v_MaxBound.z) {
 			v_MaxBound.z = vChildMax.z;
-
 		}
 
-		if(vChildMin.x < v_MinBound.x)
-
-		{
-
+		if(vChildMin.x < v_MinBound.x) {
 			v_MinBound.x = vChildMin.x;
-
 		}
 
-		if(vChildMin.y < v_MinBound.y)
-
-		{
-
+		if(vChildMin.y < v_MinBound.y) {
 			v_MinBound.y = vChildMin.y;
-
 		}
 
-		if(vChildMin.z < v_MinBound.z)
-
-		{
-
+		if(vChildMin.z < v_MinBound.z) {
 			v_MinBound.z = vChildMin.z;
-
 		}
 
 	}
@@ -552,8 +466,7 @@ void Node::CalculateBB() {
 
 }
 //---------------------------------------------------------------
-void Node::GetBoundings(Vector3* pOutMin, Vector3* pOutMax)
-{
+void Node::GetBoundings(Vector3* pOutMin, Vector3* pOutMax){
 
 	*pOutMax = v_MaxBound;
 
@@ -563,33 +476,23 @@ void Node::GetBoundings(Vector3* pOutMin, Vector3* pOutMax)
 //---------------------------------------------------------------
 void Node::AddAnim(Animation3D* pAnimation){
 
-	if(!m_mAnimations.count(pAnimation->GetName()))
-
-	{       
-
+	if(!m_mAnimations.count(pAnimation->GetName())) {       
 		m_mAnimations[pAnimation->GetName()] = pAnimation;
-
 	}
 
 }
 //---------------------------------------------------------------
 void Node::Update(const double& dDeltaTime){
 
-	if(m_pCurrentAnim != NULL)
-
-	{
-
+	if(m_pCurrentAnim != NULL) {
 		m_pCurrentAnim->Update(dDeltaTime);
-
 	}
 
 }
 //---------------------------------------------------------------
 void Node::SetAnim(std::string sName){
 
-	if (m_mAnimations.count(sName))
-
-	{
+	if (m_mAnimations.count(sName)) {
 
 		Animation3D* pAnimation = m_mAnimations[sName];
 
@@ -607,11 +510,9 @@ void Node::SetAnim(Animation3D* pAnimation){
 
 	KeyFrameIndex = m_pCurrentAnim->GetFrameIndex(m_Name);
 
-	for(int i = 0; i < m_nHijos;i++)
+	for(int i = 0; i < m_nChilds;i++) {
 
-	{
-
-		m_vNodosHijos[i]->SetAnim(pAnimation);
+		m_vChildNodes[i]->SetAnim(pAnimation);
 
 	}
 
@@ -633,12 +534,8 @@ bool Node::IsPlaying(){
 //---------------------------------------------------------------
 Animation3D* Node::GetAnim(std::string sName){
 
-	if(m_mAnimations.count(sName))
-
-	{
-
+	if(m_mAnimations.count(sName)) {
 		return m_mAnimations[sName];    
-
 	}
 
 	return NULL;

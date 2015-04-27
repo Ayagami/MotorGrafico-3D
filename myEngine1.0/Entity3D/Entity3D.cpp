@@ -151,46 +151,6 @@ void Entity3D::SetCollisionGroup(std::string sGroup){
 	m_sCollisionGroupName = sGroup;
 
 }
-//--------------------------------------------------------------- 
-void Entity3D::FlipH(bool bFlip){
-
-	if (bFlip)
-
-	{
-
-		m_vRot.y = 180;
-
-	}
-
-	else
-
-	{
-
-		m_vRot.y = 0;
-
-	}
-
-}
-//--------------------------------------------------------------- 
-void Entity3D::FlipV(bool bFlip){
-
-	if (bFlip)
-
-	{
-
-		m_vRot.x = 180;
-
-	}
-
-	else
-
-	{
-
-		m_vRot.x = 0;
-
-	}
-
-} 
 //---------------------------------------------------------------
 float Entity3D::GetRotationX(){
 
@@ -221,12 +181,6 @@ void Entity3D::OnUpdate(const double& dDeltaTime){
 } 
 //---------------------------------------------------------------
 void Entity3D::OnCollide(Entity3D* pkEntity, float px, float py){
-
-}
-//--------------------------------------------------------------- 
-std::string Entity3D::GiveName(){
-
-	return "";
 
 }
 //--------------------------------------------------------------- 

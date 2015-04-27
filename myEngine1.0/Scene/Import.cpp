@@ -270,10 +270,10 @@ bool Import::importScene (const std::string& fileName, Node& SceneRoot){
 }
 void Import::addBonesToNode(Node* fillNode){
 	if( m_pBoneMap.count(fillNode->GetName()) ){
-		fillNode->m_pHueso = m_pBoneMap[fillNode->GetName()];
+		fillNode->m_pBone = m_pBoneMap[fillNode->GetName()];
 	}
-	for(int i=0; i< fillNode->m_nHijos; i++){
-		addBonesToNode(fillNode->m_vNodosHijos[i]);
+	for(int i=0; i< fillNode->m_nChilds; i++){
+		addBonesToNode(fillNode->m_vChildNodes[i]);
 	}
 }
 Animation3D* Import::CreateAnimation3D(aiAnimation* aiAnim){
@@ -320,7 +320,7 @@ bool Import::importNode(aiNode* AiNode, const aiScene* AiScene, Node& kNode){
 
 	for(unsigned int i=0; i<AiNode->mNumChildren; i++){
 		Node* pkNode = new Node(AiNode->mChildren[i]->mName.C_Str());
-		kNode.AddHijo(pkNode);
+		kNode.AddChild(pkNode);
 
 		importNode(AiNode->mChildren[i], AiScene, *pkNode);
 	}
