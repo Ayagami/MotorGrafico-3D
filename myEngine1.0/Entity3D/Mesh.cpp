@@ -74,6 +74,8 @@ void Mesh::setData(const MeshVertex* Tex_Vertex, size_t vertexCount, DoMaRe::Pri
 		m_NormBones[i].y = Tex_Vertex[i].ny;
 		m_NormBones[i].z = Tex_Vertex[i].nz;
 	}
+
+	CalculateBB();
 }
 
 void Mesh::Draw(Renderer* pRenderer){
@@ -110,6 +112,7 @@ void Mesh::setMaterial(Material& m_cMaterial) {
 	pk_Material = &m_cMaterial;
 }
 
+/*
 void Mesh::GetBounding(Vector3* v_MaxBound, Vector3* v_MinBound){
 	if(s_Texture){
 
@@ -163,13 +166,11 @@ void Mesh::GetBounding(Vector3* v_MaxBound, Vector3* v_MinBound){
 
 		}
 
-	}
-}
+	} 
+}*/
 void Mesh::GetTransformedBox(D3DXMATRIX * pMatrizMundo, D3DXVECTOR3* pOut){
 	for(int i = 0; i < 8;i++){
-
 		D3DXVec3TransformCoord(&pOut[i],&m_pvBB[i],pMatrizMundo);
-
 	}
 
 } 
@@ -233,11 +234,13 @@ void Mesh::CalculateBB(){
 
 	m_pvBB[0].z = v_MaxBound.z;
 
+
 	m_pvBB[1].x = v_MaxBound.x;
 
 	m_pvBB[1].y = v_MinBound.y;
 
 	m_pvBB[1].z = v_MaxBound.z;
+
 
 	m_pvBB[2].x = v_MinBound.x;
 
@@ -245,11 +248,13 @@ void Mesh::CalculateBB(){
 
 	m_pvBB[2].z = v_MaxBound.z;
 
+
 	m_pvBB[3].x = v_MinBound.x;
 
 	m_pvBB[3].y = v_MaxBound.y;
 
 	m_pvBB[3].z = v_MaxBound.z;
+
 
 	m_pvBB[4].x = v_MaxBound.x;
 
@@ -257,17 +262,20 @@ void Mesh::CalculateBB(){
 
 	m_pvBB[4].z = v_MinBound.z;
 
+
 	m_pvBB[5].x = v_MaxBound.x;
 
 	m_pvBB[5].y = v_MinBound.y;
 
 	m_pvBB[5].z = v_MinBound.z;
 
+
 	m_pvBB[6].x = v_MinBound.x;
 
 	m_pvBB[6].y = v_MinBound.y;
 
 	m_pvBB[6].z = v_MinBound.z;
+
 
 	m_pvBB[7].x = v_MinBound.x;
 

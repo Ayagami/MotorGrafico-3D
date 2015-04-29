@@ -10,14 +10,12 @@ namespace DoMaRe{
 	class Node;
 	class MYENGINE_API Frustrum{
 	public:
-			static enum {OUTSIDE, INTERSECT, INSIDE};
 			Frustrum();
 			~Frustrum();
 			void Calculate(D3DXMATRIX * pMatrizVista,D3DXMATRIX * pMatrizProy);
-			int isIn(Node& pkNode);
-			bool CheckPointIn(D3DXVECTOR3 pPoint);
+			bool isIn(D3DXVECTOR3*);
 	private:
-			Plane m_FrustumPlane[6];
+			D3DXPLANE m_Planes[6];
 	};
 }
 //---------------------------------------------------------------

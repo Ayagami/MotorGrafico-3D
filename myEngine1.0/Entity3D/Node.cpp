@@ -193,51 +193,28 @@ Node* Node::FindChildByName(std::string sName){
 void Node::NodeDraw(Renderer * pRenderer){       
 
 	drawCalls=0;
-
 	if(m_pBone == NULL) {
-
-		if( true ) { //  pRenderer->CheckFrustumCulling(*this) != DoMaRe::Frustrum::OUTSIDE 
-			
+		if ( pRenderer->CheckFrustumCulling(m_vBB) ) {
 			drawCalls = 1;
-
 			if(m_nMeshes) {
-
-				for(int i = 0; i < m_nMeshes; i++) {                                       
-
-					if(!m_vMeshes[i]->HaveBones()) {
-
+				for (int i = 0; i < m_nMeshes; i++) {
+					if (!m_vMeshes[i]->HaveBones()) {
 						pRenderer->setMatrix(World, &m_mGlobalTransform);
-
 						m_vMeshes[i]->Draw(pRenderer);
-
 					}
-
 					else {
-
 						m_vMeshes[i]->AnimationMeshDraw(pRenderer);
-
 					}
-
 				}
-
 			}
-
 			if(m_nChilds) {
-
 				for(int i = 0; i < m_nChilds;i++) {
-
 					m_vChildNodes[i]->NodeDraw(pRenderer);
-
 					drawCalls+=m_vChildNodes[i]->drawCalls;
-
 				}
-
 			}
-
 		}
-
 	}
-
 }
 //---------------------------------------------------------------
 void Node::SetFirstTransform(float a1,float a2,float a3, float a4, float b1, float b2,float b3, float b4, float c1,float c2,float c3,float c4, float d1,float d2, float d3, float d4){

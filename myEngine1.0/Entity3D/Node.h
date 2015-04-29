@@ -57,7 +57,9 @@ namespace DoMaRe{
 		Bone* m_pBone;       
 		void SetAnim(Animation3D* pAnimation);
 		int KeyFrameIndex;
+		
 		D3DXVECTOR3* m_vBB;
+
 		Vector3 v_MinBound;
 		Vector3 v_MaxBound;
 

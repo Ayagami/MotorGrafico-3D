@@ -49,7 +49,7 @@ namespace DoMaRe{
 		void enableLight(bool, unsigned long);
 
 		void CalculateFrustrum(); 
-		int CheckFrustumCulling(Node& pVertices); 
+		bool CheckFrustumCulling(D3DXVECTOR3* Box); 
 	private:
 		bool wireFrameMode;
 		IDirect3D9  * d3d;
