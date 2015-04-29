@@ -19,7 +19,7 @@ namespace DoMaRe{
 	class Game;
 	class Sound;
 	class Node;
-
+	class BSPNode;
 	class Physics;
 	//class Camera;
 	class MYENGINE_API Scene{
@@ -50,6 +50,17 @@ namespace DoMaRe{
 			std::vector<Entity3D*> m_pkEntidades3D;
 
 			void ifNeededtoDraw(Entity3D& pkNode);
-			//Game& CurrentGame;
+
+			// BSP THINGS!
+			std::vector<Node*> NodesToBSP;
+			std::vector<Node*> ParentNodes;
+			std::vector<BSPNode*> BSPNodes;
+			BSPNode* BSP;
+
+		public:	// BSP!!
+			void AddBSPPlane(Node* node);
+			void AddNodeToBSP(Node* node);
+			void RegisterInBSPtree(Node* node, bool isBSP);
+			void ArrangeBSPTree();
 	};
 }

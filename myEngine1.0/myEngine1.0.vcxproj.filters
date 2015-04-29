@@ -192,6 +192,9 @@
     <ClInclude Include="Renderer\Frustrum.h">
       <Filter>Archivos de encabezado\include\Renderer</Filter>
     </ClInclude>
+    <ClInclude Include="Entity3D\BSPNode.h">
+      <Filter>Archivos de encabezado\include\Entity3D</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine.cpp">
@@ -295,6 +298,9 @@
     </ClCompile>
     <ClCompile Include="Renderer\Frustrum.cpp">
       <Filter>Archivos de código fuente\src\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="Entity3D\BSPNode.cpp">
+      <Filter>Archivos de código fuente\src\Entity3D</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

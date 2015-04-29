@@ -6,6 +6,7 @@
 #include "..\Entity3D\Entity3D.h"
 #include "..\Entity3D\Mesh.h"
 #include "..\Entity3D\Node.h"
+#include "..\Entity3D\BSPNode.h"
 
 #include "Camera.h"
 #include "..\Game.h"
@@ -18,19 +19,21 @@
 
 using namespace DoMaRe;
 
-Scene::Scene() : pkNode(NULL), mainCamera( new Camera() ){
+Scene::Scene() : pkNode(NULL), mainCamera( new Camera() ), BSP(NULL){
 	mainCamera->Init(&Import::getInstance()->GetRenderer());
 }
+//----------------------------------------------------
 Scene::~Scene(){
 }
+//----------------------------------------------------
 bool Scene::Init(DoMaRe::Import&){
 	return true;
 }
-
+//----------------------------------------------------
 bool Scene::Frame(DoMaRe::Renderer& r, DoMaRe::DirectInput& directInput,Timer& timer, Import& Importer, Game& game, Sound& sound){
 	return true;
 }
-
+//----------------------------------------------------
 bool Scene::draw(DoMaRe::Renderer& r, DoMaRe::DirectInput& directInput,Timer& timer, Import& Importer){
 	if(m_pkEntidades.empty() && m_pkEntidades3D.empty() && pkNode == NULL) return false;
 
@@ -49,8 +52,60 @@ bool Scene::draw(DoMaRe::Renderer& r, DoMaRe::DirectInput& directInput,Timer& ti
 		pkNode->Draw(&r);
 	}
 
+	if (BSP != NULL){
+		for (int i = 0; i < ParentNodes.size(); i++){
+			ParentNodes[i]->Draw(&r);
+		}
+
+		if (BSPNodes.size() > 0)
+			BSP->Draw(&r, mainCamera->m_Position);
+	}
+
 	return true;
 }
+//----------------------------------------------------
+void Scene::AddNodeToBSP(Node* node){
+	if (node->isPlane)
+		AddBSPPlane(node);
+	
+	NodesToBSP.push_back(node);
+	for (int i = 0; i < node->m_nChilds; i++){
+		AddNodeToBSP(node->m_vChildNodes[i]);
+	}
+}
+//----------------------------------------------------
+void Scene::AddBSPPlane(Node* pNode){
+	D3DXPLANE plane = pNode->GetPlane();
+	D3DXVECTOR3 point(pNode->m_mGlobalTransform._41, pNode->m_mGlobalTransform._42, pNode->m_mGlobalTransform._43);
+	BSPNode* bspnode = new BSPNode(pNode->GetPlane(), point);
+	BSPNodes.push_back(bspnode);
+	bspnode->m_sName = pNode->m_Name;
+}
+//----------------------------------------------------
+void Scene::RegisterInBSPtree(Node* node, bool isBSP){
+	D3DXMATRIX identity;
+	D3DXMatrixIdentity(&identity);
+	node->UpdateTransformation(identity, &Import::getInstance()->GetRenderer());
+	if (!isBSP)
+		ParentNodes.push_back(node);
+	else
+		AddNodeToBSP(node);
+}
+//----------------------------------------------------
+void Scene::ArrangeBSPTree(){
+	if (NodesToBSP.size() != 0){
+		BSP = BSPNodes[0];
+		for (int i = 1; i < BSPNodes.size(); i++){
+			if (BSPNodes[i] != NULL)
+				BSP->addBSPNode(BSPNodes[i]);
+		}
+		for (int i = 0; i < NodesToBSP.size(); i++){
+			if (NodesToBSP[i]->m_nMeshes)
+				BSP->addChild(NodesToBSP[i]);
+		}
+	}
+}
+//----------------------------------------------------
 void Scene::ifNeededtoDraw(Entity3D& pkNode){
 
 	/*int Result = getCamera()->AABBinFrustum(pkNode);
@@ -82,6 +137,7 @@ void Scene::ifNeededtoDraw(Entity3D& pkNode){
 
 	}*/
 }
+//----------------------------------------------------
 bool Scene::deinit(){
 	if(m_pkEntidades.empty() && m_pkEntidades3D.empty()) return true;
 
@@ -113,22 +169,22 @@ bool Scene::deinit(){
 
 	return true;
 }
-
+//----------------------------------------------------
 bool Scene::getNode(Node& theNodeDir){
 	theNodeDir = *pkNode;
 	return true;
 }
-
+//----------------------------------------------------
 bool Scene::addEntity(Entity2D* Entity){
 	m_pkEntidades.push_back(Entity);
 	return true;
 }
-
+//----------------------------------------------------
 bool Scene::addEntity(Entity3D* Entity){
 	m_pkEntidades3D.push_back(Entity);
 	return true;
 }
-
+//----------------------------------------------------
 Entity3D* Scene::getEntity3D (const std::string& rkName, const DoMaRe::Node* pkParent){
      /*   for( std::vector<DoMaRe::Entity3D*>::const_iterator it = pkParent->childs().begin(); it != pkParent->childs().end(); it++){
 				if( (*it)->getName() == rkName ){
@@ -149,7 +205,7 @@ Entity3D* Scene::getEntity3D (const std::string& rkName, const DoMaRe::Node* pkP
         */
         return NULL;
 }
-
+//----------------------------------------------------
 bool Scene::getEntity(Sprite** Entity, std::string Name){
 	if(m_pkEntidades.empty())
 		return true;
@@ -162,7 +218,7 @@ bool Scene::getEntity(Sprite** Entity, std::string Name){
 	}
 	return false;
 }
-
+//----------------------------------------------------
 bool Scene::getEntity(Quad** Entity, std::string Name){
 	if(m_pkEntidades.empty())
 		return true;
@@ -175,3 +231,4 @@ bool Scene::getEntity(Quad** Entity, std::string Name){
 	}
 	return false;
 }
+//----------------------------------------------------

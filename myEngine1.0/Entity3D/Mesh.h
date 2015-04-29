@@ -37,6 +37,7 @@ namespace DoMaRe{
 		//void GetBounding(Vector3* v_MaxBound, Vector3* v_MinBound);     
 		void CalculateBB();
 		void GetTransformedBox(D3DXMATRIX * pMatrizMundo, D3DXVECTOR3 * pOut); 
+		D3DXPLANE GetPlane(D3DXMATRIX*);
 
 	protected:
 		IndexBuffer* mk_IndexBuffer;

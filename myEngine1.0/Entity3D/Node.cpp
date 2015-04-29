@@ -7,20 +7,10 @@
 #include "../Renderer/Renderer.h"
 #include <algorithm>
 using namespace DoMaRe;
-Node::Node(std::string name) 
-	: Entity3D(0,0,name),
-	m_nChilds(0),
-
-	m_nMeshes(0),
-
-	m_vBB(new D3DXVECTOR3[8]),
-
-	m_pBone(NULL),
-
-	m_pCurrentAnim(NULL),
-
-	KeyFrameIndex(-1){
-
+Node::Node(std::string name) : Entity3D(0,0,name), m_nChilds(0), m_nMeshes(0), m_vBB(new D3DXVECTOR3[8]), m_pBone(NULL), m_pCurrentAnim(NULL), KeyFrameIndex(-1){
+	D3DXMatrixIdentity(&m_mGlobalTransform);
+	D3DXMatrixIdentity(&m_mOriginalTransform);
+	isPlane = false;
 }
 //---------------------------------------------------------------
 Node::~Node(){
@@ -67,6 +57,10 @@ void Node::AddChild(Node* child){
 
 }
 //---------------------------------------------------------------
+D3DXPLANE Node::GetPlane(){
+	return m_vMeshes[0]->GetPlane(&m_mGlobalTransform);
+}
+//---------------------------------------------------------------
 void Node::Draw(Renderer * pRenderer){
 	D3DXMatrixIdentity(&m_mGlobalTransform);
 
@@ -74,12 +68,12 @@ void Node::Draw(Renderer * pRenderer){
 
 	pRenderer->CalculateFrustrum();
 
-	PreDraw(m_mGlobalTransform, pRenderer);
+	UpdateTransformation(m_mGlobalTransform, pRenderer);
 
 	NodeDraw(pRenderer);
 }
 //---------------------------------------------------------------
-void Node::PreDraw(D3DXMATRIX transformation, Renderer * pRenderer){       
+void Node::UpdateTransformation(D3DXMATRIX transformation, Renderer * pRenderer){
 
 	D3DXMATRIX translation;
 
@@ -142,7 +136,7 @@ void Node::PreDraw(D3DXMATRIX transformation, Renderer * pRenderer){
 
 		for(int i = 0; i <m_nChilds; i++){
 	
-			m_vChildNodes[i]->PreDraw(m_mGlobalTransform,pRenderer);
+			m_vChildNodes[i]->UpdateTransformation(m_mGlobalTransform, pRenderer);
 
 		}
 
@@ -190,11 +184,22 @@ Node* Node::FindChildByName(std::string sName){
 
 }
 //--------------------------------------------------------------- 
+void Node::DrawMeshes(Renderer * pRenderer){
+	D3DXMATRIX identity;
+	D3DXMatrixIdentity(&identity);
+	pRenderer->setMatrix(World, &identity);
+
+	for (int i = 0; i < m_nMeshes; i++){
+		pRenderer->setMatrix(World, &m_mGlobalTransform);
+		m_vMeshes[i]->Draw(pRenderer);
+	}
+}
+//--------------------------------------------------------------- 
 void Node::NodeDraw(Renderer * pRenderer){       
 
 	drawCalls=0;
 	if(m_pBone == NULL) {
-		if ( pRenderer->CheckFrustumCulling(m_vBB) ) {
+		if ( /* pRenderer->CheckFrustumCulling(m_vBB) */ true ) {
 			drawCalls = 1;
 			if(m_nMeshes) {
 				for (int i = 0; i < m_nMeshes; i++) {

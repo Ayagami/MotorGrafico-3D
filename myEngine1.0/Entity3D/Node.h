@@ -38,6 +38,9 @@ namespace DoMaRe{
 		virtual void Update(const double& dDeltaTime);
 		bool IsPlaying();
 		int drawCalls;
+		
+		bool isPlane;
+		D3DXPLANE GetPlane();
 
 	private:
 
@@ -48,8 +51,9 @@ namespace DoMaRe{
 		unsigned int m_nChilds;
 		unsigned int m_nMeshes;
 		virtual void Draw(Renderer * pRenderer);
-		void PreDraw(D3DXMATRIX transformation, Renderer * pRenderer);
+		void UpdateTransformation(D3DXMATRIX transformation, Renderer * pRenderer);
 		void NodeDraw(Renderer * pRenderer);
+		void DrawMeshes(Renderer*);
 		void CalculateBB();
 		void GetBoundings(Vector3* pOutMin, Vector3* pOutMax);
 		std::map<std::string, Animation3D*> m_mAnimations;
@@ -66,5 +70,6 @@ namespace DoMaRe{
 		friend class Import;
 		friend class Scene;
 		friend class Frustrum;
+		friend class BSPNode;
 	};
 }

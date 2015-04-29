@@ -41,14 +41,80 @@ BSPNode::BSPposition BSPNode::getPosition(D3DXVECTOR3 Position){
 }
 //-----------------------------------------------------
 void BSPNode::addChild(Node* node){
-		
+	if (node == NULL) return;
+
+	BSPposition pos = getPosition(node->m_vBB);
+	
+	if (pos == BACK){
+
+		if (backBSP == NULL)
+			backNodes.push_back(node);
+		else
+			backBSP->addChild(node);
+
+	}
+
+	else if (pos == FRONT){
+
+		if (frontBSP == NULL)
+			frontNodes.push_back(node);
+		else
+			frontBSP->addChild(node);
+
+	}
+
+	else if (pos == INSIDE){
+
+		if (frontBSP == NULL)
+			frontNodes.push_back(node);
+		else
+			frontBSP->addChild(node);
+
+		if (backBSP == NULL)
+			backNodes.push_back(node);
+		else
+			backBSP->addChild(node);
+
+	}
+
 }
 //-----------------------------------------------------
 void BSPNode::addBSPNode(BSPNode* node){
-
+	if (node == NULL) return; // Go away Bitch!
+	BSPposition pos = getPosition(node->m_dPoint);	// Obtengo el Nodo con respecto a su punto.
+	if (pos == BACK){
+		if (backBSP == NULL)
+			backBSP = node;
+		else
+			backBSP->addBSPNode(node);
+	}
+	else{
+		if (frontBSP == NULL)
+			frontBSP = node;
+		else
+			frontBSP->addBSPNode(node);
+	}
 }
 //-----------------------------------------------------
-void BSPNode::Draw(Renderer*, D3DXVECTOR3){
-
+void BSPNode::Draw(Renderer* renderer, D3DXVECTOR3 vCameraPos){
+	BSPposition pos = getPosition(vCameraPos);
+	if (pos == BACK){
+		if (backBSP == NULL){
+			for (int i = 0; i < backNodes.size(); i++) {
+				backNodes[i]->DrawMeshes(renderer);
+			}
+		}
+		else
+			backBSP->Draw(renderer, vCameraPos);
+	}
+	else if (pos == FRONT){
+		if (frontBSP == NULL){
+			for (int i = 0; i < frontNodes.size(); i++){
+				frontNodes[i]->DrawMeshes(renderer);
+			}
+		}
+		else
+			frontBSP->Draw(renderer, vCameraPos);
+	}
 }
 //-----------------------------------------------------
