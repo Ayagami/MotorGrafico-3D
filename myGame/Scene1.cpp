@@ -17,7 +17,7 @@ void Test2(DoMaRe::Entity3D* pk1, DoMaRe::Entity3D* pk2);
 
 //#include "Sound\Sound.h"
 using namespace MiJuego;
-bool ds = false;
+bool ds = true;
 int Anim = 0;
 float mSpeed = 0.1f;
 DoMaRe::Node* bsp;
@@ -26,8 +26,8 @@ DoMaRe::Mesh* mesh;
 bool Scene1::Init(DoMaRe::Import& Importer){
 
 	pkNode = new DoMaRe::Node("Bones");
-	bsp = new DoMaRe::Node("bspBitch");
-	Tank = new DoMaRe::Node("TankBItch");
+	//bsp = new DoMaRe::Node("bspBitch");
+	//Tank = new DoMaRe::Node("TankBItch");
 
 	mainLight = new DoMaRe::Light(&Importer.GetRenderer());
 	mainLight->setLightType(DoMaRe::Light::DIRECTIONAL_LIGHT);
@@ -40,14 +40,14 @@ bool Scene1::Init(DoMaRe::Import& Importer){
 	mainLight->enable(true);
 
 	Importer.importScene("bones_all.x", *pkNode);
-	Importer.importScene("BSP.3DS", *bsp);
-	Importer.importScene("tank.x", *Tank);
+	//Importer.importScene("BSP.3DS", *bsp);
+	//Importer.importScene("tank.x", *Tank);
 	pkNode->SetPos(0, 0, 0);
 	pkNode->SetScale(10, 10, 10);
 
-	RegisterInBSPtree(Tank, false);
-	RegisterInBSPtree(bsp, true);
-	ArrangeBSPTree();
+	//RegisterInBSPtree(Tank, false);
+	//RegisterInBSPtree(bsp, true);
+	//ArrangeBSPTree();
 
 
 

@@ -1,4 +1,4 @@
-	#include "3DAnimation.h"
+#include "3DAnimation.h"
 #include <assert.h>
 using namespace DoMaRe;
 
@@ -7,7 +7,7 @@ Animation3D::Animation3D(std::string pName, double duration, double tPS)
 	if(tPS <= 0)
 		m_dTPS = 1500;
 }
-
+//---------------------------------------------------------------
 int Animation3D::GetFrameIndex(std::string sNodeName){
 	for(int i=0; i < m_vKeyFrames.size(); i++){
 		if(m_vKeyFrames[i]->name == sNodeName)
@@ -16,7 +16,7 @@ int Animation3D::GetFrameIndex(std::string sNodeName){
 
 	return -1;	// Devuelvo -1 por que no encontré nada.
 }
-
+//---------------------------------------------------------------
 D3DXMATRIX Animation3D::GetInterpolation(double& cTime, KeyFrame* frame){
 	D3DXMATRIX returnMatrix;
 	D3DXMatrixIdentity(&returnMatrix);
@@ -40,7 +40,7 @@ D3DXMATRIX Animation3D::GetInterpolation(double& cTime, KeyFrame* frame){
 
 	return returnMatrix;
 }
-
+//---------------------------------------------------------------
 D3DXVECTOR3 Animation3D::CalcInterpVec(double& cTime, aiVectorKey* keys, int cKeys){
 	D3DXVECTOR3 finalVector;
 
@@ -67,7 +67,7 @@ D3DXVECTOR3 Animation3D::CalcInterpVec(double& cTime, aiVectorKey* keys, int cKe
 	finalVector = vec2 * dAux + vec1 * (1.0f - dAux);
 	return finalVector;
 }
-
+//---------------------------------------------------------------
 D3DXQUATERNION Animation3D::CalcInterpRot(double& cTime, aiQuatKey* keys, int cKeys){
 	int fIndexAux = -1;
 	int lIndexAux = -1;
@@ -92,11 +92,12 @@ D3DXQUATERNION Animation3D::CalcInterpRot(double& cTime, aiQuatKey* keys, int cK
 	aiQuaternion::Interpolate(rotation, startRot, endRot, dAux);
 	return D3DXQUATERNION (rotation.x, rotation.y, rotation.z, rotation.w);
 }
-
+//---------------------------------------------------------------
 void Animation3D::Update(const double& deltaTime){
 	if(m_stState == PLAY){
-		m_dCTime += (deltaTime/1000) * m_dTPS;
+		m_dCTime += (deltaTime/1000) * m_dTPS * m_fSpeed;
 		while(m_dCTime >= m_dDuration)
 			m_dCTime -= m_dDuration;
 	}
 }
+//---------------------------------------------------------------

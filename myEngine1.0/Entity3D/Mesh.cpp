@@ -13,7 +13,7 @@ Mesh::Mesh(Renderer & p_Renderer) : Entity3D(),  pk_Renderer(p_Renderer) , s_Tex
 	mk_VertexBuffer3D = pk_Renderer.createVB(sizeof(DoMaRe::MeshVertex), DoMaRe::MeshVertexType);
 	mk_IndexBuffer = pk_Renderer.createIB();
 }
-
+//---------------------------------------------------------------
 Mesh::~Mesh(){
 
 	m_pkVertex.clear();
@@ -32,7 +32,6 @@ Mesh::~Mesh(){
 		pk_Material = NULL;
 	}
 
-
 	for(int i = 0; i < m_vBoneData.size(); i++)
 		delete m_vBoneData[i];
 	if(VectorDraw)
@@ -43,11 +42,10 @@ Mesh::~Mesh(){
 		delete m_pvBB;
 
 }
-
+//---------------------------------------------------------------
 D3DXPLANE Mesh::GetPlane(D3DXMATRIX * transform){
 	D3DXVECTOR3 planepoints[3];
-	for (int i = 0; i < 3; i++)
-	{
+	for (int i = 0; i < 3; i++){
 		D3DXVECTOR3 pos(m_pkVertex[i].x, m_pkVertex[i].y, m_pkVertex[i].z);
 		D3DXVec3TransformCoord(&planepoints[i], &pos, transform);
 	}
@@ -55,7 +53,7 @@ D3DXPLANE Mesh::GetPlane(D3DXMATRIX * transform){
 	D3DXPlaneFromPoints(&plane, &planepoints[0], &planepoints[1], &planepoints[2]);
 	return plane;
 }
-
+//---------------------------------------------------------------
 void Mesh::setData(const MeshVertex* Tex_Vertex, size_t vertexCount, DoMaRe::Primitive Prim, const unsigned short* pInt, size_t indexCount){
 	pkPrimitive = Prim;
 	mk_VertexBuffer3D->setVertexData((void *)Tex_Vertex, vertexCount);
@@ -89,7 +87,7 @@ void Mesh::setData(const MeshVertex* Tex_Vertex, size_t vertexCount, DoMaRe::Pri
 
 	CalculateBB();
 }
-
+//---------------------------------------------------------------
 void Mesh::Draw(Renderer* pRenderer){
 	mk_VertexBuffer3D->bind();
 	mk_IndexBuffer->bind();
@@ -99,203 +97,98 @@ void Mesh::Draw(Renderer* pRenderer){
 
 	debugedMeshes++;
 }
-
+//---------------------------------------------------------------
 void Mesh::setTexture(std::string pkTextureFile, DWORD theColor){
 	s_Texture = pk_Renderer.loadTexture(pkTextureFile,theColor);
 }
-
+//---------------------------------------------------------------
 void Mesh::setTexture(Texture& theTexture){
 	s_Texture = theTexture;
 }
-
+//---------------------------------------------------------------
 const std::vector<MeshVertex>& Mesh::vertexs() const{
 	return m_pkVertex;
 }
-
+//---------------------------------------------------------------
 const std::vector<unsigned short> Mesh::indexs() const{
 	return m_pkIndex;
 }
-
+//---------------------------------------------------------------
 const Material& Mesh::getMaterial() const{
 	return *pk_Material;
 }
-
+//---------------------------------------------------------------
 void Mesh::setMaterial(Material& m_cMaterial) {
 	pk_Material = &m_cMaterial;
 }
-
-/*
-void Mesh::GetBounding(Vector3* v_MaxBound, Vector3* v_MinBound){
-	if(s_Texture){
-
-		v_MaxBound->x = m_pkVertex[0].x;
-
-		v_MaxBound->y = m_pkVertex[0].y;
-
-		v_MaxBound->z = m_pkVertex[0].z;
-
-
-
-		v_MinBound->x = m_pkVertex[0].x;
-
-		v_MinBound->y = m_pkVertex[0].y;
-
-		v_MinBound->z = m_pkVertex[0].z;
-
-
-
-		for(int i = 1; i < m_pkVertex.size();i++)
-
-		{
-
-			if(m_pkVertex[i].x > v_MaxBound->x) 
-
-				v_MaxBound->x = m_pkVertex[i].x;
-
-			else if(m_pkVertex[i].x < v_MinBound->x)
-
-				v_MinBound->x = m_pkVertex[i].x;
-
-
-
-			if(m_pkVertex[i].y > v_MaxBound->y) 
-
-				v_MaxBound->y = m_pkVertex[i].y;
-
-			else if(m_pkVertex[i].y < v_MinBound->y)
-
-				v_MinBound->y = m_pkVertex[i].y;
-
-
-
-			if(m_pkVertex[i].z > v_MaxBound->z) 
-
-				v_MaxBound->z = m_pkVertex[i].z;
-
-			else if(m_pkVertex[i].z < v_MinBound->z)
-
-				v_MinBound->z = m_pkVertex[i].z;
-
-		}
-
-	} 
-}*/
+//---------------------------------------------------------------
 void Mesh::GetTransformedBox(D3DXMATRIX * pMatrizMundo, D3DXVECTOR3* pOut){
 	for(int i = 0; i < 8;i++){
 		D3DXVec3TransformCoord(&pOut[i],&m_pvBB[i],pMatrizMundo);
 	}
-
 } 
-
+//---------------------------------------------------------------
 void Mesh::CalculateBB(){
-
 	Vector3 v_MaxBound;
-
 	Vector3 v_MinBound;
 
 	v_MaxBound.x = m_pkVertex[0].x;
-
 	v_MaxBound.y = m_pkVertex[0].y;
-
 	v_MaxBound.z = m_pkVertex[0].z;
 
-
-
 	v_MinBound.x = m_pkVertex[0].x;
-
 	v_MinBound.y = m_pkVertex[0].y;
-
 	v_MinBound.z = m_pkVertex[0].z;
 
-
-
 	for(int i = 1; i < m_pkVertex.size();i++){
-
 		if(m_pkVertex[i].x > v_MaxBound.x) 
-
 			v_MaxBound.x = m_pkVertex[i].x;
-
 		else if(m_pkVertex[i].x < v_MinBound.x)
-
 			v_MinBound.x = m_pkVertex[i].x;
 
-
-
 		if(m_pkVertex[i].y > v_MaxBound.y) 
-
 			v_MaxBound.y = m_pkVertex[i].y;
-
 		else if(m_pkVertex[i].y < v_MinBound.y)
-
 			v_MinBound.y = m_pkVertex[i].y;
 
-
-
 		if(m_pkVertex[i].z > v_MaxBound.z) 
-
 			v_MaxBound.z = m_pkVertex[i].z;
-
 		else if(m_pkVertex[i].z < v_MinBound.z)
-
 			v_MinBound.z = m_pkVertex[i].z;
-
 	}
 	m_pvBB[0].x = v_MaxBound.x;
-
 	m_pvBB[0].y = v_MaxBound.y;
-
 	m_pvBB[0].z = v_MaxBound.z;
 
-
 	m_pvBB[1].x = v_MaxBound.x;
-
 	m_pvBB[1].y = v_MinBound.y;
-
 	m_pvBB[1].z = v_MaxBound.z;
 
-
 	m_pvBB[2].x = v_MinBound.x;
-
 	m_pvBB[2].y = v_MinBound.y;
-
 	m_pvBB[2].z = v_MaxBound.z;
 
-
 	m_pvBB[3].x = v_MinBound.x;
-
 	m_pvBB[3].y = v_MaxBound.y;
-
 	m_pvBB[3].z = v_MaxBound.z;
 
-
 	m_pvBB[4].x = v_MaxBound.x;
-
 	m_pvBB[4].y = v_MaxBound.y;
-
 	m_pvBB[4].z = v_MinBound.z;
 
-
 	m_pvBB[5].x = v_MaxBound.x;
-
 	m_pvBB[5].y = v_MinBound.y;
-
 	m_pvBB[5].z = v_MinBound.z;
 
-
 	m_pvBB[6].x = v_MinBound.x;
-
 	m_pvBB[6].y = v_MinBound.y;
-
 	m_pvBB[6].z = v_MinBound.z;
 
-
 	m_pvBB[7].x = v_MinBound.x;
-
 	m_pvBB[7].y = v_MaxBound.y;
-
 	m_pvBB[7].z = v_MinBound.z;
-
 }
+//---------------------------------------------------------------
 void Mesh::AnimationMeshDraw(Renderer* pRenderer){
 	ZeroMemory((void*) VectorDraw, sizeof(D3DXVECTOR3) * m_iVertexCount);
 	ZeroMemory((void*) VectorDraw, sizeof(D3DXVECTOR3) * m_iVertexCount);
@@ -342,5 +235,5 @@ void Mesh::AnimationMeshDraw(Renderer* pRenderer){
 	mk_VertexBuffer3D->setVertexData((void *)&m_pkVertex, m_iVertexCount);
 	pk_Renderer.Draw(pkPrimitive);
 	// Aca tengo que llenar los buffers para dibujar esta data generada.
-
 }
+//---------------------------------------------------------------
