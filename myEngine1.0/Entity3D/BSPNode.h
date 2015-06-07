@@ -29,9 +29,9 @@ namespace DoMaRe{
 			BSPposition getPosition(D3DXVECTOR3 Position);
 
 			friend class Node;
-			void addBSPNode(BSPNode* bspNode);
+			void AddNode(BSPNode* bspNode);
 			void Draw(Renderer*, D3DXVECTOR3);
-			void addChild(Node* node);
+			void AddChild(Node* node);
 			std::string m_sName;
 	};
 }

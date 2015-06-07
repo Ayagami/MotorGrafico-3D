@@ -35,7 +35,7 @@ bool Scene::Frame(DoMaRe::Renderer& r, DoMaRe::DirectInput& directInput,Timer& t
 }
 //----------------------------------------------------
 bool Scene::draw(DoMaRe::Renderer& r, DoMaRe::DirectInput& directInput,Timer& timer, Import& Importer){
-	if(m_pkEntidades.empty() && m_pkEntidades3D.empty() && pkNode == NULL) return false;
+	if(m_pkEntidades.empty() && m_pkEntidades3D.empty() && pkNode == NULL && BSP == NULL) return false;
 
 	std::vector<Entity2D*>::iterator iter;
 	for(iter = m_pkEntidades.begin(); iter != m_pkEntidades.end(); iter++){
@@ -77,7 +77,7 @@ void Scene::AddNodeToBSP(Node* node){
 void Scene::AddBSPPlane(Node* pNode){
 	D3DXPLANE plane = pNode->GetPlane();
 	D3DXVECTOR3 point(pNode->m_mGlobalTransform._41, pNode->m_mGlobalTransform._42, pNode->m_mGlobalTransform._43);
-	BSPNode* bspnode = new BSPNode(pNode->GetPlane(), point);
+	BSPNode* bspnode = new BSPNode(plane, point);
 	BSPNodes.push_back(bspnode);
 	bspnode->m_sName = pNode->m_Name;
 }
@@ -97,11 +97,11 @@ void Scene::ArrangeBSPTree(){
 		BSP = BSPNodes[0];
 		for (int i = 1; i < BSPNodes.size(); i++){
 			if (BSPNodes[i] != NULL)
-				BSP->addBSPNode(BSPNodes[i]);
+				BSP->AddNode(BSPNodes[i]);
 		}
 		for (int i = 0; i < NodesToBSP.size(); i++){
 			if (NodesToBSP[i]->m_nMeshes)
-				BSP->addChild(NodesToBSP[i]);
+				BSP->AddChild(NodesToBSP[i]);
 		}
 	}
 }

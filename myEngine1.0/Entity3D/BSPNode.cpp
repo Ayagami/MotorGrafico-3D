@@ -20,7 +20,7 @@ BSPNode::~BSPNode(){
 //-----------------------------------------------------
 BSPNode::BSPposition BSPNode::getPosition(D3DXVECTOR3 BoundingBox[]){
 	BSPposition aux = getPosition(BoundingBox[0]);
-	for (int i = 0; i < 8; i++){
+	for (int i = 1; i < 8; i++){
 		if (aux != getPosition(BoundingBox[i]))
 			return INSIDE;
 	}
@@ -40,7 +40,7 @@ BSPNode::BSPposition BSPNode::getPosition(D3DXVECTOR3 Position){
 	}
 }
 //-----------------------------------------------------
-void BSPNode::addChild(Node* node){
+void BSPNode::AddChild(Node* node){
 	if (node == NULL) return;
 
 	BSPposition pos = getPosition(node->m_vBB);
@@ -50,7 +50,7 @@ void BSPNode::addChild(Node* node){
 		if (backBSP == NULL)
 			backNodes.push_back(node);
 		else
-			backBSP->addChild(node);
+			backBSP->AddChild(node);
 
 	}
 
@@ -59,7 +59,7 @@ void BSPNode::addChild(Node* node){
 		if (frontBSP == NULL)
 			frontNodes.push_back(node);
 		else
-			frontBSP->addChild(node);
+			frontBSP->AddChild(node);
 
 	}
 
@@ -68,31 +68,31 @@ void BSPNode::addChild(Node* node){
 		if (frontBSP == NULL)
 			frontNodes.push_back(node);
 		else
-			frontBSP->addChild(node);
+			frontBSP->AddChild(node);
 
 		if (backBSP == NULL)
 			backNodes.push_back(node);
 		else
-			backBSP->addChild(node);
+			backBSP->AddChild(node);
 
 	}
 
 }
 //-----------------------------------------------------
-void BSPNode::addBSPNode(BSPNode* node){
+void BSPNode::AddNode(BSPNode* node){
 	if (node == NULL) return; // Go away Bitch!
 	BSPposition pos = getPosition(node->m_dPoint);	// Obtengo el Nodo con respecto a su punto.
 	if (pos == BACK){
 		if (backBSP == NULL)
 			backBSP = node;
 		else
-			backBSP->addBSPNode(node);
+			backBSP->AddNode(node);
 	}
 	else{
 		if (frontBSP == NULL)
 			frontBSP = node;
 		else
-			frontBSP->addBSPNode(node);
+			frontBSP->AddNode(node);
 	}
 }
 //-----------------------------------------------------
