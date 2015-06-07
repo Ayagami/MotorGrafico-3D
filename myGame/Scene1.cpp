@@ -21,11 +21,12 @@ bool ds = true;
 int Anim = 0;
 float mSpeed = 0.1f;
 DoMaRe::Node* bsp;
+DoMaRe::Node* bonesALL;
 DoMaRe::Node* Tank;
 DoMaRe::Mesh* mesh;
 bool Scene1::Init(DoMaRe::Import& Importer){
 
-	pkNode = new DoMaRe::Node("Bones");
+	pkNode = new DoMaRe::Node("tiny");
 	//bsp = new DoMaRe::Node("bspBitch");
 	//Tank = new DoMaRe::Node("TankBItch");
 
@@ -39,17 +40,16 @@ bool Scene1::Init(DoMaRe::Import& Importer){
 	mainLight->setRange(0.3f);
 	mainLight->enable(true);
 
-	Importer.importScene("bones_all.x", *pkNode);
+	Importer.importScene("tiny.x", *pkNode);
 	//Importer.importScene("BSP.3DS", *bsp);
 	//Importer.importScene("tank.x", *Tank);
 	pkNode->SetPos(0, 0, 0);
-	pkNode->SetScale(10, 10, 10);
+	pkNode->SetScale(1, 1, 1);
+
 
 	//RegisterInBSPtree(Tank, false);
 	//RegisterInBSPtree(bsp, true);
 	//ArrangeBSPTree();
-
-
 
 	mainCamera->SetPosition(0, 0, -20);
 
@@ -61,21 +61,22 @@ bool Scene1::Frame(DoMaRe::Renderer& renderer, DoMaRe::DirectInput& dInput, DoMa
 	UpdateInputs(dInput,timer,pkSound,renderer);
 	
 	if(ds){
-		switch (Anim){
+		/*switch (Anim){
 		case 0:
-			pkNode->PlayAnim("Attack");
+			bonesALL->PlayAnim("Attack");
 			break;
 		case 1:
-			pkNode->PlayAnim("Impact");
+			bonesALL->PlayAnim("Impact");
 			break;
 		case 2:
-			pkNode->PlayAnim("Move");
+			bonesALL->PlayAnim("Move");
 			break;
 
 		}
+		bonesALL->Update(timer.timeBetweenFrames());*/
+		pkNode->PlayAnim("");
 		pkNode->Update(timer.timeBetweenFrames());
 	}
-
 	mainLight->setLightIndex(0);
 	mainLight->enable(true);
 	/*if( pkNode->childs()[0]->collidesWith(*pkNode->childs()[1]) ) {

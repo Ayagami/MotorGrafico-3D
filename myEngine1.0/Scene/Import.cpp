@@ -372,7 +372,7 @@ bool Import::importMesh(const aiMesh* pkAiMesh, const aiMaterial* pkAiMaterial, 
 
 	if(pkAiMaterial){
 		// diffuse texture
-		aiString kAiTexturePath;
+		/*aiString kAiTexturePath;
 		pkAiMaterial->GetTexture(aiTextureType_DIFFUSE, 0, &kAiTexturePath);
 
 		std::string kTexturePath( kAiTexturePath.C_Str() );
@@ -381,7 +381,7 @@ bool Import::importMesh(const aiMesh* pkAiMesh, const aiMaterial* pkAiMaterial, 
 		if( !kTexturePath.empty() && kTexturePath.at(0) == '/' )
 		{
 			kTexturePath = "." + kTexturePath;
-		}
+		}*/
 
 		/*std::string basePath = getFullPath(kTexturePath);
 
@@ -389,7 +389,14 @@ bool Import::importMesh(const aiMesh* pkAiMesh, const aiMaterial* pkAiMaterial, 
 		texturePath.append(basePath);
 		texturePath.append(kTexturePath.c_str());*/
 
-		Texture TheTexture = pk_renderer->loadTexture(kTexturePath);
+		size_t found = m_sCurrentModelPath.find_last_of("/\\");
+		std::string texPath = m_sCurrentModelPath.substr(0, found + 1);
+		aiString aipath;
+		pkAiMaterial->Get(AI_MATKEY_TEXTURE(aiTextureType_DIFFUSE, 0), aipath);
+		texPath.append(aipath.C_Str());
+
+
+		Texture TheTexture = pk_renderer->loadTexture(texPath);
 		kMesh.setTexture(TheTexture);
 
 		// Loading Material...
@@ -438,9 +445,6 @@ bool Import::importMesh(const aiMesh* pkAiMesh, const aiMaterial* pkAiMaterial, 
 			kMesh.AddBoneInfo(bInfo);
 		}
 	}
-
-	delete[] pVertices;
-	pVertices = NULL;
 
 	return true;
 }

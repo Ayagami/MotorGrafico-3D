@@ -15,7 +15,7 @@ namespace DoMaRe{
 	public:
 		Mesh(Renderer&);
 		~Mesh();
-		void setData(const MeshVertex*, size_t vertexCount, DoMaRe::Primitive, const unsigned short*, size_t indexCount);
+		void setData(MeshVertex*, size_t vertexCount, DoMaRe::Primitive,  unsigned short*, size_t indexCount);
 		void setTexture(std::string, DWORD theColor);
 		void setTexture(Texture& theTexture);
 		void setMaterial(Material& pkMaterial);
@@ -24,8 +24,6 @@ namespace DoMaRe{
 		const VertexBuffer3D* vertexBuffer() const;
 		const IndexBuffer*	  indexBuffer() const;
 
-		const std::vector<MeshVertex>& vertexs() const;
-		const std::vector<unsigned short> indexs() const;
 		const Material& getMaterial() const;
 
 		static int debugedMeshes;
@@ -47,18 +45,17 @@ namespace DoMaRe{
 		Renderer& pk_Renderer;
 		Material* pk_Material;
 
-		size_t m_iVertexCount;
-		size_t m_iIndexCount;
+		unsigned short* m_pIndices;
+		unsigned int m_uiIndxCount;
+		MeshVertex* m_pTexVtx;
+		unsigned int m_uiVtxCount;
 
 	private:
-		std::vector<MeshVertex> m_pkVertex;
-		std::vector<unsigned short> m_pkIndex;
 		// ------ Anim...
 		friend class Node;
-		D3DXVECTOR3* m_VtxBones;
-		D3DXVECTOR3* m_NormBones;
+		D3DXVECTOR3* m_VtxHuesos;
 		D3DXVECTOR3* VectorDraw;
-		D3DXVECTOR3* VectorNorm;
+
 		D3DXVECTOR3* m_pvBB;
 		std::vector<BoneInfo*> m_vBoneData;
 	};

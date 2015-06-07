@@ -74,6 +74,7 @@ namespace DoMaRe{
 
 		Renderer* pk_renderer;
 		Sound* pk_Sound;
+		std::string m_sCurrentModelPath;
 
 	};
 }
