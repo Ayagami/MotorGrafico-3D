@@ -253,8 +253,7 @@ bool Import::importScene (const std::string& fileName, Node& SceneRoot){
 	//const aiScene* AiScene = kImporter.ReadFile(fileName, aiProcess_Triangulate | aiProcess_SortByPType);
 	const aiScene* AiScene = kImporter.ReadFile(fileName,
 		aiPrimitiveType_LINE|aiPrimitiveType_POINT |
-		aiProcess_Triangulate |aiProcess_SortByPType
-		|aiProcess_MakeLeftHanded);
+		aiProcess_Triangulate |aiProcess_SortByPType | aiProcess_ConvertToLeftHanded);
 
 	if(AiScene){
 		SceneRoot.setName(AiScene->mRootNode->mName.C_Str());
