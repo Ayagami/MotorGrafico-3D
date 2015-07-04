@@ -51,16 +51,14 @@ namespace DoMaRe{
 
 			void ifNeededtoDraw(Entity3D& pkNode);
 
-			// BSP THINGS!
-			std::vector<Node*> NodesToBSP;
-			std::vector<Node*> ParentNodes;
-			std::vector<BSPNode*> BSPNodes;
+			//BSP hoes for show
+			std::vector<Node*> nodosParaBSP;
+			std::vector<BSPNode*> nodosBSP;
 			BSPNode* BSP;
-
-		public:	// BSP!!
-			void AddBSPPlane(Node* node);
-			void AddNodeToBSP(Node* node);
-			void RegisterInBSPtree(Node* node, bool isBSP);
-			void ArrangeBSPTree();
+	public:
+		void AddBSPPlane(Node* node);
+		void AddNodeToBSP(Node* node);
+		void RegisterInBSPtree(Node* node);
+		void ArrangeBSPTree(); //viene dsp de start
 	};
 }

@@ -35,7 +35,7 @@ bool Scene::Frame(DoMaRe::Renderer& r, DoMaRe::DirectInput& directInput,Timer& t
 }
 //----------------------------------------------------
 bool Scene::draw(DoMaRe::Renderer& r, DoMaRe::DirectInput& directInput,Timer& timer, Import& Importer){
-	if(m_pkEntidades.empty() && m_pkEntidades3D.empty() && pkNode == NULL && BSP == NULL) return false;
+	//if(m_pkEntidades.empty() && m_pkEntidades3D.empty() && pkNode == NULL && BSP == NULL) return false;
 
 	std::vector<Entity2D*>::iterator iter;
 	for(iter = m_pkEntidades.begin(); iter != m_pkEntidades.end(); iter++){
@@ -52,56 +52,65 @@ bool Scene::draw(DoMaRe::Renderer& r, DoMaRe::DirectInput& directInput,Timer& ti
 		pkNode->Draw(&r);
 	}
 
-	if (BSP != NULL){
-		for (int i = 0; i < ParentNodes.size(); i++){
-			ParentNodes[i]->Draw(&r);
-		}
-
-		if (BSPNodes.size() > 0)
-			BSP->Draw(&r, mainCamera->m_Position);
+	if (BSP){
+		BSP->Draw(&r, mainCamera->GetPosition());
 	}
-
 	return true;
 }
 //----------------------------------------------------
-void Scene::AddNodeToBSP(Node* node){
+void Scene::AddNodeToBSP(Node* node)
+{
+	//agregamos nodo al bso
 	if (node->isPlane)
+	{
 		AddBSPPlane(node);
-	
-	NodesToBSP.push_back(node);
-	for (int i = 0; i < node->m_nChilds; i++){
+	}
+	nodosParaBSP.push_back(node);
+	for (int i = 0; i < node->m_nChilds; i++)
+	{
 		AddNodeToBSP(node->m_vChildNodes[i]);
 	}
 }
 //----------------------------------------------------
-void Scene::AddBSPPlane(Node* pNode){
+void Scene::AddBSPPlane(Node* pNode)
+{
+	//agregamos planitooo
 	D3DXPLANE plane = pNode->GetPlane();
-	D3DXVECTOR3 point(pNode->m_mGlobalTransform._41, pNode->m_mGlobalTransform._42, pNode->m_mGlobalTransform._43);
-	BSPNode* bspnode = new BSPNode(plane, point);
-	BSPNodes.push_back(bspnode);
-	bspnode->m_sName = pNode->m_Name;
+	D3DXVECTOR3 point(pNode->m_mGlobalTransform._41, pNode->m_mGlobalTransform._42, pNode->m_mGlobalTransform._43); //saco la nueva pos de la matriz
+	BSPNode* bspnode = new BSPNode(pNode->GetPlane(), point);//transaltination
+	nodosBSP.push_back(bspnode);
+	bspnode->Name = pNode->m_Name;
 }
 //----------------------------------------------------
-void Scene::RegisterInBSPtree(Node* node, bool isBSP){
+void Scene::RegisterInBSPtree(Node* node)
+{
+	//agrega el nodo escena, con objetos y planos
 	D3DXMATRIX identity;
 	D3DXMatrixIdentity(&identity);
 	node->UpdateTransformation(identity, &Import::getInstance()->GetRenderer());
-	if (!isBSP)
-		ParentNodes.push_back(node);
-	else
-		AddNodeToBSP(node);
+	AddNodeToBSP(node);
 }
 //----------------------------------------------------
-void Scene::ArrangeBSPTree(){
-	if (NodesToBSP.size() != 0){
-		BSP = BSPNodes[0];
-		for (int i = 1; i < BSPNodes.size(); i++){
-			if (BSPNodes[i] != NULL)
-				BSP->AddNode(BSPNodes[i]);
+void Scene::ArrangeBSPTree()//se llama en start, usuario agrega planos que quiera y se arma solo el arbolito navideño
+{
+	//no plano, no arbol
+	if (nodosBSP.size() == 0) return;
+
+	//arbolito de navidad
+	BSP = nodosBSP[0];
+	for (int i = 1; i < nodosBSP.size(); i++)
+	{
+		if (nodosBSP[i] != NULL)
+		{
+			BSP->AddNode(nodosBSP[i]);
 		}
-		for (int i = 0; i < NodesToBSP.size(); i++){
-			if (NodesToBSP[i]->m_nMeshes)
-				BSP->AddChild(NodesToBSP[i]);
+	}
+	//lo decoro con muchos objetos
+	for (int i = 0; i < nodosParaBSP.size(); i++)
+	{
+		if (nodosParaBSP[i]->m_nMeshes)
+		{
+			BSP->AddChild(nodosParaBSP[i]);
 		}
 	}
 }

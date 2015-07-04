@@ -76,7 +76,8 @@ void Node::UpdateTransformation(D3DXMATRIX transformation, Renderer * pRenderer)
 	D3DXMatrixMultiply(&LocalTransform, &roty, &LocalTransform);
 	D3DXMatrixMultiply(&LocalTransform, &rotz, &LocalTransform);
 	D3DXMatrixMultiply(&LocalTransform, &scaling, &LocalTransform); 
-
+	
+	/*
 	if(!IsPlaying()){
 		D3DXMatrixMultiply(&LocalTransform, &LocalTransform,&m_mOriginalTransform);
 	}
@@ -90,6 +91,10 @@ void Node::UpdateTransformation(D3DXMATRIX transformation, Renderer * pRenderer)
 	if(m_pBone != NULL){
 		m_pBone->setTransformation(m_mGlobalTransform);
 	}
+	*/
+
+	D3DXMatrixMultiply(&LocalTransform, &LocalTransform, &m_mOriginalTransform);
+	D3DXMatrixMultiply(&m_mGlobalTransform, &LocalTransform, &transformation);
 
 	if(m_nChilds){
 		for(int i = 0; i <m_nChilds; i++){

@@ -9,29 +9,35 @@ namespace DoMaRe{
 	class BSPNode{
 		public:
 
-			BSPNode* frontBSP;
-			BSPNode* backBSP;
+			//referencias a nodos
+			BSPNode* m_pFrontNode;
+			BSPNode* m_pBackNode;
 
-			D3DXPLANE   m_dPlane;
-			D3DXVECTOR3 m_dPoint;
+			//plano y pos
+			D3DXPLANE m_Plane;
+			D3DXVECTOR3 m_PlanePoint;
 
-			std::vector<Node*>  frontNodes;
-			std::vector<Node*>  backNodes;
+			std::vector<Node*> m_vBackObjects;
+			std::vector<Node*> m_vFrontObjects;
 
-			BSPNode(D3DXPLANE plane, D3DXVECTOR3 point);
-			~BSPNode();
-
-			enum BSPposition{
-				INSIDE, FRONT, BACK
+			//pos respecto
+			enum Position
+			{
+				BACK, FRONT, INSIDE
 			};
+			//funciones que me devuelves mi ubic respecto
+			Position GetPosition(D3DXVECTOR3 BoundingBox[]);
+			Position GetPosition(D3DXVECTOR3 Position);
 
-			BSPposition getPosition(D3DXVECTOR3 BoundingBox[]);
-			BSPposition getPosition(D3DXVECTOR3 Position);
+			//nodo, añadir nodo, hijos, y draw
+			~BSPNode();
+			BSPNode(D3DXPLANE plane, D3DXVECTOR3 point);
+
 
 			friend class Node;
-			void AddNode(BSPNode* bspNode);
-			void Draw(Renderer*, D3DXVECTOR3);
-			void AddChild(Node* node);
-			std::string m_sName;
+			void AddNode(BSPNode* pNode);
+			void Draw(Renderer* pRenderer, D3DXVECTOR3 CameraPos);
+			void AddChild(Node* nodo);
+			std::string Name;
 	};
 }
