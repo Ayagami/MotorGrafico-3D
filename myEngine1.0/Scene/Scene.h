@@ -53,12 +53,13 @@ namespace DoMaRe{
 
 			//BSP hoes for show
 			std::vector<Node*> nodosParaBSP;
+			std::vector<Node*> parentNodes;
 			std::vector<BSPNode*> nodosBSP;
 			BSPNode* BSP;
 	public:
 		void AddBSPPlane(Node* node);
 		void AddNodeToBSP(Node* node);
-		void RegisterInBSPtree(Node* node);
+		void RegisterInBSPtree(Node* node, bool);
 		void ArrangeBSPTree(); //viene dsp de start
 	};
 }

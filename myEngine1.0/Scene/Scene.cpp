@@ -53,7 +53,10 @@ bool Scene::draw(DoMaRe::Renderer& r, DoMaRe::DirectInput& directInput,Timer& ti
 	}
 
 	if (BSP){
-		BSP->Draw(&r, mainCamera->GetPosition());
+		for (int i = 0; i < parentNodes.size(); i++)
+			parentNodes[i]->Draw(&r);
+		if (nodosBSP.size() > 0)
+			BSP->Draw(&r, mainCamera->GetPosition());
 	}
 	return true;
 }
@@ -80,11 +83,14 @@ void Scene::AddBSPPlane(Node* pNode){
 	bspnode->Name = pNode->m_Name;
 }
 //----------------------------------------------------
-void Scene::RegisterInBSPtree(Node* node){
+void Scene::RegisterInBSPtree(Node* node, bool isBSP){
 	D3DXMATRIX identity;
 	D3DXMatrixIdentity(&identity);
 	node->UpdateTransformation(identity, &Import::getInstance()->GetRenderer());
-	AddNodeToBSP(node);
+	if (isBSP)
+		AddNodeToBSP(node);
+	else
+		parentNodes.push_back(node);
 }
 //----------------------------------------------------
 void Scene::ArrangeBSPTree(){

@@ -46,7 +46,8 @@ bool Scene1::Init(DoMaRe::Import& Importer){
 	pkNode->SetPos(0, 0, 0);
 	pkNode->SetScale(1, 1, 1);
 
-	RegisterInBSPtree(bsp);
+
+	RegisterInBSPtree(bsp, true);
 	ArrangeBSPTree();
 
 	//RegisterInBSPtree(Tank, false);
