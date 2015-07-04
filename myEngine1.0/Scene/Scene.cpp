@@ -72,31 +72,24 @@ void Scene::AddNodeToBSP(Node* node)
 	}
 }
 //----------------------------------------------------
-void Scene::AddBSPPlane(Node* pNode)
-{
-	//agregamos planitooo
+void Scene::AddBSPPlane(Node* pNode){
 	D3DXPLANE plane = pNode->GetPlane();
 	D3DXVECTOR3 point(pNode->m_mGlobalTransform._41, pNode->m_mGlobalTransform._42, pNode->m_mGlobalTransform._43); //saco la nueva pos de la matriz
-	BSPNode* bspnode = new BSPNode(pNode->GetPlane(), point);//transaltination
+	BSPNode* bspnode = new BSPNode(pNode->GetPlane(), point);
 	nodosBSP.push_back(bspnode);
 	bspnode->Name = pNode->m_Name;
 }
 //----------------------------------------------------
-void Scene::RegisterInBSPtree(Node* node)
-{
-	//agrega el nodo escena, con objetos y planos
+void Scene::RegisterInBSPtree(Node* node){
 	D3DXMATRIX identity;
 	D3DXMatrixIdentity(&identity);
 	node->UpdateTransformation(identity, &Import::getInstance()->GetRenderer());
 	AddNodeToBSP(node);
 }
 //----------------------------------------------------
-void Scene::ArrangeBSPTree()//se llama en start, usuario agrega planos que quiera y se arma solo el arbolito navideño
-{
-	//no plano, no arbol
+void Scene::ArrangeBSPTree(){
 	if (nodosBSP.size() == 0) return;
 
-	//arbolito de navidad
 	BSP = nodosBSP[0];
 	for (int i = 1; i < nodosBSP.size(); i++)
 	{
@@ -105,7 +98,6 @@ void Scene::ArrangeBSPTree()//se llama en start, usuario agrega planos que quier
 			BSP->AddNode(nodosBSP[i]);
 		}
 	}
-	//lo decoro con muchos objetos
 	for (int i = 0; i < nodosParaBSP.size(); i++)
 	{
 		if (nodosParaBSP[i]->m_nMeshes)
