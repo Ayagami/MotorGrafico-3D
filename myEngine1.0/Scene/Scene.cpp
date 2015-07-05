@@ -35,7 +35,7 @@ bool Scene::Frame(DoMaRe::Renderer& r, DoMaRe::DirectInput& directInput,Timer& t
 }
 //----------------------------------------------------
 bool Scene::draw(DoMaRe::Renderer& r, DoMaRe::DirectInput& directInput,Timer& timer, Import& Importer){
-	if(m_pkEntidades.empty() && m_pkEntidades3D.empty() && pkNode == NULL && BSP == NULL) return false;
+	//if(m_pkEntidades.empty() && m_pkEntidades3D.empty() && pkNode == NULL && BSP == NULL) return false;
 
 	std::vector<Entity2D*>::iterator iter;
 	for(iter = m_pkEntidades.begin(); iter != m_pkEntidades.end(); iter++){
@@ -79,7 +79,7 @@ void Scene::AddBSPPlane(Node* pNode){
 	D3DXVECTOR3 point(pNode->m_mGlobalTransform._41, pNode->m_mGlobalTransform._42, pNode->m_mGlobalTransform._43);
 	BSPNode* bspnode = new BSPNode(plane, point);
 	BSPNodes.push_back(bspnode);
-	bspnode->m_sName = pNode->m_Name;
+	bspnode->Name = pNode->m_Name;
 }
 //----------------------------------------------------
 void Scene::RegisterInBSPtree(Node* node, bool isBSP){

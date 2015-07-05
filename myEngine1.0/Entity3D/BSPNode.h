@@ -7,31 +7,32 @@ namespace DoMaRe{
 	class Node;
 	class Renderer;
 	class BSPNode{
-		public:
+	public:
 
-			BSPNode* frontBSP;
-			BSPNode* backBSP;
+		BSPNode* m_pFrontNode;
+		BSPNode* m_pBackNode;
 
-			D3DXPLANE   m_dPlane;
-			D3DXVECTOR3 m_dPoint;
+		D3DXPLANE m_Plane;
+		D3DXVECTOR3 m_PlanePoint;
 
-			std::vector<Node*>  frontNodes;
-			std::vector<Node*>  backNodes;
+		std::vector<Node*> m_vBackObjects;
+		std::vector<Node*> m_vFrontObjects;
 
-			BSPNode(D3DXPLANE plane, D3DXVECTOR3 point);
-			~BSPNode();
+		enum Position
+		{
+			BACK, FRONT, INSIDE
+		};
+		Position GetPosition(D3DXVECTOR3 BoundingBox[]);
+		Position GetPosition(D3DXVECTOR3 Position);
 
-			enum BSPposition{
-				INSIDE, FRONT, BACK
-			};
+		~BSPNode();
+		BSPNode(D3DXPLANE plane, D3DXVECTOR3 point);
 
-			BSPposition getPosition(D3DXVECTOR3 BoundingBox[]);
-			BSPposition getPosition(D3DXVECTOR3 Position);
 
-			friend class Node;
-			void AddNode(BSPNode* bspNode);
-			void Draw(Renderer*, D3DXVECTOR3);
-			void AddChild(Node* node);
-			std::string m_sName;
+		friend class Node;
+		void AddNode(BSPNode* pNode);
+		void Draw(Renderer* pRenderer, D3DXVECTOR3 CameraPos);
+		void AddChild(Node* nodo);
+		std::string Name;
 	};
 }

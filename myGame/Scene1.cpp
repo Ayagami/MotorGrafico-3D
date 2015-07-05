@@ -27,9 +27,10 @@ DoMaRe::Mesh* mesh;
 bool Scene1::Init(DoMaRe::Import& Importer){
 
 	pkNode = new DoMaRe::Node("tiny");
-	//bsp = new DoMaRe::Node("bspBitch");
+	bsp = new DoMaRe::Node("bspBitch");
 	//Tank = new DoMaRe::Node("TankBItch");
 
+	// Luces 
 	mainLight = new DoMaRe::Light(&Importer.GetRenderer());
 	mainLight->setLightType(DoMaRe::Light::DIRECTIONAL_LIGHT);
 	mainLight->setPosition (0, 0, 0);
@@ -39,13 +40,18 @@ bool Scene1::Init(DoMaRe::Import& Importer){
 	mainLight->setLightIndex(0);
 	mainLight->setRange(0.3f);
 	mainLight->enable(true);
+	// fin Luces.
 
 	Importer.importScene("tiny.x", *pkNode);
+	Importer.importScene("BSP.3ds", *bsp);
 	//Importer.importScene("BSP.3DS", *bsp);
 	//Importer.importScene("tank.x", *Tank);
+	
 	pkNode->SetPos(0, 0, 0);
 	pkNode->SetScale(1, 1, 1);
 
+	RegisterInBSPtree(bsp, true);
+	ArrangeBSPTree();
 
 	//RegisterInBSPtree(Tank, false);
 	//RegisterInBSPtree(bsp, true);
