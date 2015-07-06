@@ -17,7 +17,7 @@ void Test2(DoMaRe::Entity3D* pk1, DoMaRe::Entity3D* pk2);
 
 //#include "Sound\Sound.h"
 using namespace MiJuego;
-bool ds = true;
+bool ds = false;
 int Anim = 0;
 float mSpeed = 0.1f;
 DoMaRe::Node* bsp;
@@ -26,9 +26,9 @@ DoMaRe::Node* Tank;
 DoMaRe::Mesh* mesh;
 bool Scene1::Init(DoMaRe::Import& Importer){
 
-	pkNode = new DoMaRe::Node("tiny");
+	//pkNode = new DoMaRe::Node("tiny");
 	bsp = new DoMaRe::Node("bspBitch");
-	//Tank = new DoMaRe::Node("TankBItch");
+	Tank = new DoMaRe::Node("TankBItch");
 
 	// Luces 
 	mainLight = new DoMaRe::Light(&Importer.GetRenderer());
@@ -42,15 +42,16 @@ bool Scene1::Init(DoMaRe::Import& Importer){
 	mainLight->enable(true);
 	// fin Luces.
 
-	Importer.importScene("tiny.x", *pkNode);
-	Importer.importScene("BSP.3ds", *bsp);
+	//Importer.importScene("tiny.x", *pkNode);
+	Importer.importScene("bspScene.3ds", *bsp);
 	//Importer.importScene("BSP.3DS", *bsp);
-	//Importer.importScene("tank.x", *Tank);
+	Importer.importScene("tank.x", *Tank);
 	
-	pkNode->SetPos(0, 0, 0);
-	pkNode->SetScale(1, 1, 1);
+	//pkNode->SetPos(0, 0, 0);
+	//pkNode->SetScale(1, 1, 1);
 
 	RegisterInBSPtree(bsp, true);
+	RegisterInBSPtree(Tank, true);
 	ArrangeBSPTree();
 
 	//RegisterInBSPtree(Tank, false);
@@ -92,6 +93,9 @@ bool Scene1::Frame(DoMaRe::Renderer& renderer, DoMaRe::DirectInput& dInput, DoMa
 	//mesh->updateTransformation();
 	//mesh->Draw();
 
+	RegisterInBSPtree(bsp, true);
+	RegisterInBSPtree(Tank, true);
+	ArrangeBSPTree();
 	return true;
 }
 
@@ -103,12 +107,15 @@ bool Scene1::deInit(){
 }
 
 void Scene1::UpdateInputs(DoMaRe::DirectInput& dInput, DoMaRe::Timer& timer, DoMaRe::Sound& pkSound, DoMaRe::Renderer& renderer){
-	/*if (dInput.keyDown(DoMaRe::Input::KEY_J)){
-		cube->setRotation(cube->rotationX() - 1  , cube->rotationY() , cube->rotationZ() ); 
+	
+	if (dInput.keyDown(DoMaRe::Input::KEY_J)){
+		DoMaRe::Node * c = Tank->FindChildByName("Body");
+		c->SetPos(c->GetPos().x - 0.3f * timer.timeBetweenFrames(), c->GetPos().y, c->GetPos().z);
 	}
 	if (dInput.keyDown(DoMaRe::Input::KEY_K)){
-		cube->setRotation(cube->rotationX() + 1 , cube->rotationY() , cube->rotationZ() );
-	}*/
+		DoMaRe::Node * c = Tank->FindChildByName("Body");
+		c->SetPos(c->GetPos().x + 0.3f * timer.timeBetweenFrames(), c->GetPos().y, c->GetPos().z);
+	}
 	if (dInput.keyDown(DoMaRe::Input::KEY_7)){
 		Anim = 0;
 	}

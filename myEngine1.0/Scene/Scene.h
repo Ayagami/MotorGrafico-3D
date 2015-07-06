@@ -51,6 +51,10 @@ namespace DoMaRe{
 
 			void ifNeededtoDraw(Entity3D& pkNode);
 
+			struct bspObj{
+				Node* n;
+				bool isBsp;
+			};
 			// BSP THINGS!
 			std::vector<Node*> NodesToBSP;
 			std::vector<Node*> ParentNodes;

@@ -122,10 +122,6 @@ Node* Node::FindChildByName(std::string sName){
 }
 //--------------------------------------------------------------- 
 void Node::DrawMeshes(Renderer * pRenderer){
-	D3DXMATRIX identity;
-	D3DXMatrixIdentity(&identity);
-	pRenderer->setMatrix(World, &identity);
-
 	for (int i = 0; i < m_nMeshes; i++){
 		pRenderer->setMatrix(World, &m_mGlobalTransform);
 		m_vMeshes[i]->Draw(pRenderer);

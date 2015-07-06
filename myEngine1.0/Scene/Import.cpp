@@ -311,7 +311,7 @@ bool Import::importNode(aiNode* AiNode, const aiScene* AiScene, Node& kNode){
 
 	kNode.setName(AiNode->mName.C_Str());
 
-	if (kNode.GetName().find("BSP") != std::string::npos)
+	if (kNode.GetName().find("DoMaReBSP") != std::string::npos)
 		kNode.isPlane = true;
 
 	aiMatrix4x4 m = AiNode->mTransformation.Transpose();
